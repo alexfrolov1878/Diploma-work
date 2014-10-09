@@ -1,5 +1,7 @@
 #include "Solution.hpp"
 
+#include <vector>
+
 #include "main.hpp"
 #include "Process.hpp"
 #include "Processor.hpp"
@@ -49,46 +51,37 @@ int mutateInt(int value, double power, int limit) {
 }
 
 /*=============================MICROSCOPIC===================================*/
-MicroscopicSolution::MicroscopicSolution(MemoryType memoryType) {
-	tasks = new int[numProcesses];
-	priorities = new int[numProcesses];
-	for (int i = 0; i < numProcesses; i++) {
-		tasks[i] = 0;
-		priorities[i] = 0;
-	}
+MicroscopicSolution::MicroscopicSolution() {
+	tasks = std::vector<int>(numProcesses, 0);
+	priorities = std::vector<int>(numProcesses, 0);
 	time = 0;
 	downtime = 0.0;
 	survivalValue = 0.0;
 	sumOfComputationalComplexity = 0;
-	this->memoryType = memoryType;
-	microscopicMemoryVector = MicroscopicMemoryVectorFactory::newMemoryVector(
-			memoryType);
 }
 MicroscopicSolution::MicroscopicSolution(const MicroscopicSolution &that) {
-	tasks = new int[numProcesses];
-	priorities = new int[numProcesses];
-	for (int i = 0; i < numProcesses; i++) {
-		tasks[i] = that.tasks[i];
-		priorities[i] = that.priorities[i];
-	}
+	tasks = that.tasks;
+	priorities = that.priorities;
 	time = that.time;
 	downtime = that.downtime;
 	survivalValue = that.survivalValue;
 	sumOfComputationalComplexity = that.sumOfComputationalComplexity;
-	memoryType = that.memoryType;
-	microscopicMemoryVector = MicroscopicMemoryVectorFactory::newMemoryVector(
-			memoryType);
-	if (memoryType != NONE) {
-		microscopicMemoryVector->setMemoryVector(that.microscopicMemoryVector);
-	}
+}
+MicroscopicSolution& MicroscopicSolution::operator=(MicroscopicSolution that) {
+    tasks.swap(that.tasks);
+	priorities.swap(that.priorities);
+    time = that.time;
+    downtime = that.downtime;
+    survivalValue = that.survivalValue;
+    sumOfComputationalComplexity = that.sumOfComputationalComplexity;
+    return *this;
 }
 MicroscopicSolution::~MicroscopicSolution() {
-	delete[] tasks;
-	delete[] priorities;
-	delete microscopicMemoryVector;
+	tasks.clear();
+	priorities.clear();
 }
 
-int *MicroscopicSolution::getTasks() const {
+const std::vector<int> &MicroscopicSolution::getTasks() const {
 	return tasks;
 }
 int MicroscopicSolution::getTask(int index) const {
@@ -97,7 +90,7 @@ int MicroscopicSolution::getTask(int index) const {
 void MicroscopicSolution::setTask(int index, int value) {
 	tasks[index] = value;
 }
-int *MicroscopicSolution::getPriorities() const {
+const std::vector<int> &MicroscopicSolution::getPriorities() const {
 	return priorities;
 }
 int MicroscopicSolution::getPriority(int index) const {
@@ -130,10 +123,6 @@ int MicroscopicSolution::getSumOfComputationalComplexity() const {
 void MicroscopicSolution::setSumOfComputationalComplexity(
 		int sumOfComputationalComplexity) {
 	this->sumOfComputationalComplexity = sumOfComputationalComplexity;
-}
-double MicroscopicSolution::getMemoryElement(SolutionPart part,
-		int offset) const {
-	return microscopicMemoryVector->getElement(part, offset);
 }
 
 void MicroscopicSolution::print(std::ostream &out) {
@@ -277,28 +266,20 @@ void MicroscopicSolution::mutate(SolutionPart part, int index) {
 		priorities[index] = mutated;
 	}
 }
-void MicroscopicSolution::updateMemoryElement(SolutionPart part, double before,
-		double after, int offset) {
-	int index = offset;
-	microscopicMemoryVector->changeElement(index, before, after);
-}
 /*===========================================================================*/
 /*=============================MACROSCOPIC===================================*/
 MacroscopicSolution::MacroscopicSolution() {
-	indicators = new int[numWeights];
+	indicators = std::vector<int>(numWeights);
 	field = 0.0;
 	survivalValue = 0.0;
 }
 MacroscopicSolution::MacroscopicSolution(const MacroscopicSolution& that) {
-	indicators = new int[numWeights];
-	for (int i = 0; i < numWeights; i++) {
-		indicators[i] = that.indicators[i];
-	}
+	indicators = that.indicators;
 	field = that.field;
 	survivalValue = that.survivalValue;
 }
 MacroscopicSolution::~MacroscopicSolution() {
-	delete[] indicators;
+	indicators.clear();
 }
 
 int MacroscopicSolution::getIndicator(int index) const {
@@ -331,7 +312,7 @@ void MacroscopicSolution::generate() {
 		indicators[i] = random_value < 0.5;
 	}
 }
-void MacroscopicSolution::buildField(double *weights) {
+void MacroscopicSolution::buildField(std::vector<double> &weights) {
 	double sum = 0.0;
 	for (int i = 0; i < numWeights; i++) {
 		sum += weights[i] * indicators[i];

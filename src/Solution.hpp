@@ -5,7 +5,7 @@
 #include <queue>
 #include <vector>
 
-#include "../library/GA.hpp"
+#include "../GA.hpp"
 #include "MemoryVector.hpp"
 
 class Process;
@@ -46,23 +46,22 @@ typedef std::priority_queue<Priority, std::vector<Priority>, PriorityComparison>
 
 class MicroscopicSolution {
 private:
-	int *tasks;
-	int *priorities;
+	std::vector<int> tasks;
+	std::vector<int> priorities;
 	int time;
 	double downtime;
 	double survivalValue;
 	int sumOfComputationalComplexity;
-	MemoryType memoryType;
-	MicroscopicMemoryVector *microscopicMemoryVector;
 public:
-	MicroscopicSolution(MemoryType memoryType);
+	MicroscopicSolution();
 	MicroscopicSolution(const MicroscopicSolution &that);
+	MicroscopicSolution& operator=(MicroscopicSolution that);
 	~MicroscopicSolution();
 
-	int *getTasks() const;
+	const std::vector<int> &getTasks() const;
 	int getTask(int index) const;
 	void setTask(int index, int value);
-	int* getPriorities() const;
+	const std::vector<int> &getPriorities() const;
 	int getPriority(int index) const;
 	void setPriority(int index, int value);
 	double getDowntime() const;
@@ -79,15 +78,13 @@ public:
 	void generate();
 	void buildSchedule(Process *initProcesses);
 	void mutate(SolutionPart part, int index);
-	void updateMemoryElement(SolutionPart part, double before, double after,
-			int offset = 0);
 };
 
 /*=============================MACROSCOPIC===================================*/
 
 class MacroscopicSolution {
 private:
-	int *indicators;
+	std::vector<int> indicators;
 	double field;
 	double survivalValue;
 public:
@@ -103,7 +100,7 @@ public:
 
 	void print(std::ostream &out);
 	void generate();
-	void buildField(double *weights);
+	void buildField(std::vector<double> &weights);
 	void crossover(MacroscopicSolution &that);
 	void mutate();
 };

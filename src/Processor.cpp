@@ -1,18 +1,19 @@
-#include "../library/GA.hpp"
+#include "../GA.hpp"
 #include "Processor.hpp"
 
 #include <algorithm>
+#include <vector>
 
 #include "main.hpp"
 
 Processor::Processor() {
-	processes = new int[numProcesses];
-	std::fill(processes, processes + numProcesses, '\0');
+	processes = std::vector<int>(numProcesses);
+	std::fill(processes.begin(), processes.end(), '\0');
 	time = 0;
 	downtime = 0;
 }
 Processor::~Processor() {
-	delete[] processes;
+	processes.clear();
 }
 
 int Processor::getProcess(int index) const {

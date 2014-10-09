@@ -134,5 +134,5 @@ $exe ./tests/micro/tests_ratio/test_0_4.txt microscopic standard $iter
 memory_absolute   > micro_absolute.txt   2>&1
 memory_relative   > micro_relative.txt   2>&1
 memory_forgetting > micro_forgetting.txt 2>&1
-standard 	      > micro_standard.txt   2>&1
+standard 	  > micro_standard.txt   2>&1
 

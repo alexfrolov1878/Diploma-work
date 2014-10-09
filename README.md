@@ -1,1 +1,1 @@
-Курсовая работа "Генетические алгоритмы с самообучением", 2014 год
+Self-learning genetic algorithms for computation planning in distributed systems, 2015

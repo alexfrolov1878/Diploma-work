@@ -2,12 +2,13 @@
 #define PROCESS_HPP_
 
 #include <iostream>
+#include <vector>
 
 class Process {
 private:
 	int computationalComplexity;
 	int numberOfPreviousProcecces;
-	int *previuosProcesses;
+	std::vector<int> previuosProcesses;
 	int processor;
 	int timeStart;
 	int timeEnd;
@@ -19,9 +20,9 @@ public:
 	void setComputationalComplexity(int computationalComplexity);
 	int getNumberOfPreviousProcecces() const;
 	void setNumberOfPreviousProcecces(int numberOfPreviousProcecces);
-	int *getPreviuosProcesses() const;
+	const std::vector<int> &getPreviuosProcesses() const;
 	int getPreviuosProcess(int index) const;
-	void setPreviuosProcesses(int *previuosProcesses);
+	void setPreviuosProcesses(std::vector<int> &previuosProcesses);
 	void setPreviuosProcess(int index, int value);
 	int getProcessor() const;
 	void setProcessor(int processor);

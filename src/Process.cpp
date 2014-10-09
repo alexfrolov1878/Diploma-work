@@ -5,13 +5,13 @@
 Process::Process() {
 	computationalComplexity = 0;
 	numberOfPreviousProcecces = 0;
-	previuosProcesses = NULL;
+	previuosProcesses = std::vector<int>();
 	processor = 0;
 	timeStart = 0;
 	timeEnd = 0;
 }
 Process::~Process() {
-	delete[] previuosProcesses;
+	previuosProcesses.clear();
 }
 
 int Process::getComputationalComplexity() const {
@@ -26,17 +26,17 @@ int Process::getNumberOfPreviousProcecces() const {
 void Process::setNumberOfPreviousProcecces(int numberOfPreviousProcecces) {
 	this->numberOfPreviousProcecces = numberOfPreviousProcecces;
 	if (numberOfPreviousProcecces != 0) {
-		previuosProcesses = new int[numberOfPreviousProcecces];
+		previuosProcesses.resize(numberOfPreviousProcecces);
 	}
 }
-int *Process::getPreviuosProcesses() const {
+const std::vector<int> &Process::getPreviuosProcesses() const {
 	return previuosProcesses;
 }
 int Process::getPreviuosProcess(int index) const {
 	return previuosProcesses[index];
 }
-void Process::setPreviuosProcesses(int *previuosProcesses) {
-	this->previuosProcesses = previuosProcesses;
+void Process::setPreviuosProcesses(std::vector<int> &previuosProcesses) {
+	this->previuosProcesses.swap(previuosProcesses);
 }
 void Process::setPreviuosProcess(int index, int value) {
 	previuosProcesses[index] = value;

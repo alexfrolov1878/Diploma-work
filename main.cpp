@@ -3,6 +3,7 @@
 #include <time.h>
 #include <cmath>
 #include <limits>
+#include <string>
 #include <fstream>
 #include <iostream>
 
@@ -18,7 +19,7 @@ int numConnections;
 double goal;
 int numWeights;
 
-char *inputFile;
+string inputFile;
 AlgorithmType algType;
 MemoryType memoryType;
 int maxIterations = -1;
@@ -35,14 +36,14 @@ inline void printIterationNumber(int i) {
 
 inline void printUsage() {
 	cout
-			<< "Usage: GA.exe input_file alg_type has_memory [memory_type] [max_iter]"
-			<< endl << "	input_file: file with input data" << endl
-			<< "	alg_type: algorithm type (\"microscopic\" or \"macroscopic\")"
-			<< endl << "	has_memory: memory usage (\"standard\" or \"memory\")"
-			<< endl
-			<< "	memory_type: memory type used (\"absolute\", \"relative\" or \"forgetting\")"
-			<< endl << "	max_iter: number of maximum iterations without improvement"
-			<< endl;
+		<< "Usage: GA.exe input_file alg_type has_memory [memory_type] [max_iter]"
+		<< endl << "	input_file: file with input data" << endl
+		<< "	alg_type: algorithm type (\"microscopic\" or \"macroscopic\")"
+		<< endl << "	has_memory: memory usage (\"standard\" or \"memory\")"
+		<< endl
+		<< "	memory_type: memory type used (\"absolute\", \"relative\" or \"forgetting\")"
+		<< endl << "	max_iter: number of maximum iterations without improvement"
+		<< endl;
 }
 
 inline bool exists(char name[]) {
@@ -193,7 +194,7 @@ int main(int argc, char *argv[]) {
 	int i, iters_without_improvement = 0;
 	double seconds, result, bestResult = numeric_limits<double>::max();
 	clock_t start, end;
-	ifstream fin(inputFile);
+	ifstream fin(inputFile.c_str());
 	IGeneticAlgorithm *algorithm = GeneticAlgorithmFactory::newGeneticAlgorithm(
 			algType, memoryType, fin);
 	fin.close();

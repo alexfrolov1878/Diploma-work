@@ -19,9 +19,9 @@ private:
 	double bestSurvivalValue;
 	int bestSolutionIdx;
 public:
-	MicroscopicPopulation(MemoryType memoryType = NONE, double value = 0.0,
-			int idx = 0);
+	MicroscopicPopulation(double value = 0.0, int idx = 0);
 	MicroscopicPopulation(const MicroscopicPopulation& that);
+	MicroscopicPopulation& operator=(MicroscopicPopulation that);
 	~MicroscopicPopulation();
 
 	const std::vector<MicroscopicSolution> &getSolutions() const;
@@ -33,12 +33,10 @@ public:
 
 	void print(std::ostream &out);
 	void generate();
-	void crossoverSolutions(SolutionPart part, int firstIdx, int secondIdx);
+	int crossoverSolutions(SolutionPart part, int firstIdx, int secondIdx);
 	void mutateSolution(SolutionPart part, int index, int offset);
 	void countSurvivalValue(int index, Process *initProcesses);
 	void countSurvivalValues(Process *init_processes);
-	void updateMemoryElement(SolutionPart part, int index, double before,
-			double after, int offset = 0);
 };
 
 /*=============================MACROSCOPIC===================================*/
@@ -46,7 +44,7 @@ public:
 class MacroscopicPopulation {
 protected:
 	static double selectionStrength;
-	static double *weights;
+	static std::vector<double> weights;
 private:
 	std::vector<MacroscopicSolution> solutions;
 	double k1;
@@ -62,7 +60,7 @@ public:
 
 	double getSelectionStrength() const;
 	void setSelectionStrength(double selectionStrength);
-	void setWeights(double *weights);
+	void setWeights(std::vector<double> &weights);
 	const std::vector<MacroscopicSolution>& getSolutions() const;
 	void setSolutions(std::vector<MacroscopicSolution> &solutions);
 	double getK1() const;

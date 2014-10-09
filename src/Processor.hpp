@@ -2,10 +2,11 @@
 #define PROCESSOR_HPP_
 
 #include <iostream>
+#include <vector>
 
 class Processor {
 private:
-	int *processes;
+	std::vector<int> processes;
 	int time;
 	int downtime;
 public:

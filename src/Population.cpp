@@ -1,4 +1,4 @@
-#include "../library/GA.hpp"
+#include "../GA.hpp"
 #include "Population.hpp"
 
 #include <stddef.h>
@@ -7,11 +7,11 @@
 #include "main.hpp"
 
 /*=============================MICROSCOPIC===================================*/
-MicroscopicPopulation::MicroscopicPopulation(MemoryType memoryType,
-		double value, int idx) {
+MicroscopicPopulation::MicroscopicPopulation(double value, int idx) {
 	solutions.reserve(NUM_SOLUTIONS);
+	MicroscopicSolution newSolution;
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		solutions.push_back(MicroscopicSolution(memoryType));
+		solutions.push_back(newSolution);
 	}
 	bestSurvivalValue = value;
 	bestSolutionIdx = idx;
@@ -21,6 +21,13 @@ MicroscopicPopulation::MicroscopicPopulation(
 	solutions = that.solutions;
 	bestSurvivalValue = that.bestSurvivalValue;
 	bestSolutionIdx = that.bestSolutionIdx;
+}
+MicroscopicPopulation& MicroscopicPopulation::operator=(
+                MicroscopicPopulation that) {
+        solutions = that.solutions;
+        bestSurvivalValue = that.bestSurvivalValue;
+        bestSolutionIdx = that.bestSolutionIdx;
+        return *this;
 }
 MicroscopicPopulation::~MicroscopicPopulation() {
 	solutions.clear();
@@ -59,59 +66,29 @@ void MicroscopicPopulation::generate() {
 	bestSurvivalValue = 0.0;
 	bestSolutionIdx = 0;
 }
-void MicroscopicPopulation::crossoverSolutions(SolutionPart part, int firstIdx,
+int MicroscopicPopulation::crossoverSolutions(SolutionPart part, int firstIdx,
 		int secondIdx) {
-	int r, element, bit, value1, value2, limit;
-	int tmp1, tmp2;
-	int tmpFirst, tmpSecond;
-	int *first = NULL;
-	int *second = NULL;
-	if (part == CROSSOVER_TASK) {
-		first = solutions[firstIdx].getTasks();
-		second = solutions[secondIdx].getTasks();
-	} else if (part == CROSSOVER_PRIO) {
-		first = solutions[firstIdx].getPriorities();
-		second = solutions[secondIdx].getPriorities();
-	} else {
-		return;
-	}
+	int r, tmp1, tmp2;
+        std::vector<int> first;
+        std::vector<int> second;
+        if (part == CROSSOVER_TASK) {
+                first = solutions[firstIdx].getTasks();
+                second = solutions[secondIdx].getTasks();
+        } else if (part == CROSSOVER_PRIO) {
+                first = solutions[firstIdx].getPriorities();
+                second = solutions[secondIdx].getPriorities();
+        } else {
+                return -1;
+        }
 
-	r = Random::getRandomInt(0, numProcesses * BITS_IN_INT);
-	element = r / BITS_IN_INT;
-	bit = r % BITS_IN_INT;
-	tmpFirst = first[element];
-	tmpSecond = second[element];
-	for (int i = bit; i < BITS_IN_INT; i++) {
-		tmp1 = tmpFirst & (1 << i);
-		tmp2 = tmpSecond & (1 << i);
-		value1 = (tmpFirst & ~(1 << i)) | tmp2;
-		value2 = (tmpSecond & ~(1 << i)) | tmp1;
-	}
-
-	if (part == CROSSOVER_TASK) {
-		limit = numProcessors - 1;
-	} else {
-		limit = numProcesses - 1;
-	}
-	if (value1 < 0) {
-		value1 += limit;
-	} else if (value1 > limit) {
-		value1 -= limit;
-	}
-	if (value2 < 0) {
-		value2 += limit;
-	} else if (value2 > limit) {
-		value2 -= limit;
-	}
-
-	first[element] = value1;
-	second[element] = value2;
-	for (int i = element + 1; i < numProcesses; i++) {
-		value1 = first[i];
-		value2 = second[i];
-		first[i] = value2;
-		second[i] = value1;
-	}
+        r = Random::getRandomInt(0, numProcesses);
+        for (int i = r + 1; i < numProcesses; i++) {
+                tmp1 = first[i];
+                tmp2 = second[i];
+                first[i] = tmp2;
+                second[i] = tmp1;
+        }
+        return r + 1;
 }
 void MicroscopicPopulation::mutateSolution(SolutionPart part, int index,
 		int offset) {
@@ -133,14 +110,10 @@ void MicroscopicPopulation::countSurvivalValues(Process *initProcesses) {
 		countSurvivalValue(i, initProcesses);
 	}
 }
-void MicroscopicPopulation::updateMemoryElement(SolutionPart part, int index,
-		double before, double after, int offset) {
-	solutions[index].updateMemoryElement(part, before, after, offset);
-}
 /*===========================================================================*/
 /*=============================MACROSCOPIC===================================*/
 double MacroscopicPopulation::selectionStrength = 0.0;
-double *MacroscopicPopulation::weights = NULL;
+std::vector<double> MacroscopicPopulation::weights = std::vector<double>();
 MacroscopicPopulation::MacroscopicPopulation() {
 	k1 = 0.0;
 	k2 = 0.0;
@@ -148,10 +121,7 @@ MacroscopicPopulation::MacroscopicPopulation() {
 	qMax = 0.0;
 	k1Initial = 0.0;
 	k2Initial = 0.0;
-	solutions.reserve(NUM_SOLUTIONS);
-	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		solutions.push_back(MacroscopicSolution());
-	}
+	solutions = std::vector<MacroscopicSolution>(NUM_SOLUTIONS);
 }
 MacroscopicPopulation::MacroscopicPopulation(
 		const MacroscopicPopulation& that) {
@@ -173,8 +143,8 @@ double MacroscopicPopulation::getSelectionStrength() const {
 void MacroscopicPopulation::setSelectionStrength(double selectionStrength) {
 	MacroscopicPopulation::selectionStrength = selectionStrength;
 }
-void MacroscopicPopulation::setWeights(double *weights) {
-	MacroscopicPopulation::weights = weights;
+void MacroscopicPopulation::setWeights(std::vector<double> &weights) {
+	MacroscopicPopulation::weights.swap(weights);
 }
 const std::vector<MacroscopicSolution>& MacroscopicPopulation::getSolutions() const {
 	return solutions;

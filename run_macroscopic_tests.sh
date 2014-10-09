@@ -53,5 +53,14 @@ $exe ./tests/macro/tests_goal/test_0_8.txt macroscopic standard $iter
 $exe ./tests/macro/tests_goal/test_0_9.txt macroscopic standard $iter
 }
 
-standard > macro_standard.txt 2>&1
-memory   > macro_memory.txt   2>&1
+standard > macro_standard_1.txt 2>&1
+memory   > macro_memory_1.txt   2>&1
+standard > macro_standard_2.txt 2>&1
+memory   > macro_memory_2.txt   2>&1
+standard > macro_standard_3.txt 2>&1
+memory   > macro_memory_3.txt   2>&1
+standard > macro_standard_4.txt 2>&1
+memory   > macro_memory_4.txt   2>&1
+standard > macro_standard_5.txt 2>&1
+memory   > macro_memory_5.txt   2>&1
+

@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 class Process;
 class MicroscopicSolution;
@@ -20,8 +21,7 @@ extern double goal;
 extern int numWeights;
 
 enum {
-        BITS_IN_INT = 8 * sizeof(int),
-        NUM_SOLUTIONS = 50
+	NUM_SOLUTIONS = 100
 };
 
 enum AlgorithmType {
@@ -89,9 +89,13 @@ protected:
 	int numConnections;
 	MicroscopicPopulation *population;
 	Process *initProcesses;
+
+	MemoryType memoryType;
+        MicroscopicMemoryVector *microscopicMemoryVector;
 public:
 	MicroscopicGA(std::ifstream &fin, MemoryType memoryType = NONE);
 	MicroscopicGA(const MicroscopicGA &that);
+	MicroscopicGA& operator=(MicroscopicGA that);
 	~MicroscopicGA();
 
 	static double getBestSeenSurvivalValue();
@@ -113,11 +117,15 @@ protected:
 	double goal;
 	double selectionStrength;
 	int numWeights;
-	double *weights;
+	std::vector<double> weights;
 	MacroscopicPopulation *population;
+
+	MemoryType memoryType;
+	MacroscopicMemoryVector *macroscopicMemoryVector;
 public:
-	MacroscopicGA(std::ifstream &fin);
+	MacroscopicGA(std::ifstream &fin, MemoryType memoryType = NONE);
 	MacroscopicGA(const MacroscopicGA &that);
+	MacroscopicGA& operator=(MacroscopicGA that);
 	~MacroscopicGA();
 
 	virtual void generatePopulation();
@@ -127,30 +135,6 @@ public:
 	virtual void mutation();
 	virtual void printCurrentPopulation(std::ostream &out);
 	virtual double getResult();
-};
-/*=====================================================================*/
-
-/*==================DERIVED LEVEL 2 CLASSES============================*/
-class MicroscopicMemoryGA: public MicroscopicGA {
-private:
-	MemoryType memoryType;
-	MacroscopicMemoryVector *macroscopicMemoryVector;
-public:
-	MicroscopicMemoryGA(std::ifstream &fin, MemoryType memoryType);
-	~MicroscopicMemoryGA();
-	virtual void crossover();
-	virtual void mutation();
-};
-
-class MacroscopicMemoryGA: public MacroscopicGA {
-private:
-	MemoryType memoryType;
-	MacroscopicMemoryVector *macroscopicMemoryVector;
-public:
-	MacroscopicMemoryGA(std::ifstream &fin, MemoryType memoryType);
-	~MacroscopicMemoryGA();
-	virtual void crossover();
-	virtual void mutation();
 };
 /*=====================================================================*/
 
@@ -165,9 +149,9 @@ public:
 		case MACROSCOPIC_STANDARD:
 			return new MacroscopicGA(fin);
 		case MICROSCOPIC_WITH_MEMORY:
-			return new MicroscopicMemoryGA(fin, memoryType);
+			return new MicroscopicGA(fin, memoryType);
 		case MACROSCOPIC_WITH_MEMORY:
-			return new MacroscopicMemoryGA(fin, memoryType);
+			return new MacroscopicGA(fin, memoryType);
 		default:
 			return NULL;
 		}
