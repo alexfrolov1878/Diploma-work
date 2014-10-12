@@ -1,11 +1,15 @@
+#include <stddef.h>
+
 #include "Process.hpp"
 
-#include <stddef.h>
+using std::vector;
+using std::ostream;
+using std::endl;
 
 Process::Process() {
 	computationalComplexity = 0;
 	numberOfPreviousProcecces = 0;
-	previuosProcesses = std::vector<int>();
+	previuosProcesses = vector<int>();
 	processor = 0;
 	timeStart = 0;
 	timeEnd = 0;
@@ -17,26 +21,26 @@ Process::~Process() {
 int Process::getComputationalComplexity() const {
 	return computationalComplexity;
 }
-void Process::setComputationalComplexity(int computationalComplexity) {
-	this->computationalComplexity = computationalComplexity;
+void Process::setComputationalComplexity(int _computationalComplexity) {
+	computationalComplexity = _computationalComplexity;
 }
 int Process::getNumberOfPreviousProcecces() const {
 	return numberOfPreviousProcecces;
 }
-void Process::setNumberOfPreviousProcecces(int numberOfPreviousProcecces) {
-	this->numberOfPreviousProcecces = numberOfPreviousProcecces;
+void Process::setNumberOfPreviousProcecces(int _numberOfPreviousProcecces) {
+	numberOfPreviousProcecces = _numberOfPreviousProcecces;
 	if (numberOfPreviousProcecces != 0) {
 		previuosProcesses.resize(numberOfPreviousProcecces);
 	}
 }
-const std::vector<int> &Process::getPreviuosProcesses() const {
+const vector<int> &Process::getPreviuosProcesses() const {
 	return previuosProcesses;
 }
 int Process::getPreviuosProcess(int index) const {
 	return previuosProcesses[index];
 }
-void Process::setPreviuosProcesses(std::vector<int> &previuosProcesses) {
-	this->previuosProcesses.swap(previuosProcesses);
+void Process::setPreviuosProcesses(vector<int> &_previuosProcesses) {
+	previuosProcesses.swap(_previuosProcesses);
 }
 void Process::setPreviuosProcess(int index, int value) {
 	previuosProcesses[index] = value;
@@ -44,31 +48,31 @@ void Process::setPreviuosProcess(int index, int value) {
 int Process::getProcessor() const {
 	return processor;
 }
-void Process::setProcessor(int processor) {
-	this->processor = processor;
+void Process::setProcessor(int _processor) {
+	processor = _processor;
 }
 int Process::getTimeEnd() const {
 	return timeEnd;
 }
-void Process::setTimeEnd(int timeEnd) {
-	this->timeEnd = timeEnd;
+void Process::setTimeEnd(int _timeEnd) {
+	timeEnd = _timeEnd;
 }
 int Process::getTimeStart() const {
 	return timeStart;
 }
-void Process::setTimeStart(int timeStart) {
-	this->timeStart = timeStart;
+void Process::setTimeStart(int _timeStart) {
+	timeStart = _timeStart;
 }
 
-void Process::print(std::ostream &out) {
-	out << "computationalComplexity = " << computationalComplexity << std::endl;
+void Process::print(ostream &out) {
+	out << "computationalComplexity = " << computationalComplexity << endl;
 	out << "numberOfPreviousProcecces = " << numberOfPreviousProcecces
-			<< std::endl;
+			<< endl;
 	for (int i = 0; i < numberOfPreviousProcecces; i++) {
 		out << previuosProcesses[i] << " ";
 	}
-	out << std::endl;
-	out << "processor = " << processor << std::endl;
-	out << "timeStart = " << timeStart << std::endl;
-	out << "timeEnd = " << timeEnd << std::endl;
+	out << endl;
+	out << "processor = " << processor << endl;
+	out << "timeStart = " << timeStart << endl;
+	out << "timeEnd = " << timeEnd << endl;
 }

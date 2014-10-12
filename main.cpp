@@ -6,10 +6,17 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <memory>
 
 #include "GA.hpp"
 
-using namespace std;
+using std::numeric_limits;
+using std::unique_ptr;
+using std::string;
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::flush;
 
 int resultTime;
 int numProcesses;
@@ -18,6 +25,7 @@ int numConnections;
 
 double goal;
 int numWeights;
+double selectionStrength;
 
 string inputFile;
 AlgorithmType algType;
@@ -128,7 +136,8 @@ bool parseArguments(int argc, char *argv[]) {
 	return true;
 }
 
-inline void printResult(IGeneticAlgorithm *algorithm, double seconds, int iterations) {
+inline void printResult(unique_ptr<IGeneticAlgorithm> &algorithm,
+		double seconds, int iterations) {
 	cout << "--------------------------------------------------" << endl;
 	if (algType == MICROSCOPIC_STANDARD || algType == MICROSCOPIC_WITH_MEMORY) {
 		cout << "MICROSCOPIC ";
@@ -155,7 +164,7 @@ inline void printResult(IGeneticAlgorithm *algorithm, double seconds, int iterat
 	cout << " for input file \"" << inputFile << "\"." << endl;
 
 	if (algType == MICROSCOPIC_STANDARD || algType == MICROSCOPIC_WITH_MEMORY) {
-		int time = (int) algorithm->getResult();
+		int time = int(algorithm->getResult());
 		cout << "Result is " << time << ", which is ";
 		if (time == resultTime) {
 			cout << "CORRECT." << endl;
@@ -176,7 +185,7 @@ inline void printResult(IGeneticAlgorithm *algorithm, double seconds, int iterat
 	cout << "--------------------------------------------------" << endl;
 }
 
-inline double currentResult(IGeneticAlgorithm *algorithm) {
+inline double currentResult(unique_ptr<IGeneticAlgorithm> &algorithm) {
 	double result = algorithm->getResult();
 	if (algType == MACROSCOPIC_STANDARD || algType == MACROSCOPIC_WITH_MEMORY) {
 		result = goal - result;
@@ -195,8 +204,8 @@ int main(int argc, char *argv[]) {
 	double seconds, result, bestResult = numeric_limits<double>::max();
 	clock_t start, end;
 	ifstream fin(inputFile.c_str());
-	IGeneticAlgorithm *algorithm = GeneticAlgorithmFactory::newGeneticAlgorithm(
-			algType, memoryType, fin);
+	unique_ptr<IGeneticAlgorithm> algorithm =
+		GeneticAlgorithmFactory::newGeneticAlgorithm(algType, memoryType, fin);
 	fin.close();
 
 	cout << "START" << endl;
@@ -222,6 +231,5 @@ int main(int argc, char *argv[]) {
 	seconds = 1.0 * (end - start) / 1000000;
 	printResult(algorithm, seconds, i);
 
-	delete algorithm;
 	return EXIT_SUCCESS;
 }

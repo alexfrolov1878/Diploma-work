@@ -1,10 +1,14 @@
-#include "Solution.hpp"
-
 #include <vector>
 
+#include "Solution.hpp"
 #include "main.hpp"
 #include "Process.hpp"
 #include "Processor.hpp"
+
+using std::priority_queue;
+using std::vector;
+using std::ostream;
+using std::endl;
 
 int numProcessorsBinaryLength = -1;
 int numProcessesBinaryLength = -1;
@@ -52,8 +56,8 @@ int mutateInt(int value, double power, int limit) {
 
 /*=============================MICROSCOPIC===================================*/
 MicroscopicSolution::MicroscopicSolution() {
-	tasks = std::vector<int>(numProcesses, 0);
-	priorities = std::vector<int>(numProcesses, 0);
+	tasks = vector<int>(numProcesses, 0);
+	priorities = vector<int>(numProcesses, 0);
 	time = 0;
 	downtime = 0.0;
 	survivalValue = 0.0;
@@ -68,20 +72,20 @@ MicroscopicSolution::MicroscopicSolution(const MicroscopicSolution &that) {
 	sumOfComputationalComplexity = that.sumOfComputationalComplexity;
 }
 MicroscopicSolution& MicroscopicSolution::operator=(MicroscopicSolution that) {
-    tasks.swap(that.tasks);
+	tasks.swap(that.tasks);
 	priorities.swap(that.priorities);
-    time = that.time;
-    downtime = that.downtime;
-    survivalValue = that.survivalValue;
-    sumOfComputationalComplexity = that.sumOfComputationalComplexity;
-    return *this;
+	time = that.time;
+	downtime = that.downtime;
+	survivalValue = that.survivalValue;
+	sumOfComputationalComplexity = that.sumOfComputationalComplexity;
+	return *this;
 }
 MicroscopicSolution::~MicroscopicSolution() {
 	tasks.clear();
 	priorities.clear();
 }
 
-const std::vector<int> &MicroscopicSolution::getTasks() const {
+const vector<int> &MicroscopicSolution::getTasks() const {
 	return tasks;
 }
 int MicroscopicSolution::getTask(int index) const {
@@ -90,7 +94,7 @@ int MicroscopicSolution::getTask(int index) const {
 void MicroscopicSolution::setTask(int index, int value) {
 	tasks[index] = value;
 }
-const std::vector<int> &MicroscopicSolution::getPriorities() const {
+const vector<int> &MicroscopicSolution::getPriorities() const {
 	return priorities;
 }
 int MicroscopicSolution::getPriority(int index) const {
@@ -102,45 +106,45 @@ void MicroscopicSolution::setPriority(int index, int value) {
 double MicroscopicSolution::getDowntime() const {
 	return downtime;
 }
-void MicroscopicSolution::setDowntime(double downtime) {
-	this->downtime = downtime;
+void MicroscopicSolution::setDowntime(double _downtime) {
+	downtime = _downtime;
 }
 int MicroscopicSolution::getTime() const {
 	return time;
 }
-void MicroscopicSolution::setTime(int time) {
-	this->time = time;
+void MicroscopicSolution::setTime(int _time) {
+	time = _time;
 }
 double MicroscopicSolution::getSurvivalValue() const {
 	return survivalValue;
 }
-void MicroscopicSolution::setSurvivalValue(double survivalValue) {
-	this->survivalValue = survivalValue;
+void MicroscopicSolution::setSurvivalValue(double _survivalValue) {
+	survivalValue = _survivalValue;
 }
 int MicroscopicSolution::getSumOfComputationalComplexity() const {
 	return sumOfComputationalComplexity;
 }
 void MicroscopicSolution::setSumOfComputationalComplexity(
-		int sumOfComputationalComplexity) {
-	this->sumOfComputationalComplexity = sumOfComputationalComplexity;
+		int _sumOfComputationalComplexity) {
+	sumOfComputationalComplexity = _sumOfComputationalComplexity;
 }
 
-void MicroscopicSolution::print(std::ostream &out) {
+void MicroscopicSolution::print(ostream &out) {
 	out << "Task: ";
 	for (int i = 0; i < numProcesses; i++) {
 		out << tasks[i] << " ";
 	}
-	out << std::endl;
+	out << endl;
 	out << "Prio: ";
 	for (int i = 0; i < numProcesses; i++) {
 		out << priorities[i] << " ";
 	}
-	out << std::endl;
-	out << "time = " << time << std::endl;
-	out << "downtime = " << downtime << std::endl;
-	out << "survival_value = " << survivalValue << std::endl;
+	out << endl;
+	out << "time = " << time << endl;
+	out << "downtime = " << downtime << endl;
+	out << "survival_value = " << survivalValue << endl;
 	out << "sum_of_computational_complexity = " << sumOfComputationalComplexity
-			<< std::endl;
+			<< endl;
 }
 void MicroscopicSolution::generate() {
 	int randomValue;
@@ -151,20 +155,20 @@ void MicroscopicSolution::generate() {
 		priorities[i] = randomValue;
 	}
 }
-void MicroscopicSolution::buildSchedule(Process *initProcesses) {
+void MicroscopicSolution::buildSchedule(vector<Process> &initProcesses) {
 	enum State {
 		SCHEDULED, HAS_DEPENDENCIES, NO_DEPENDENCIES
 	};
 	int j, maxEnd, mini, tmp1, tmp2, count, sum;
 	int tempEnd, prevProc;
-	State states[numProcesses];
+	vector<State> states(numProcesses);
 	for (int i = 0; i < numProcesses; i++) {
 		states[i] = NO_DEPENDENCIES;
 	}
 
-	Process *processes = new Process[numProcesses];
-	Processor *processors = new Processor[numProcessors];
-	std::vector<Priority> p;
+	vector<Process> processes(numProcesses);
+	vector<Processor> processors(numProcessors);
+	vector<Priority> p;
 
 	for (int i = 0; i < numProcesses; i++) {
 		tmp1 = initProcesses[i].getComputationalComplexity();
@@ -176,7 +180,7 @@ void MicroscopicSolution::buildSchedule(Process *initProcesses) {
 		} else {
 			states[i] = HAS_DEPENDENCIES;
 		}
-		for (int j = 0; j < tmp1; j++) {
+		for (j = 0; j < tmp1; j++) {
 			tmp2 = initProcesses[i].getPreviuosProcess(j);
 			processes[i].setPreviuosProcess(j, tmp2);
 		}
@@ -250,8 +254,9 @@ void MicroscopicSolution::buildSchedule(Process *initProcesses) {
 
 	sumOfComputationalComplexity = sumComplexity;
 
-	delete[] processes;
-	delete[] processors;
+	states.clear();
+	processes.clear();
+	processors.clear();
 	p.clear();
 }
 void MicroscopicSolution::mutate(SolutionPart part, int index) {
@@ -269,7 +274,7 @@ void MicroscopicSolution::mutate(SolutionPart part, int index) {
 /*===========================================================================*/
 /*=============================MACROSCOPIC===================================*/
 MacroscopicSolution::MacroscopicSolution() {
-	indicators = std::vector<int>(numWeights);
+	indicators = vector<int>(numWeights);
 	field = 0.0;
 	survivalValue = 0.0;
 }
@@ -288,22 +293,22 @@ int MacroscopicSolution::getIndicator(int index) const {
 double MacroscopicSolution::getField() const {
 	return field;
 }
-void MacroscopicSolution::setField(double field) {
-	this->field = field;
+void MacroscopicSolution::setField(double _field) {
+	field = _field;
 }
 double MacroscopicSolution::getSurvivalValue() const {
 	return survivalValue;
 }
-void MacroscopicSolution::setSurvivalValue(double survivalValue) {
-	this->survivalValue = survivalValue;
+void MacroscopicSolution::setSurvivalValue(double _survivalValue) {
+	survivalValue = _survivalValue;
 }
 
-void MacroscopicSolution::print(std::ostream &out) {
+void MacroscopicSolution::print(ostream &out) {
 	out << "Indicators: ";
 	for (int i = 0; i < numWeights; i++) {
 		out << indicators[i] << " ";
 	}
-	out << std::endl;
+	out << endl;
 }
 void MacroscopicSolution::generate() {
 	double random_value;
@@ -312,7 +317,7 @@ void MacroscopicSolution::generate() {
 		indicators[i] = random_value < 0.5;
 	}
 }
-void MacroscopicSolution::buildField(std::vector<double> &weights) {
+void MacroscopicSolution::buildField(vector<double> &weights) {
 	double sum = 0.0;
 	for (int i = 0; i < numWeights; i++) {
 		sum += weights[i] * indicators[i];

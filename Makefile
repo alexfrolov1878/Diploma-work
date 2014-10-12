@@ -1,8 +1,17 @@
 RM := rm -rf
-CPP_SRCS :=
-OBJS :=
+AR := ar rcs
+CXX = g++
+CXXFLAGS = -O2 -g -Wall -std=c++0x -fmessage-length=0
 
-CPP_SRCS += \
+# Strict compiler options
+CXXFLAGS += -Werror -Wformat-security -Wignored-qualifiers -Winit-self \
+		-Wswitch-default -Wfloat-equal -Wshadow -Wpointer-arith \
+		-Wtype-limits -Wempty-body -Wlogical-op \
+		-Wmissing-field-initializers -Wctor-dtor-privacy \
+		-Wnon-virtual-dtor -Wstrict-null-sentinel -Wold-style-cast \
+		-Woverloaded-virtual -Wsign-promo -Wextra -pedantic
+
+CPP_SRCS := \
 src/GeneticAlgorithm.cpp \
 src/MemoryVector.cpp \
 src/Population.cpp \
@@ -11,7 +20,7 @@ src/Processor.cpp \
 src/Solution.cpp \
 src/main.cpp
 
-OBJS += \
+OBJS := \
 ./GeneticAlgorithm.o \
 ./MemoryVector.o \
 ./Population.o \
@@ -22,25 +31,24 @@ OBJS += \
 
 %.o: src/%.cpp
 	@echo 'Building file: $<'
-	g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "$@" "$<"
-
-# All Target
-all: GA.exe clean
+	$(CXX) $(CXXFLAGS) -c -o "$@" "$<"
 
 lib: $(OBJS)
-	ar rcs libGA.a $(OBJS)
+	$(AR) libGA.a $(OBJS)
 
-# Tool invocations
-GA.exe: $(OBJS)
+GA.exe: lib
 	@echo 'Building target: $@'
-	g++  -o "GA.exe" $(OBJS)
+	$(CXX) $(CXXFLAGS) -static -L. -lGA -o "GA.exe"
 	@echo 'Finished building target: $@'
+
+	# All Target
+all: GA.exe clean
+
 # Other Targets
 clean:
-	-$(RM) $(OBJS)
+	$(RM) $(OBJS)
 cleanall:
-	-$(RM) $(OBJS) GA.exe libGA.a
+	$(RM) $(OBJS) GA.exe libGA.a
 
 .PHONY: all clean
 .SECONDARY:
-

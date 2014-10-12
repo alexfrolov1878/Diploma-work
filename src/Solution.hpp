@@ -8,6 +8,10 @@
 #include "../GA.hpp"
 #include "MemoryVector.hpp"
 
+using std::priority_queue;
+using std::vector;
+using std::ostream;
+
 class Process;
 
 class Priority {
@@ -22,14 +26,14 @@ public:
 	int getIndex() const {
 		return index;
 	}
-	void setIndex(int index) {
-		this->index = index;
+	void setIndex(int _index) {
+		index = _index;
 	}
 	int getValue() const {
 		return value;
 	}
-	void setValue(int value) {
-		this->value = value;
+	void setValue(int _value) {
+		value = _value;
 	}
 };
 class PriorityComparison {
@@ -40,14 +44,14 @@ public:
 		return p1.getValue() > p2.getValue();
 	}
 };
-typedef std::priority_queue<Priority, std::vector<Priority>, PriorityComparison> Mypq;
+typedef priority_queue<Priority, vector<Priority>, PriorityComparison> Mypq;
 
 /*=============================MICROSCOPIC===================================*/
 
 class MicroscopicSolution {
 private:
-	std::vector<int> tasks;
-	std::vector<int> priorities;
+	vector<int> tasks;
+	vector<int> priorities;
 	int time;
 	double downtime;
 	double survivalValue;
@@ -58,25 +62,25 @@ public:
 	MicroscopicSolution& operator=(MicroscopicSolution that);
 	~MicroscopicSolution();
 
-	const std::vector<int> &getTasks() const;
+	const vector<int> &getTasks() const;
 	int getTask(int index) const;
 	void setTask(int index, int value);
-	const std::vector<int> &getPriorities() const;
+	const vector<int> &getPriorities() const;
 	int getPriority(int index) const;
 	void setPriority(int index, int value);
 	double getDowntime() const;
-	void setDowntime(double downtime);
+	void setDowntime(double _downtime);
 	int getTime() const;
-	void setTime(int time);
+	void setTime(int _time);
 	double getSurvivalValue() const;
-	void setSurvivalValue(double survivalValue);
+	void setSurvivalValue(double _survivalValue);
 	int getSumOfComputationalComplexity() const;
-	void setSumOfComputationalComplexity(int sumOfComputationalComplexity);
+	void setSumOfComputationalComplexity(int _sumOfComputationalComplexity);
 	double getMemoryElement(SolutionPart part, int offset = 0) const;
 
-	void print(std::ostream &out);
+	void print(ostream &out);
 	void generate();
-	void buildSchedule(Process *initProcesses);
+	void buildSchedule(vector<Process> &initProcesses);
 	void mutate(SolutionPart part, int index);
 };
 
@@ -84,7 +88,7 @@ public:
 
 class MacroscopicSolution {
 private:
-	std::vector<int> indicators;
+	vector<int> indicators;
 	double field;
 	double survivalValue;
 public:
@@ -94,13 +98,13 @@ public:
 
 	int getIndicator(int index) const;
 	double getField() const;
-	void setField(double field);
+	void setField(double _field);
 	double getSurvivalValue() const;
-	void setSurvivalValue(double survivalValue);
+	void setSurvivalValue(double _survivalValue);
 
-	void print(std::ostream &out);
+	void print(ostream &out);
 	void generate();
-	void buildField(std::vector<double> &weights);
+	void buildField(vector<double> &weights);
 	void crossover(MacroscopicSolution &that);
 	void mutate();
 };

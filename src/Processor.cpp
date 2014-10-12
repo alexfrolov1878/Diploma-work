@@ -1,14 +1,18 @@
-#include "../GA.hpp"
-#include "Processor.hpp"
-
 #include <algorithm>
 #include <vector>
 
+#include "Processor.hpp"
+#include "../GA.hpp"
 #include "main.hpp"
 
+using std::vector;
+using std::fill;
+using std::ostream;
+using std::endl;
+
 Processor::Processor() {
-	processes = std::vector<int>(numProcesses);
-	std::fill(processes.begin(), processes.end(), '\0');
+	processes = vector<int>(numProcesses);
+	fill(processes.begin(), processes.end(), '\0');
 	time = 0;
 	downtime = 0;
 }
@@ -25,23 +29,23 @@ void Processor::setProcess(int index, int value) {
 int Processor::getTime() const {
 	return time;
 }
-void Processor::setTime(int time) {
-	this->time = time;
+void Processor::setTime(int _time) {
+	time = _time;
 }
 int Processor::getDowntime() const {
 	return downtime;
 }
-void Processor::setDowntime(int downtime) {
-	this->downtime = downtime;
+void Processor::setDowntime(int _downtime) {
+	downtime = _downtime;
 }
 
-void Processor::print(std::ostream &out) {
+void Processor::print(ostream &out) {
 	for (int i = 0; i < numProcesses; i++) {
 		if (processes[i] == 1) {
 			out << i + 1 << " ";
 		}
 	}
-	out << std::endl;
-	out << "time = " << time << std::endl;
-	out << "downtime = " << downtime << std::endl;
+	out << endl;
+	out << "time = " << time << endl;
+	out << "downtime = " << downtime << endl;
 }

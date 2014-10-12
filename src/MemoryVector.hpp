@@ -7,6 +7,10 @@
 
 #include "../GA.hpp"
 
+using std::unique_ptr;
+using std::vector;
+using std::ostream;
+
 enum SolutionPart {
 	MUTATION_TASK = 0,
 	MUTATION_PRIO = 1,
@@ -19,42 +23,42 @@ class MicroscopicMemoryVector {
 protected:
 	int rows;
 	int columns;
-	std::vector<std::vector<double> > mutMV;
-	std::vector<std::vector<double> > crMV;
+	vector<vector<double> > mutMV;
+	vector<vector<double> > crMV;
 public:
 	MicroscopicMemoryVector();
 	MicroscopicMemoryVector(MicroscopicMemoryVector &that);
 	virtual ~MicroscopicMemoryVector();
 
-	std::vector<double> getMutRow(int index);
-	void setMutRow(int index, std::vector<double> row);
+	vector<double> getMutRow(int index);
+	void setMutRow(int index, vector<double> row);
 	void swapMutElements(SolutionPart part, int index1, int index2, int start);
 
 	double getElement(SolutionPart part, int row, int column = 0);
-	void print(std::ostream &out, int row);
+	void print(ostream &out, int row);
 
 	virtual MemoryType getType() const= 0;
 	virtual void changeElement(SolutionPart part, int row, int index,
-		double before, double after) = 0;
+			double before, double after) = 0;
 };
 
 class MacroscopicMemoryVector {
 private:
 	static const MemoryType type = MACROSCOPIC;
-	std::vector<double> c1;
-	std::vector<double> c2;
-	std::vector<double> c3;
+	vector<double> c1;
+	vector<double> c2;
+	vector<double> c3;
 	int size;
-	std::vector<double> elements;
+	vector<double> elements;
 public:
 	MacroscopicMemoryVector();
 	~MacroscopicMemoryVector();
 
-	double getElement(SolutionPart part, int offset = 0);
-	void print(std::ostream &out);
+	double getElement(SolutionPart part);
+	void print(ostream &out);
 
 	MemoryType getType() const;
-	void changeElement(int index, double goal, double k1Before, double k1After,
+	void changeElement(int index, double k1Before, double k1After,
 			double k2Before, double k2After, double qBefore, double qAfter);
 };
 /*=====================================================================*/
@@ -94,16 +98,23 @@ public:
 /*=====================FACTORIES=================================*/
 class MicroscopicMemoryVectorFactory {
 public:
-	static MicroscopicMemoryVector *newMemoryVector(const MemoryType &type) {
+	static unique_ptr<MicroscopicMemoryVector>
+	newMemoryVector(const MemoryType &type) {
 		switch (type) {
 			case ABSOLUTE:
-				return new AbsoluteMemoryVector();
+				return unique_ptr<MicroscopicMemoryVector>(
+					new AbsoluteMemoryVector()
+				);
 			case RELATIVE:
-				return new RelativeMemoryVector();
+				return unique_ptr<MicroscopicMemoryVector>(
+					new RelativeMemoryVector()
+				);
 			case FORGETTING:
-				return new ForgettingMemoryVector();
+				return unique_ptr<MicroscopicMemoryVector>(
+				 	new ForgettingMemoryVector()
+				 );
 			default:
-				return NULL;
+				return unique_ptr<MicroscopicMemoryVector>(nullptr);
 		}
 	}
 };

@@ -4,11 +4,14 @@
 #include <iostream>
 #include <vector>
 
+using std::vector;
+using std::ostream;
+
 class Process {
 private:
 	int computationalComplexity;
 	int numberOfPreviousProcecces;
-	std::vector<int> previuosProcesses;
+	vector<int> previuosProcesses;
 	int processor;
 	int timeStart;
 	int timeEnd;
@@ -17,21 +20,21 @@ public:
 	~Process();
 
 	int getComputationalComplexity() const;
-	void setComputationalComplexity(int computationalComplexity);
+	void setComputationalComplexity(int _computationalComplexity);
 	int getNumberOfPreviousProcecces() const;
-	void setNumberOfPreviousProcecces(int numberOfPreviousProcecces);
-	const std::vector<int> &getPreviuosProcesses() const;
+	void setNumberOfPreviousProcecces(int _numberOfPreviousProcecces);
+	const vector<int> &getPreviuosProcesses() const;
 	int getPreviuosProcess(int index) const;
-	void setPreviuosProcesses(std::vector<int> &previuosProcesses);
+	void setPreviuosProcesses(vector<int> &_previuosProcesses);
 	void setPreviuosProcess(int index, int value);
 	int getProcessor() const;
-	void setProcessor(int processor);
+	void setProcessor(int _processor);
 	int getTimeEnd() const;
-	void setTimeEnd(int timeEnd);
+	void setTimeEnd(int _timeEnd);
 	int getTimeStart() const;
-	void setTimeStart(int timeStart);
+	void setTimeStart(int _timeStart);
 
-	void print(std::ostream &out);
+	void print(ostream &out);
 };
 
 #endif /* PROCESS_HPP_ */

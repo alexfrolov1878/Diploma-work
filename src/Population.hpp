@@ -7,6 +7,9 @@
 #include "MemoryVector.hpp"
 #include "Solution.hpp"
 
+using std::vector;
+using std::ostream;
+
 enum MacroscopicOperation {
 	SELECTION, CROSSOVER, MUTATION
 };
@@ -15,7 +18,7 @@ enum MacroscopicOperation {
 
 class MicroscopicPopulation {
 private:
-	std::vector<MicroscopicSolution> solutions;
+	vector<MicroscopicSolution> solutions;
 	double bestSurvivalValue;
 	int bestSolutionIdx;
 public:
@@ -24,29 +27,28 @@ public:
 	MicroscopicPopulation& operator=(MicroscopicPopulation that);
 	~MicroscopicPopulation();
 
-	const std::vector<MicroscopicSolution> &getSolutions() const;
-	void setSolutions(std::vector<MicroscopicSolution> &solutions);
+	const vector<MicroscopicSolution> &getSolutions() const;
+	void setSolutions(vector<MicroscopicSolution> &_solutions);
 	int getBestSolutionIdx() const;
-	void setBestSolutionIdx(int bestSolutionIdx);
+	void setBestSolutionIdx(int _bestSolutionIdx);
 	double getBestSurvivalValue() const;
-	void setBestSurvivalValue(double bestSurvivalValue);
+	void setBestSurvivalValue(double _bestSurvivalValue);
 
-	void print(std::ostream &out);
+	void print(ostream &out);
 	void generate();
 	int crossoverSolutions(SolutionPart part, int firstIdx, int secondIdx);
 	void mutateSolution(SolutionPart part, int index, int offset);
-	void countSurvivalValue(int index, Process *initProcesses);
-	void countSurvivalValues(Process *init_processes);
+	void countSurvivalValue(int index, vector<Process> &initProcesses);
+	void countSurvivalValues(vector<Process> &initProcesses);
 };
 
 /*=============================MACROSCOPIC===================================*/
 
 class MacroscopicPopulation {
 protected:
-	static double selectionStrength;
-	static std::vector<double> weights;
+	static vector<double> weights;
 private:
-	std::vector<MacroscopicSolution> solutions;
+	vector<MacroscopicSolution> solutions;
 	double k1;
 	double k2;
 	double q;
@@ -58,23 +60,21 @@ public:
 	MacroscopicPopulation(const MacroscopicPopulation& that);
 	~MacroscopicPopulation();
 
-	double getSelectionStrength() const;
-	void setSelectionStrength(double selectionStrength);
-	void setWeights(std::vector<double> &weights);
-	const std::vector<MacroscopicSolution>& getSolutions() const;
-	void setSolutions(std::vector<MacroscopicSolution> &solutions);
+	void setWeights(vector<double> &weights);
+	const vector<MacroscopicSolution>& getSolutions() const;
+	void setSolutions(vector<MacroscopicSolution> &_solutions);
 	double getK1() const;
-	void setK1(double k1);
+	void setK1(double _k1);
 	double getK2() const;
-	void setK2(double k2);
+	void setK2(double _k2);
 	double getQ() const;
 	double countQab(int a, int b);
 	double countQ();
 	double recountQ();
-	void setQ(double q);
+	void setQ(double _q);
 	void updateMacroparameters(MacroscopicOperation operation);
 
-	void print(std::ostream &out);
+	void print(ostream &out);
 	void generate();
 	void crossoverSolutions(int firstIdx, int secondIdx);
 	void mutateSolution(int index);

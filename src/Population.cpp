@@ -1,10 +1,14 @@
-#include "../GA.hpp"
-#include "Population.hpp"
-
 #include <stddef.h>
 #include <cmath>
 
+#include "Population.hpp"
+#include "../GA.hpp"
 #include "main.hpp"
+
+using std::vector;
+using std::ostream;
+using std::endl;
+using std::exp;
 
 /*=============================MICROSCOPIC===================================*/
 MicroscopicPopulation::MicroscopicPopulation(double value, int idx) {
@@ -22,40 +26,39 @@ MicroscopicPopulation::MicroscopicPopulation(
 	bestSurvivalValue = that.bestSurvivalValue;
 	bestSolutionIdx = that.bestSolutionIdx;
 }
-MicroscopicPopulation& MicroscopicPopulation::operator=(
-                MicroscopicPopulation that) {
-        solutions = that.solutions;
-        bestSurvivalValue = that.bestSurvivalValue;
-        bestSolutionIdx = that.bestSolutionIdx;
-        return *this;
+MicroscopicPopulation& MicroscopicPopulation::operator=(MicroscopicPopulation that) {
+	solutions = that.solutions;
+	bestSurvivalValue = that.bestSurvivalValue;
+	bestSolutionIdx = that.bestSolutionIdx;
+	return *this;
 }
 MicroscopicPopulation::~MicroscopicPopulation() {
 	solutions.clear();
 }
 
-const std::vector<MicroscopicSolution> &MicroscopicPopulation::getSolutions() const {
+const vector<MicroscopicSolution> &MicroscopicPopulation::getSolutions() const {
 	return solutions;
 }
 void MicroscopicPopulation::setSolutions(
-		std::vector<MicroscopicSolution> &solutions) {
-	this->solutions.swap(solutions);
+		vector<MicroscopicSolution> &_solutions) {
+	solutions.swap(_solutions);
 }
 int MicroscopicPopulation::getBestSolutionIdx() const {
 	return bestSolutionIdx;
 }
-void MicroscopicPopulation::setBestSolutionIdx(int bestSolutionIdx) {
-	this->bestSolutionIdx = bestSolutionIdx;
+void MicroscopicPopulation::setBestSolutionIdx(int _bestSolutionIdx) {
+	bestSolutionIdx = _bestSolutionIdx;
 }
 double MicroscopicPopulation::getBestSurvivalValue() const {
 	return bestSurvivalValue;
 }
-void MicroscopicPopulation::setBestSurvivalValue(double bestSurvivalValue) {
-	this->bestSurvivalValue = bestSurvivalValue;
+void MicroscopicPopulation::setBestSurvivalValue(double _bestSurvivalValue) {
+	bestSurvivalValue = _bestSurvivalValue;
 }
 
-void MicroscopicPopulation::print(std::ostream &out) {
+void MicroscopicPopulation::print(ostream &out) {
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		out << "	Solution " << i + 1 << std::endl;
+		out << "	Solution " << i + 1 << endl;
 		solutions[i].print(out);
 	}
 }
@@ -69,33 +72,33 @@ void MicroscopicPopulation::generate() {
 int MicroscopicPopulation::crossoverSolutions(SolutionPart part, int firstIdx,
 		int secondIdx) {
 	int r, tmp1, tmp2;
-        std::vector<int> first;
-        std::vector<int> second;
-        if (part == CROSSOVER_TASK) {
-                first = solutions[firstIdx].getTasks();
-                second = solutions[secondIdx].getTasks();
-        } else if (part == CROSSOVER_PRIO) {
-                first = solutions[firstIdx].getPriorities();
-                second = solutions[secondIdx].getPriorities();
-        } else {
-                return -1;
-        }
+	vector<int> first;
+	vector<int> second;
+	if (part == CROSSOVER_TASK) {
+		first = solutions[firstIdx].getTasks();
+		second = solutions[secondIdx].getTasks();
+	} else if (part == CROSSOVER_PRIO) {
+		first = solutions[firstIdx].getPriorities();
+		second = solutions[secondIdx].getPriorities();
+	} else {
+		return -1;
+	}
 
-        r = Random::getRandomInt(0, numProcesses);
-        for (int i = r + 1; i < numProcesses; i++) {
-                tmp1 = first[i];
-                tmp2 = second[i];
-                first[i] = tmp2;
-                second[i] = tmp1;
-        }
-        return r + 1;
+	r = Random::getRandomInt(0, numProcesses);
+	for (int i = r + 1; i < numProcesses; i++) {
+		tmp1 = first[i];
+		tmp2 = second[i];
+		first[i] = tmp2;
+		second[i] = tmp1;
+	}
+	return r + 1;
 }
 void MicroscopicPopulation::mutateSolution(SolutionPart part, int index,
 		int offset) {
 	solutions[index].mutate(part, offset);
 }
 void MicroscopicPopulation::countSurvivalValue(int index,
-		Process *initProcesses) {
+		vector<Process> &initProcesses) {
 	double Kt, Kr, value;
 	solutions[index].buildSchedule(initProcesses);
 	Kt = 1.0
@@ -105,15 +108,14 @@ void MicroscopicPopulation::countSurvivalValue(int index,
 	value = C1 * Kt + C2 * Kr;
 	solutions[index].setSurvivalValue(value);
 }
-void MicroscopicPopulation::countSurvivalValues(Process *initProcesses) {
+void MicroscopicPopulation::countSurvivalValues(vector<Process> &initProcesses) {
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
 		countSurvivalValue(i, initProcesses);
 	}
 }
 /*===========================================================================*/
 /*=============================MACROSCOPIC===================================*/
-double MacroscopicPopulation::selectionStrength = 0.0;
-std::vector<double> MacroscopicPopulation::weights = std::vector<double>();
+vector<double> MacroscopicPopulation::weights = vector<double>();
 MacroscopicPopulation::MacroscopicPopulation() {
 	k1 = 0.0;
 	k2 = 0.0;
@@ -121,7 +123,7 @@ MacroscopicPopulation::MacroscopicPopulation() {
 	qMax = 0.0;
 	k1Initial = 0.0;
 	k2Initial = 0.0;
-	solutions = std::vector<MacroscopicSolution>(NUM_SOLUTIONS);
+	solutions = vector<MacroscopicSolution>(NUM_SOLUTIONS);
 }
 MacroscopicPopulation::MacroscopicPopulation(
 		const MacroscopicPopulation& that) {
@@ -137,33 +139,27 @@ MacroscopicPopulation::~MacroscopicPopulation() {
 	solutions.clear();
 }
 
-double MacroscopicPopulation::getSelectionStrength() const {
-	return selectionStrength;
-}
-void MacroscopicPopulation::setSelectionStrength(double selectionStrength) {
-	MacroscopicPopulation::selectionStrength = selectionStrength;
-}
-void MacroscopicPopulation::setWeights(std::vector<double> &weights) {
+void MacroscopicPopulation::setWeights(vector<double> &weights) {
 	MacroscopicPopulation::weights.swap(weights);
 }
-const std::vector<MacroscopicSolution>& MacroscopicPopulation::getSolutions() const {
+const vector<MacroscopicSolution>& MacroscopicPopulation::getSolutions() const {
 	return solutions;
 }
 void MacroscopicPopulation::setSolutions(
-		std::vector<MacroscopicSolution> &solutions) {
-	this->solutions.swap(solutions);
+		vector<MacroscopicSolution> &_solutions) {
+	solutions.swap(_solutions);
 }
 double MacroscopicPopulation::getK1() const {
 	return k1;
 }
-void MacroscopicPopulation::setK1(double k1) {
-	this->k1 = k1;
+void MacroscopicPopulation::setK1(double _k1) {
+	k1 = _k1;
 }
 double MacroscopicPopulation::getK2() const {
 	return k2;
 }
-void MacroscopicPopulation::setK2(double k2) {
-	this->k2 = k2;
+void MacroscopicPopulation::setK2(double _k2) {
+	k2 = _k2;
 }
 double MacroscopicPopulation::getQ() const {
 	return q;
@@ -211,8 +207,8 @@ double MacroscopicPopulation::recountQ() {
 	}
 	return result;
 }
-void MacroscopicPopulation::setQ(double q) {
-	this->q = q;
+void MacroscopicPopulation::setQ(double _q) {
+	q = _q;
 }
 void MacroscopicPopulation::updateMacroparameters(
 		MacroscopicOperation operation) {
@@ -244,9 +240,9 @@ void MacroscopicPopulation::updateMacroparameters(
 	}
 }
 
-void MacroscopicPopulation::print(std::ostream &out) {
+void MacroscopicPopulation::print(ostream &out) {
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		out << "	Solution " << i + 1 << std::endl;
+		out << "	Solution " << i + 1 << endl;
 		for (int j = 0; j < numProcesses; j++) {
 			solutions[i].print(out);
 		}
@@ -282,7 +278,7 @@ void MacroscopicPopulation::countSurvivalValue(int index) {
 	double G = goal;
 	double h = solutions[index].getField();
 	double energy = (h - G) * (h - G) / N;
-	double value = std::exp(-1.0 * MacroscopicPopulation::selectionStrength * energy);
+	double value = exp(-1.0 * selectionStrength * energy);
 	solutions[index].setSurvivalValue(value);
 }
 void MacroscopicPopulation::countSurvivalValues() {

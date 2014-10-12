@@ -4,9 +4,12 @@
 #include <iostream>
 #include <vector>
 
+using std::vector;
+using std::ostream;
+
 class Processor {
 private:
-	std::vector<int> processes;
+	vector<int> processes;
 	int time;
 	int downtime;
 public:
@@ -16,11 +19,11 @@ public:
 	int getProcess(int index) const;
 	void setProcess(int index, int value);
 	int getTime() const;
-	void setTime(int time);
+	void setTime(int _time);
 	int getDowntime() const;
-	void setDowntime(int downtime);
+	void setDowntime(int _downtime);
 
-	void print(std::ostream &out);
+	void print(ostream &out);
 };
 
 #endif /* PROCESSOR_HPP_ */

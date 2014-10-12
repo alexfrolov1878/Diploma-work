@@ -1,8 +1,11 @@
-#include "MemoryVector.hpp"
-
 #include <cmath>
 
+#include "MemoryVector.hpp"
 #include "main.hpp"
+
+using std::vector;
+using std::ostream;
+using std::endl;
 
 void pruneElement(double &element) {
 	if (element < MIN_MEM_PARAM_VALUE) {
@@ -15,7 +18,7 @@ void pruneElement(double &element) {
 /*======================BASE CLASSES============================*/
 /*=======================MICROSCOPIC===================================*/
 MicroscopicMemoryVector::MicroscopicMemoryVector() {
-	std::vector<double> tmp;
+	vector<double> tmp;
 	rows = NUM_SOLUTIONS;
 	columns = 2 * numProcesses;
 
@@ -51,11 +54,11 @@ MicroscopicMemoryVector::~MicroscopicMemoryVector() {
 	crMV.clear();
 }
 
-std::vector<double> MicroscopicMemoryVector::getMutRow(int index) {
+vector<double> MicroscopicMemoryVector::getMutRow(int index) {
 	return mutMV[index];
 }
 
-void MicroscopicMemoryVector::setMutRow(int index, std::vector<double> row) {
+void MicroscopicMemoryVector::setMutRow(int index, vector<double> row) {
 	mutMV[index] = row;
 }
 
@@ -92,19 +95,19 @@ double MicroscopicMemoryVector::getElement(SolutionPart part, int row,
 	return mutMV[row][index];
 }
 
-void MicroscopicMemoryVector::print(std::ostream &out, int row) {
+void MicroscopicMemoryVector::print(ostream &out, int row) {
 	out << "Mutation task probabilities: ";
 	for (int i = 0; i < numProcesses; i++) {
 		out << mutMV[row][i] << " ";
 	}
-	out << std::endl;
+	out << endl;
 	out << "Mutation prio probabilities: ";
 	for (int i = numProcesses; i < 2 * numProcesses; i++) {
 		out << mutMV[row][i] << " ";
 	}
-	out << std::endl;
-	out << "Crossover task probability: " << crMV[row][0] << std::endl;
-	out << "Crossover prio probability: " << crMV[row][1] << std::endl;
+	out << endl;
+	out << "Crossover task probability: " << crMV[row][0] << endl;
+	out << "Crossover prio probability: " << crMV[row][1] << endl;
 }
 /*=====================================================================*/
 /*=======================MACROSCOPIC===================================*/
@@ -112,13 +115,13 @@ MacroscopicMemoryVector::MacroscopicMemoryVector() {
 	size = 2;
 	elements.push_back(MACROSCOPIC_CROSSOVER_PROBABILITY);
 	elements.push_back(MACROSCOPIC_MUTATION_PROBABILITY);
-	c1 = std::vector<double>(size);
+	c1 = vector<double>(size);
 	c1[0] = MACROSCOPIC_C1_MUTATION;
 	c1[1] = MACROSCOPIC_C1_CROSSOVER;
-	c2 = std::vector<double>(size);
+	c2 = vector<double>(size);
 	c2[0] = MACROSCOPIC_C2_MUTATION;
 	c3[1] = MACROSCOPIC_C2_CROSSOVER;
-	c1 = std::vector<double>(size);
+	c1 = vector<double>(size);
 	c3[0] = MACROSCOPIC_C3_MUTATION;
 	c3[1] = MACROSCOPIC_C3_CROSSOVER;
 }
@@ -132,14 +135,15 @@ MacroscopicMemoryVector::~MacroscopicMemoryVector() {
 MemoryType MacroscopicMemoryVector::getType() const {
 	return type;
 }
-double MacroscopicMemoryVector::getElement(SolutionPart part, int offset) {
+double MacroscopicMemoryVector::getElement(SolutionPart part) {
 	if (part == MUTATION_PRIO || part == MUTATION_PRIO) {
 		return elements[0];
 	}
 	return elements[1];
 }
-void MacroscopicMemoryVector::changeElement(int index, double goal,
-		double k1Before, double k1After, double k2Before, double k2After,
+void MacroscopicMemoryVector::changeElement(int index,
+		double k1Before, double k1After,
+		double k2Before, double k2After,
 		double qBefore, double qAfter) {
 	double s;
 	if (fabs(k1After - goal) < G_NEIGHBOURHOOD_RADIUS * goal) {
@@ -152,9 +156,9 @@ void MacroscopicMemoryVector::changeElement(int index, double goal,
 	elements[index] += t;
 	pruneElement(elements[index]);
 }
-void MacroscopicMemoryVector::print(std::ostream &out) {
-	out << "Mutation probability: " << elements[0] << std::endl;
-	out << "Crossover probability: " << elements[1] << std::endl;
+void MacroscopicMemoryVector::print(ostream &out) {
+	out << "Mutation probability: " << elements[0] << endl;
+	out << "Crossover probability: " << elements[1] << endl;
 }
 /*=====================================================================*/
 

@@ -5,6 +5,12 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <memory>
+
+using std::unique_ptr;
+using std::vector;
+using std::ostream;
+using std::ifstream;
 
 class Process;
 class MicroscopicSolution;
@@ -17,8 +23,10 @@ extern int resultTime;
 extern int numProcesses;
 extern int numProcessors;
 extern int numConnections;
+
 extern double goal;
 extern int numWeights;
+extern double selectionStrength;
 
 enum {
 	NUM_SOLUTIONS = 100
@@ -72,7 +80,7 @@ public:
 	virtual void selection() = 0;
 	virtual void crossover() = 0;
 	virtual void mutation() = 0;
-	virtual void printCurrentPopulation(std::ostream &out) = 0;
+	virtual void printCurrentPopulation(ostream &out) = 0;
 	virtual double getResult() = 0;
 };
 /*================================================================*/
@@ -81,26 +89,22 @@ public:
 class MicroscopicGA: public IGeneticAlgorithm {
 protected:
 	static double bestSeenSurvivalValue;
-	static MicroscopicSolution *bestSeenSolution;
+	static unique_ptr<MicroscopicSolution> bestSeenSolution;
 
-	int resultTime;
-	int numProcessors;
-	int numProcesses;
-	int numConnections;
-	MicroscopicPopulation *population;
-	Process *initProcesses;
+	unique_ptr<MicroscopicPopulation> population;
+	vector<Process> initProcesses;
 
 	MemoryType memoryType;
-        MicroscopicMemoryVector *microscopicMemoryVector;
+    unique_ptr<MicroscopicMemoryVector> microscopicMemoryVector;
 public:
-	MicroscopicGA(std::ifstream &fin, MemoryType memoryType = NONE);
+	MicroscopicGA(ifstream &fin, MemoryType memoryType = NONE);
 	MicroscopicGA(const MicroscopicGA &that);
 	MicroscopicGA& operator=(MicroscopicGA that);
 	~MicroscopicGA();
 
 	static double getBestSeenSurvivalValue();
 	static void setBestSeenSurvivalValue(double bestSeenSurvivalValue);
-	static MicroscopicSolution *getBestSeenSolution();
+	static unique_ptr<MicroscopicSolution> &getBestSeenSolution();
 	static void setBestSeenSolution(const MicroscopicSolution &solution);
 
 	virtual void generatePopulation();
@@ -108,22 +112,19 @@ public:
 	virtual void selection();
 	virtual void crossover();
 	virtual void mutation();
-	virtual void printCurrentPopulation(std::ostream &out);
+	virtual void printCurrentPopulation(ostream &out);
 	virtual double getResult();
 };
 
 class MacroscopicGA: public IGeneticAlgorithm {
 protected:
-	double goal;
-	double selectionStrength;
-	int numWeights;
-	std::vector<double> weights;
-	MacroscopicPopulation *population;
+	vector<double> weights;
+	unique_ptr<MacroscopicPopulation> population;
 
 	MemoryType memoryType;
-	MacroscopicMemoryVector *macroscopicMemoryVector;
+	unique_ptr<MacroscopicMemoryVector> macroscopicMemoryVector;
 public:
-	MacroscopicGA(std::ifstream &fin, MemoryType memoryType = NONE);
+	MacroscopicGA(ifstream &fin, MemoryType memoryType = NONE);
 	MacroscopicGA(const MacroscopicGA &that);
 	MacroscopicGA& operator=(MacroscopicGA that);
 	~MacroscopicGA();
@@ -133,7 +134,7 @@ public:
 	virtual void selection();
 	virtual void crossover();
 	virtual void mutation();
-	virtual void printCurrentPopulation(std::ostream &out);
+	virtual void printCurrentPopulation(ostream &out);
 	virtual double getResult();
 };
 /*=====================================================================*/
@@ -141,19 +142,29 @@ public:
 /*==========================FACTORY==================================*/
 class GeneticAlgorithmFactory {
 public:
-	static IGeneticAlgorithm *newGeneticAlgorithm(const AlgorithmType &type,
-			MemoryType memoryType, std::ifstream &fin) {
+	static unique_ptr<IGeneticAlgorithm>
+	newGeneticAlgorithm(const AlgorithmType &type,
+						MemoryType memoryType,
+						ifstream &fin) {
 		switch (type) {
 		case MICROSCOPIC_STANDARD:
-			return new MicroscopicGA(fin);
+			return unique_ptr<IGeneticAlgorithm>(
+				new MicroscopicGA(fin)
+			);
 		case MACROSCOPIC_STANDARD:
-			return new MacroscopicGA(fin);
+			return unique_ptr<IGeneticAlgorithm>(
+				new MacroscopicGA(fin)
+			);
 		case MICROSCOPIC_WITH_MEMORY:
-			return new MicroscopicGA(fin, memoryType);
+			return unique_ptr<IGeneticAlgorithm>(
+				new MicroscopicGA(fin, memoryType)
+			);
 		case MACROSCOPIC_WITH_MEMORY:
-			return new MacroscopicGA(fin, memoryType);
+			return unique_ptr<IGeneticAlgorithm>(
+				new MacroscopicGA(fin, memoryType)
+			);
 		default:
-			return NULL;
+			return unique_ptr<IGeneticAlgorithm>(nullptr);
 		}
 	}
 };
