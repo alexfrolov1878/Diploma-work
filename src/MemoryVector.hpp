@@ -17,16 +17,38 @@ enum SolutionPart {
 	CROSSOVER_TASK = 2,
 	CROSSOVER_PRIO = 3
 };
+typedef vector<vector<double> > MemoryMatrix;
+
+/*========================STRATEGIES=============================*/
+
+class IChangeStrategy {
+public:
+	virtual ~IChangeStrategy() {}
+	virtual void changeElement(SolutionPart part, int row, int index,
+			double before, double after,
+			MemoryMatrix &mutMem, MemoryMatrix &crMem) = 0;
+};
+
+class IChangeContext {
+protected:
+    unique_ptr<IChangeStrategy> operation;
+public: 
+	virtual ~IChangeContext() {}
+	virtual void setChangeStrategy(unique_ptr<IChangeStrategy> _op) = 0;
+	virtual void useChangeStrategy(SolutionPart part, int row, int index,
+			double before, double after) = 0;
+};
 
 /*=======================BASE CLASSES============================*/
-class MicroscopicMemoryVector {
+
+class MicroscopicMemoryVector : public IChangeContext {
 protected:
 	int rows;
 	int columns;
-	vector<vector<double> > mutMV;
-	vector<vector<double> > crMV;
+	MemoryMatrix mutMem;
+	MemoryMatrix crMem;
 public:
-	MicroscopicMemoryVector();
+	MicroscopicMemoryVector(const MemoryType &type);
 	MicroscopicMemoryVector(MicroscopicMemoryVector &that);
 	virtual ~MicroscopicMemoryVector();
 
@@ -37,9 +59,9 @@ public:
 	double getElement(SolutionPart part, int row, int column = 0);
 	void print(ostream &out, int row);
 
-	virtual MemoryType getType() const= 0;
-	virtual void changeElement(SolutionPart part, int row, int index,
-			double before, double after) = 0;
+	virtual void setChangeStrategy(unique_ptr<IChangeStrategy> _operation);
+	virtual void useChangeStrategy(SolutionPart part, int row, int index,
+			double before, double after);
 };
 
 class MacroscopicMemoryVector {
@@ -61,63 +83,7 @@ public:
 	void changeElement(int index, double k1Before, double k1After,
 			double k2Before, double k2After, double qBefore, double qAfter);
 };
+
 /*=====================================================================*/
-
-/*==================DERIVED LEVEL 1 CLASSES============================*/
-class AbsoluteMemoryVector: public MicroscopicMemoryVector {
-private:
-	static const MemoryType type = ABSOLUTE;
-public:
-	AbsoluteMemoryVector& operator=(AbsoluteMemoryVector that);
-	virtual MemoryType getType() const;
-	virtual void changeElement(SolutionPart part, int row, int index,
-			double before, double after);
-};
-
-class RelativeMemoryVector: public MicroscopicMemoryVector {
-private:
-	static const MemoryType type = RELATIVE;
-public:
-	RelativeMemoryVector& operator=(RelativeMemoryVector that);
-	virtual MemoryType getType() const;
-	virtual void changeElement(SolutionPart part, int row, int index,
-			double before, double after);
-};
-
-class ForgettingMemoryVector: public MicroscopicMemoryVector {
-private:
-	static const MemoryType type = FORGETTING;
-public:
-	ForgettingMemoryVector& operator=(ForgettingMemoryVector that);
-	virtual MemoryType getType() const;
-	virtual void changeElement(SolutionPart part, int row, int index,
-			double before, double after);
-};
-/*=====================================================================*/
-
-/*=====================FACTORIES=================================*/
-class MicroscopicMemoryVectorFactory {
-public:
-	static unique_ptr<MicroscopicMemoryVector>
-	newMemoryVector(const MemoryType &type) {
-		switch (type) {
-			case ABSOLUTE:
-				return unique_ptr<MicroscopicMemoryVector>(
-					new AbsoluteMemoryVector()
-				);
-			case RELATIVE:
-				return unique_ptr<MicroscopicMemoryVector>(
-					new RelativeMemoryVector()
-				);
-			case FORGETTING:
-				return unique_ptr<MicroscopicMemoryVector>(
-				 	new ForgettingMemoryVector()
-				 );
-			default:
-				return unique_ptr<MicroscopicMemoryVector>(nullptr);
-		}
-	}
-};
-/*===============================================================*/
 
 #endif /* MEMORYVECTOR_HPP_ */

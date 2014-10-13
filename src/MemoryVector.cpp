@@ -2,12 +2,14 @@
 
 #include "MemoryVector.hpp"
 #include "main.hpp"
+#include "ChangeMemoryStrategies.hpp"
 
 using std::vector;
 using std::ostream;
+using std::move;
 using std::endl;
 
-void pruneElement(double &element) {
+static void pruneElement(double &element) {
 	if (element < MIN_MEM_PARAM_VALUE) {
 		element = MIN_MEM_PARAM_VALUE;
 	} else if (element > MAX_MEM_PARAM_VALUE) {
@@ -15,14 +17,13 @@ void pruneElement(double &element) {
 	}
 }
 
-/*======================BASE CLASSES============================*/
 /*=======================MICROSCOPIC===================================*/
-MicroscopicMemoryVector::MicroscopicMemoryVector() {
+MicroscopicMemoryVector::MicroscopicMemoryVector(const MemoryType &type) {
 	vector<double> tmp;
 	rows = NUM_SOLUTIONS;
 	columns = 2 * numProcesses;
 
-	mutMV.clear();
+	mutMem.clear();
 	for (int i = 0; i < rows; i++) {
 		tmp.clear();
 		for (int j = 0; j < numProcesses; j++) {
@@ -31,35 +32,58 @@ MicroscopicMemoryVector::MicroscopicMemoryVector() {
 		for (int j = 0; j < numProcesses; j++) {
 			tmp.push_back(MUTATION_PRIO_PROBABILITY);
 		}
-		mutMV.push_back(tmp);
+		mutMem.push_back(tmp);
 	}
 
-	crMV.clear();
+	crMem.clear();
 	for (int i = 0; i < rows; i++) {
 		tmp.clear();
 		tmp.push_back(CROSSOVER_TASK_PROBABILITY);
 		tmp.push_back(CROSSOVER_PRIO_PROBABILITY);
-		crMV.push_back(tmp);
+		crMem.push_back(tmp);
+	}
+
+	switch (type) {
+		case ABSOLUTE:
+			setChangeStrategy(unique_ptr<IChangeStrategy>(
+				new AbsoluteStrategy())
+			);
+			break;
+		case RELATIVE:
+			setChangeStrategy(unique_ptr<IChangeStrategy>(
+				new RelativeStrategy())
+			);
+			break;
+		case FORGETTING:
+			setChangeStrategy(unique_ptr<IChangeStrategy>(
+				new ForgettingStrategy())
+			);
+			break;
+		default:
+			setChangeStrategy(unique_ptr<IChangeStrategy>(
+				new AbsoluteStrategy())
+			);
+			break;
 	}
 }
 MicroscopicMemoryVector::MicroscopicMemoryVector(
 		MicroscopicMemoryVector &that) {
 	rows = that.rows;
 	columns = that.columns;
-	mutMV.swap(that.mutMV);
-	crMV.swap(that.crMV);
+	mutMem.swap(that.mutMem);
+	crMem.swap(that.crMem);
 }
 MicroscopicMemoryVector::~MicroscopicMemoryVector() {
-	mutMV.clear();
-	crMV.clear();
+	mutMem.clear();
+	crMem.clear();
 }
 
 vector<double> MicroscopicMemoryVector::getMutRow(int index) {
-	return mutMV[index];
+	return mutMem[index];
 }
 
 void MicroscopicMemoryVector::setMutRow(int index, vector<double> row) {
-	mutMV[index] = row;
+	mutMem[index] = row;
 }
 
 void MicroscopicMemoryVector::swapMutElements(SolutionPart part, int index1,
@@ -74,9 +98,9 @@ void MicroscopicMemoryVector::swapMutElements(SolutionPart part, int index1,
 	}
 
 	for (int i = start; i < end; i++) {
-		tmp = mutMV[index1][i];
-		mutMV[index1][i] = mutMV[index2][i];
-		mutMV[index2][i] = tmp;
+		tmp = mutMem[index1][i];
+		mutMem[index1][i] = mutMem[index2][i];
+		mutMem[index2][i] = tmp;
 	}
 }
 
@@ -92,22 +116,32 @@ double MicroscopicMemoryVector::getElement(SolutionPart part, int row,
 		default:
 			break;
 	}
-	return mutMV[row][index];
+	return mutMem[row][index];
 }
 
 void MicroscopicMemoryVector::print(ostream &out, int row) {
 	out << "Mutation task probabilities: ";
 	for (int i = 0; i < numProcesses; i++) {
-		out << mutMV[row][i] << " ";
+		out << mutMem[row][i] << " ";
 	}
 	out << endl;
 	out << "Mutation prio probabilities: ";
 	for (int i = numProcesses; i < 2 * numProcesses; i++) {
-		out << mutMV[row][i] << " ";
+		out << mutMem[row][i] << " ";
 	}
 	out << endl;
-	out << "Crossover task probability: " << crMV[row][0] << endl;
-	out << "Crossover prio probability: " << crMV[row][1] << endl;
+	out << "Crossover task probability: " << crMem[row][0] << endl;
+	out << "Crossover prio probability: " << crMem[row][1] << endl;
+}
+
+void MicroscopicMemoryVector::setChangeStrategy(
+		unique_ptr<IChangeStrategy> _op) {
+	operation = move(_op);
+}
+
+void MicroscopicMemoryVector::useChangeStrategy(SolutionPart part,
+		int row, int index,	double before, double after) {
+	operation->changeElement(part, row, index, before, after, mutMem, crMem);
 }
 /*=====================================================================*/
 /*=======================MACROSCOPIC===================================*/
@@ -159,104 +193,5 @@ void MacroscopicMemoryVector::changeElement(int index,
 void MacroscopicMemoryVector::print(ostream &out) {
 	out << "Mutation probability: " << elements[0] << endl;
 	out << "Crossover probability: " << elements[1] << endl;
-}
-/*=====================================================================*/
-
-/*==================DERIVED LEVEL 1 CLASSES============================*/
-AbsoluteMemoryVector& AbsoluteMemoryVector::operator=(
-		AbsoluteMemoryVector that) {
-	rows = that.rows;
-	columns = that.columns;
-	mutMV.swap(that.mutMV);
-	crMV.swap(that.crMV);
-	return *this;
-}
-MemoryType AbsoluteMemoryVector::getType() const {
-	return type;
-}
-void AbsoluteMemoryVector::changeElement(SolutionPart part, int row, int index,
-		double before, double after) {
-	switch (part) {
-		case MUTATION_TASK:
-		case MUTATION_PRIO:
-			if (before < after) {
-				mutMV[row][index] -= MP;
-			} else if (before > after) {
-				mutMV[row][index] += MP;
-			}
-			pruneElement(mutMV[row][index]);
-			break;
-		case CROSSOVER_TASK:
-		case CROSSOVER_PRIO:
-			if (before < after) {
-				crMV[row][index] -= MP;
-			} else if (before > after) {
-				crMV[row][index] += MP;
-			}
-			pruneElement(crMV[row][index]);
-			break;
-		default:
-			break;
-	}
-}
-
-RelativeMemoryVector& RelativeMemoryVector::operator=(
-		RelativeMemoryVector that) {
-	rows = that.rows;
-	columns = that.columns;
-	mutMV.swap(that.mutMV);
-	crMV.swap(that.crMV);
-	return *this;
-}
-MemoryType RelativeMemoryVector::getType() const {
-	return type;
-}
-void RelativeMemoryVector::changeElement(SolutionPart part, int row, int index,
-		double before, double after) {
-	switch (part) {
-		case MUTATION_TASK:
-		case MUTATION_PRIO:
-			mutMV[row][index] += before - after;
-			pruneElement(mutMV[row][index]);
-			break;
-		case CROSSOVER_TASK:
-		case CROSSOVER_PRIO:
-			crMV[row][index] += before - after;
-			pruneElement(crMV[row][index]);
-			break;
-		default:
-			break;
-	}
-}
-
-ForgettingMemoryVector& ForgettingMemoryVector::operator=(
-		ForgettingMemoryVector that) {
-	rows = that.rows;
-	columns = that.columns;
-	mutMV.swap(that.mutMV);
-	crMV.swap(that.crMV);
-	return *this;
-}
-MemoryType ForgettingMemoryVector::getType() const {
-	return type;
-}
-void ForgettingMemoryVector::changeElement(SolutionPart part, int row,
-		int index, double before, double after) {
-	switch (part) {
-		case MUTATION_TASK:
-		case MUTATION_PRIO:
-			mutMV[row][index] = REMEMBERING_POWER * mutMV[row][index]
-					+ (before - after);
-			pruneElement(mutMV[row][index]);
-			break;
-		case CROSSOVER_TASK:
-		case CROSSOVER_PRIO:
-			crMV[row][index] = REMEMBERING_POWER * crMV[row][index]
-					+ (before - after);
-			pruneElement(crMV[row][index]);
-			break;
-		default:
-			break;
-	}
 }
 /*=====================================================================*/

@@ -12,7 +12,9 @@ CXXFLAGS += -Werror -Wformat-security -Wignored-qualifiers -Winit-self \
 		-Woverloaded-virtual -Wsign-promo -Wextra -pedantic
 
 CPP_SRCS := \
+src/CrossoverStrategies.cpp \
 src/GeneticAlgorithm.cpp \
+src/ChangeMemoryStrategies.cpp \
 src/MemoryVector.cpp \
 src/Population.cpp \
 src/Process.cpp \
@@ -21,7 +23,9 @@ src/Solution.cpp \
 src/main.cpp
 
 OBJS := \
+./CrossoverStrategies.o \
 ./GeneticAlgorithm.o \
+./ChangeMemoryStrategies.o \
 ./MemoryVector.o \
 ./Population.o \
 ./Process.o \

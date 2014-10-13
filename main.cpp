@@ -29,6 +29,7 @@ double selectionStrength;
 
 string inputFile;
 AlgorithmType algType;
+CrossoverType crType;
 MemoryType memoryType;
 int maxIterations = -1;
 
@@ -44,14 +45,13 @@ inline void printIterationNumber(int i) {
 
 inline void printUsage() {
 	cout
-		<< "Usage: GA.exe input_file alg_type has_memory [memory_type] [max_iter]"
-		<< endl << "	input_file: file with input data" << endl
-		<< "	alg_type: algorithm type (\"microscopic\" or \"macroscopic\")"
-		<< endl << "	has_memory: memory usage (\"standard\" or \"memory\")"
-		<< endl
-		<< "	memory_type: memory type used (\"absolute\", \"relative\" or \"forgetting\")"
-		<< endl << "	max_iter: number of maximum iterations without improvement"
-		<< endl;
+		<< "Usage: GA.exe input_file alg_type cr_type has_memory [memory_type] [max_iter]" << endl
+		<< "	input_file: file with input data" << endl
+		<< "	alg_type: algorithm type (\"microscopic\" or \"macroscopic\")" << endl
+		<< "	cr_type: crossover type (1 - 5)" << endl
+		<< "	has_memory: memory usage (\"standard\" or \"memory\")" << endl
+		<< "	memory_type: memory type used (\"absolute\", \"relative\" or \"forgetting\")" << endl
+		<< "	max_iter: number of maximum iterations without improvement" << endl;
 }
 
 inline bool exists(char name[]) {
@@ -65,7 +65,7 @@ inline bool exists(char name[]) {
 }
 
 bool parseArguments(int argc, char *argv[]) {
-	if (argc != 4 && argc != 5 && argc != 6) {
+	if (argc != 5 && argc != 6 && argc != 7) {
 		cerr << "Wrong number of arguments!" << endl;
 		return false;
 	}
@@ -82,9 +82,16 @@ bool parseArguments(int argc, char *argv[]) {
 		cerr << "Wrong argument 2: \"" << algStr << "\"" << endl;
 		return false;
 	}
-	char *typeStr = argv[3];
+	int num = atoi(argv[3]);
+	if (num < 1 || num > 5) {
+		cerr << "Wrong argument 3: \"" << argv[3] << "\"" << endl;
+		return false;
+	}
+	crType = CrossoverType(num - 1);
+
+	char *typeStr = argv[4];
 	if (strcmp("standard", typeStr) != 0 && strcmp("memory", typeStr) != 0) {
-		cerr << "Wrong argument 3: \"" << typeStr << "\"" << endl;
+		cerr << "Wrong argument 4: \"" << typeStr << "\"" << endl;
 		return false;
 	}
 	if (!strcmp("microscopic", algStr) && !strcmp("standard", typeStr)) {
@@ -102,11 +109,11 @@ bool parseArguments(int argc, char *argv[]) {
 
 	bool hasMemoryArgument = algType == MICROSCOPIC_WITH_MEMORY;
 	if (hasMemoryArgument) {
-		char *memoryStr = argv[4];
+		char *memoryStr = argv[5];
 		if (strcmp("absolute", memoryStr) != 0
 				&& strcmp("relative", memoryStr) != 0
 				&& strcmp("forgetting", memoryStr) != 0) {
-			cerr << "Wrong argument 4: \"" << memoryStr << "\"" << endl;
+			cerr << "Wrong argument 5: \"" << memoryStr << "\"" << endl;
 			return false;
 		}
 		if (!strcmp("absolute", memoryStr)) {
@@ -118,13 +125,13 @@ bool parseArguments(int argc, char *argv[]) {
 		}
 	}
 
-	if (!hasMemoryArgument && argc == 6) {
+	if (!hasMemoryArgument && argc == 7) {
 		cerr << "Wrong number of arguments!" << endl;
 		return false;
 	}
 
 	int offset = hasMemoryArgument == true;
-	int lastArg = 4 + offset;
+	int lastArg = 5 + offset;
 	if (argc == lastArg + 1) {
 		maxIterations = atoi(argv[lastArg]);
 		if (maxIterations <= 0) {
@@ -205,7 +212,10 @@ int main(int argc, char *argv[]) {
 	clock_t start, end;
 	ifstream fin(inputFile.c_str());
 	unique_ptr<IGeneticAlgorithm> algorithm =
-		GeneticAlgorithmFactory::newGeneticAlgorithm(algType, memoryType, fin);
+		GeneticAlgorithmFactory::newGeneticAlgorithm(algType,
+													 crType,
+													 memoryType,
+													 fin);
 	fin.close();
 
 	cout << "START" << endl;

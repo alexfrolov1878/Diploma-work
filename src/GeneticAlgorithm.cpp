@@ -8,6 +8,7 @@
 #include "Population.hpp"
 #include "Process.hpp"
 #include "Solution.hpp"
+#include "CrossoverStrategies.hpp"
 
 using std::unique_ptr;
 using std::vector;
@@ -23,7 +24,8 @@ double MicroscopicGA::bestSeenSurvivalValue = 0.0;
 unique_ptr<MicroscopicSolution> MicroscopicGA::bestSeenSolution =
 	unique_ptr<MicroscopicSolution>(new MicroscopicSolution());
 
-MicroscopicGA::MicroscopicGA(ifstream &fin, MemoryType _memoryType) {
+MicroscopicGA::MicroscopicGA(ifstream &fin,
+	CrossoverType _crossoverType, MemoryType _memoryType) {
 	int j, tmp;
 
 	fin >> resultTime;
@@ -54,8 +56,41 @@ MicroscopicGA::MicroscopicGA(ifstream &fin, MemoryType _memoryType) {
 	temp.clear();
 
 	memoryType = _memoryType;
-	microscopicMemoryVector = 
-		MicroscopicMemoryVectorFactory::newMemoryVector(memoryType);
+	microscopicMemoryVector.reset(new MicroscopicMemoryVector(_memoryType));
+
+	crossoverType = _crossoverType;
+	switch (crossoverType) {
+		case ONE_POINT_VECTOR:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointVectorStrategy())
+			);
+			break;
+		case ONE_POINT_MATRIX_THROWING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointMatrixThrowingStrategy())
+			);
+			break;
+		case ONE_POINT_MATRIX_SWAPPING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointMatrixSwappingStrategy())
+			);
+			break;
+		case UNIFORM_MATRIX_THROWING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new UniformMatrixThrowingStrategy())
+			);
+			break;
+		case UNIFORM_MATRIX_SWAPPING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new UniformMatrixSwappingStrategy())
+			);
+			break;
+		default:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointMatrixSwappingStrategy())
+			);
+			break;
+	}
 }
 MicroscopicGA::~MicroscopicGA() {
 	initProcesses.clear();
@@ -114,8 +149,7 @@ void MicroscopicGA::selection() {
 
 	unique_ptr<MicroscopicMemoryVector> newMicroscopicMemoryVector;
 	if (memoryType != NONE && memoryType != MACROSCOPIC) {
-		newMicroscopicMemoryVector =
-			MicroscopicMemoryVectorFactory::newMemoryVector(memoryType);
+		newMicroscopicMemoryVector.reset(new MicroscopicMemoryVector(memoryType));
 	}
 
 	newSolutions.reserve(NUM_SOLUTIONS);
@@ -135,82 +169,14 @@ void MicroscopicGA::selection() {
 	sectors.clear();
 }
 void MicroscopicGA::crossover() {
-	double r;
-	int pairs[NUM_SOLUTIONS], start;
-	double prob, prob1, prob2, before1, before2, after1, after2;
-	auto solutions = population->getSolutions();
-
-	//crossover over tasks
-	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		pairs[i] = i;
-	}
-	random_shuffle(pairs, pairs + NUM_SOLUTIONS);
-	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
-		r = Random::getRandomDouble(0, 1);
-		if (memoryType == NONE) {
-			prob = CROSSOVER_TASK_PROBABILITY;
-		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
-				pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
-				pairs[i + 1]);
-			prob = min(prob1, prob2);
-		}
-		if (r <= prob) {
-			before1 = solutions[pairs[i]].getSurvivalValue();
-			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_TASK,
-				pairs[i], pairs[i + 1]);
-			population->countSurvivalValue(pairs[i], initProcesses);
-			population->countSurvivalValue(pairs[i + 1], initProcesses);
-			after1 = solutions[pairs[i]].getSurvivalValue();
-			after2 = solutions[pairs[i + 1]].getSurvivalValue();
-			if (memoryType == NONE) {
-				//do nothing
-			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_TASK,
-					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->changeElement(CROSSOVER_TASK,
-					pairs[i], 0, before1, after1);
-				microscopicMemoryVector->changeElement(CROSSOVER_TASK,
-					pairs[i + 1], 0, before2, after2);
-			}
-		}
-	}
-
-	//crossover over priorities
-	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		pairs[i] = i;
-	}
-	random_shuffle(pairs, pairs + NUM_SOLUTIONS);
-	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
-		r = Random::getRandomDouble(0, 1);
-		if (memoryType == NONE) {
-			prob = CROSSOVER_PRIO_PROBABILITY;
-		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
-			prob1 = min(prob1, prob2);
-		}
-		if (r <= prob) {
-			before1 = solutions[pairs[i]].getSurvivalValue();
-			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_PRIO,
-				pairs[i], pairs[i + 1]);
-			after1 = solutions[pairs[i]].getSurvivalValue();
-			after2 = solutions[pairs[i + 1]].getSurvivalValue();
-			if (memoryType == NONE) {
-				//do nothing
-			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_PRIO,
-					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->changeElement(CROSSOVER_PRIO,
-					pairs[i], 1, before1, after1);
-				microscopicMemoryVector->changeElement(CROSSOVER_PRIO,
-					pairs[i + 1], 1, before2, after2);
-			}
-	}
-	}
+	useCrossoverStrategy();
+}
+void MicroscopicGA::setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op) {
+	operation = move(_op);
+}
+void MicroscopicGA::useCrossoverStrategy() {
+	operation->execute(population, memoryType, initProcesses,
+		microscopicMemoryVector);
 }
 void MicroscopicGA::mutation() {
 	double r;
@@ -234,7 +200,7 @@ void MicroscopicGA::mutation() {
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					microscopicMemoryVector->changeElement(MUTATION_TASK, i, j,
+					microscopicMemoryVector->useChangeStrategy(MUTATION_TASK, i, j,
 						before, after);
 				}
 			}
@@ -258,7 +224,7 @@ void MicroscopicGA::mutation() {
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					microscopicMemoryVector->changeElement(MUTATION_PRIO, i, j,
+					microscopicMemoryVector->useChangeStrategy(MUTATION_PRIO, i, j,
 						before, after);
 				}
 			}
@@ -273,7 +239,8 @@ double MicroscopicGA::getResult() {
 }
 /*=============================================================================*/
 /*=============================MACROSCOPIC=====================================*/
-MacroscopicGA::MacroscopicGA(ifstream &fin, MemoryType _memoryType) {
+MacroscopicGA::MacroscopicGA(ifstream &fin, CrossoverType _crossoverType,
+		MemoryType _memoryType) {
 	fin >> numWeights;
 	fin >> goal;
 	fin >> selectionStrength;
@@ -289,8 +256,10 @@ MacroscopicGA::MacroscopicGA(ifstream &fin, MemoryType _memoryType) {
 	if (memoryType == MACROSCOPIC) {
 		macroscopicMemoryVector.reset(new MacroscopicMemoryVector());
 	} else {
-		macroscopicMemoryVector = NULL;
+		macroscopicMemoryVector.reset(nullptr);
 	}
+
+	crossoverType = _crossoverType;
 }
 MacroscopicGA::~MacroscopicGA() {
 	weights.clear();

@@ -39,8 +39,20 @@ enum AlgorithmType {
 	MACROSCOPIC_WITH_MEMORY
 };
 
+enum CrossoverType {
+	ONE_POINT_VECTOR,
+	ONE_POINT_MATRIX_THROWING,
+	ONE_POINT_MATRIX_SWAPPING,
+	UNIFORM_MATRIX_THROWING,
+	UNIFORM_MATRIX_SWAPPING
+};
+
 enum MemoryType {
-	NONE, ABSOLUTE, RELATIVE, FORGETTING, MACROSCOPIC
+	NONE,
+	ABSOLUTE,
+	RELATIVE,
+	FORGETTING,
+	MACROSCOPIC
 };
 
 const double MIN_MEM_PARAM_VALUE = 0.1;
@@ -69,11 +81,10 @@ const double MUTATION_PRIO_POWER = 0.25;
 const double C1 = 0.3;
 const double C2 = 0.7;
 
-/*======================INTERFACE=================================*/
+/*======================INTERFACES================================*/
 class IGeneticAlgorithm {
 public:
-	virtual ~IGeneticAlgorithm() {
-	}
+	virtual ~IGeneticAlgorithm() {}
 
 	virtual void generatePopulation() = 0;
 	virtual void countSurvivalValues() = 0;
@@ -83,21 +94,41 @@ public:
 	virtual void printCurrentPopulation(ostream &out) = 0;
 	virtual double getResult() = 0;
 };
-/*================================================================*/
+
+class ICrossoverStrategy {
+public:
+	virtual ~ICrossoverStrategy() {}
+
+	virtual void execute(
+		unique_ptr<MicroscopicPopulation> &population,
+		MemoryType memoryType, vector<Process> &initProcesses,
+		unique_ptr<MicroscopicMemoryVector> &microscopicMemoryVector) = 0;
+};
+
+class ICrossoverContext {
+protected:
+    unique_ptr<ICrossoverStrategy> operation;
+public:
+	virtual ~ICrossoverContext() {}
+	virtual void setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op) = 0;
+	virtual void useCrossoverStrategy() = 0;
+};
+/*==============================================================*/
 
 /*==================DERIVED LEVEL 1 CLASSES============================*/
-class MicroscopicGA: public IGeneticAlgorithm {
+class MicroscopicGA: public IGeneticAlgorithm, ICrossoverContext {
 protected:
 	static double bestSeenSurvivalValue;
 	static unique_ptr<MicroscopicSolution> bestSeenSolution;
 
 	unique_ptr<MicroscopicPopulation> population;
 	vector<Process> initProcesses;
-
+	CrossoverType crossoverType;
 	MemoryType memoryType;
     unique_ptr<MicroscopicMemoryVector> microscopicMemoryVector;
 public:
-	MicroscopicGA(ifstream &fin, MemoryType memoryType = NONE);
+	MicroscopicGA(ifstream &fin, CrossoverType crossoverType,
+		MemoryType memoryType = NONE);
 	MicroscopicGA(const MicroscopicGA &that);
 	MicroscopicGA& operator=(MicroscopicGA that);
 	~MicroscopicGA();
@@ -110,6 +141,8 @@ public:
 	virtual void generatePopulation();
 	virtual void countSurvivalValues();
 	virtual void selection();
+	virtual void setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op);
+	virtual void useCrossoverStrategy();
 	virtual void crossover();
 	virtual void mutation();
 	virtual void printCurrentPopulation(ostream &out);
@@ -120,11 +153,12 @@ class MacroscopicGA: public IGeneticAlgorithm {
 protected:
 	vector<double> weights;
 	unique_ptr<MacroscopicPopulation> population;
-
+	CrossoverType crossoverType;
 	MemoryType memoryType;
 	unique_ptr<MacroscopicMemoryVector> macroscopicMemoryVector;
 public:
-	MacroscopicGA(ifstream &fin, MemoryType memoryType = NONE);
+	MacroscopicGA(ifstream &fin, CrossoverType crossoverType,
+		MemoryType memoryType = NONE);
 	MacroscopicGA(const MacroscopicGA &that);
 	MacroscopicGA& operator=(MacroscopicGA that);
 	~MacroscopicGA();
@@ -139,29 +173,30 @@ public:
 };
 /*=====================================================================*/
 
-/*==========================FACTORY==================================*/
+/*==========================FACTORIES==================================*/
 class GeneticAlgorithmFactory {
 public:
 	static unique_ptr<IGeneticAlgorithm>
-	newGeneticAlgorithm(const AlgorithmType &type,
-						MemoryType memoryType,
+	newGeneticAlgorithm(const AlgorithmType &algType,
+						CrossoverType crType,
+						MemoryType memType,
 						ifstream &fin) {
-		switch (type) {
+		switch (algType) {
 		case MICROSCOPIC_STANDARD:
 			return unique_ptr<IGeneticAlgorithm>(
-				new MicroscopicGA(fin)
+				new MicroscopicGA(fin, crType)
 			);
 		case MACROSCOPIC_STANDARD:
 			return unique_ptr<IGeneticAlgorithm>(
-				new MacroscopicGA(fin)
+				new MacroscopicGA(fin, crType)
 			);
 		case MICROSCOPIC_WITH_MEMORY:
 			return unique_ptr<IGeneticAlgorithm>(
-				new MicroscopicGA(fin, memoryType)
+				new MicroscopicGA(fin, crType, memType)
 			);
 		case MACROSCOPIC_WITH_MEMORY:
 			return unique_ptr<IGeneticAlgorithm>(
-				new MacroscopicGA(fin, memoryType)
+				new MacroscopicGA(fin, crType, memType)
 			);
 		default:
 			return unique_ptr<IGeneticAlgorithm>(nullptr);
