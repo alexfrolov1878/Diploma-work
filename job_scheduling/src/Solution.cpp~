@@ -54,8 +54,7 @@ int mutateInt(int value, double power, int limit) {
 	return value;
 }
 
-/*=============================MICROSCOPIC===================================*/
-MicroscopicSolution::MicroscopicSolution() {
+Solution::Solution() {
 	tasks = vector<int>(numProcesses, 0);
 	priorities = vector<int>(numProcesses, 0);
 	time = 0;
@@ -63,7 +62,7 @@ MicroscopicSolution::MicroscopicSolution() {
 	survivalValue = 0.0;
 	sumOfComputationalComplexity = 0;
 }
-MicroscopicSolution::MicroscopicSolution(const MicroscopicSolution &that) {
+Solution::Solution(const Solution &that) {
 	tasks = that.tasks;
 	priorities = that.priorities;
 	time = that.time;
@@ -71,7 +70,7 @@ MicroscopicSolution::MicroscopicSolution(const MicroscopicSolution &that) {
 	survivalValue = that.survivalValue;
 	sumOfComputationalComplexity = that.sumOfComputationalComplexity;
 }
-MicroscopicSolution& MicroscopicSolution::operator=(MicroscopicSolution that) {
+Solution& Solution::operator=(Solution that) {
 	tasks.swap(that.tasks);
 	priorities.swap(that.priorities);
 	time = that.time;
@@ -80,24 +79,24 @@ MicroscopicSolution& MicroscopicSolution::operator=(MicroscopicSolution that) {
 	sumOfComputationalComplexity = that.sumOfComputationalComplexity;
 	return *this;
 }
-MicroscopicSolution::~MicroscopicSolution() {
+Solution::~Solution() {
 	tasks.clear();
 	priorities.clear();
 }
 
-const vector<int> &MicroscopicSolution::getTasks() const {
+const vector<int> &Solution::getTasks() const {
 	return tasks;
 }
-int MicroscopicSolution::getTask(int index) const {
+int Solution::getTask(int index) const {
 	return tasks[index];
 }
-void MicroscopicSolution::setTask(int index, int value) {
+void Solution::setTask(int index, int value) {
 	tasks[index] = value;
 }
-const vector<int> &MicroscopicSolution::getPriorities() const {
+const vector<int> &Solution::getPriorities() const {
 	return priorities;
 }
-int MicroscopicSolution::getPriority(int index) const {
+int Solution::getPriority(int index) const {
 	return priorities[index];
 }
 void MicroscopicSolution::setPriority(int index, int value) {
@@ -271,79 +270,3 @@ void MicroscopicSolution::mutate(SolutionPart part, int index) {
 		priorities[index] = mutated;
 	}
 }
-/*===========================================================================*/
-/*=============================MACROSCOPIC===================================*/
-MacroscopicSolution::MacroscopicSolution() {
-	indicators = vector<int>(numWeights);
-	field = 0.0;
-	survivalValue = 0.0;
-}
-MacroscopicSolution::MacroscopicSolution(const MacroscopicSolution& that) {
-	indicators = that.indicators;
-	field = that.field;
-	survivalValue = that.survivalValue;
-}
-MacroscopicSolution::~MacroscopicSolution() {
-	indicators.clear();
-}
-
-int MacroscopicSolution::getIndicator(int index) const {
-	return indicators[index];
-}
-double MacroscopicSolution::getField() const {
-	return field;
-}
-void MacroscopicSolution::setField(double _field) {
-	field = _field;
-}
-double MacroscopicSolution::getSurvivalValue() const {
-	return survivalValue;
-}
-void MacroscopicSolution::setSurvivalValue(double _survivalValue) {
-	survivalValue = _survivalValue;
-}
-
-void MacroscopicSolution::print(ostream &out) {
-	out << "Indicators: ";
-	for (int i = 0; i < numWeights; i++) {
-		out << indicators[i] << " ";
-	}
-	out << endl;
-}
-void MacroscopicSolution::generate() {
-	double random_value;
-	for (int i = 0; i < numWeights; i++) {
-		random_value = Random::getRandomDouble(0, 1);
-		indicators[i] = random_value < 0.5;
-	}
-}
-void MacroscopicSolution::buildField(vector<double> &weights) {
-	double sum = 0.0;
-	for (int i = 0; i < numWeights; i++) {
-		sum += weights[i] * indicators[i];
-	}
-	field = sum;
-}
-void MacroscopicSolution::crossover(MacroscopicSolution &that) {
-	double r;
-	bool value1, value2;
-	for (int i = 0; i < numWeights; i++) {
-		r = Random::getRandomDouble(0, 1);
-		if (r < MACROSCOPIC_CROSSOVER_PROBABILITY) {
-			value1 = this->indicators[i];
-			value2 = that.indicators[i];
-			this->indicators[i] = value2;
-			that.indicators[i] = value1;
-		}
-	}
-}
-void MacroscopicSolution::mutate() {
-	double r;
-	for (int i = 0; i < numWeights; i++) {
-		r = Random::getRandomDouble(0, 1);
-		if (r < MACROSCOPIC_MUTATION_PROBABILITY) {
-			indicators[i] = !indicators[i];
-		}
-	}
-}
-/*===========================================================================*/

@@ -23,12 +23,7 @@ int numProcesses;
 int numProcessors;
 int numConnections;
 
-double goal;
-int numWeights;
-double selectionStrength;
-
 string inputFile;
-AlgorithmType algType;
 CrossoverType crType;
 MemoryType memoryType;
 int maxIterations = -1;
@@ -45,9 +40,8 @@ inline void printIterationNumber(int i) {
 
 inline void printUsage() {
 	cout
-		<< "Usage: GA.exe input_file alg_type cr_type has_memory [memory_type] [max_iter]" << endl
+		<< "Usage: GA.exe input_file cr_type has_memory [memory_type] [max_iter]" << endl
 		<< "	input_file: file with input data" << endl
-		<< "	alg_type: algorithm type (\"microscopic\" or \"macroscopic\")" << endl
 		<< "	cr_type: crossover type (1 - 5)" << endl
 		<< "	has_memory: memory usage (\"standard\" or \"memory\")" << endl
 		<< "	memory_type: memory type used (\"absolute\", \"relative\" or \"forgetting\")" << endl
@@ -65,7 +59,7 @@ inline bool exists(char name[]) {
 }
 
 bool parseArguments(int argc, char *argv[]) {
-	if (argc != 5 && argc != 6 && argc != 7) {
+	if (argc != 4 && argc != 5 && argc != 6) {
 		cerr << "Wrong number of arguments!" << endl;
 		return false;
 	}
@@ -76,67 +70,51 @@ bool parseArguments(int argc, char *argv[]) {
 	}
 	inputFile = argv[1];
 
-	char *algStr = argv[2];
-	if (strcmp("microscopic", algStr) != 0
-			&& strcmp("macroscopic", algStr) != 0) {
-		cerr << "Wrong argument 2: \"" << algStr << "\"" << endl;
-		return false;
-	}
-	int num = atoi(argv[3]);
+	int num = atoi(argv[2]);
 	if (num < 1 || num > 5) {
-		cerr << "Wrong argument 3: \"" << argv[3] << "\"" << endl;
+		cerr << "Wrong argument 2: \"" << argv[2] << "\"" << endl;
 		return false;
 	}
 	crType = CrossoverType(num - 1);
 
-	char *typeStr = argv[4];
+	char *typeStr = argv[3];
 	if (strcmp("standard", typeStr) != 0 && strcmp("memory", typeStr) != 0) {
-		cerr << "Wrong argument 4: \"" << typeStr << "\"" << endl;
+		cerr << "Wrong argument 3: \"" << typeStr << "\"" << endl;
 		return false;
 	}
-	if (!strcmp("microscopic", algStr) && !strcmp("standard", typeStr)) {
-		algType = MICROSCOPIC_STANDARD;
-		memoryType = NONE;
-	} else if (!strcmp("microscopic", algStr) && !strcmp("memory", typeStr)) {
-		algType = MICROSCOPIC_WITH_MEMORY;
-	} else if (!strcmp("macroscopic", algStr) && !strcmp("standard", typeStr)) {
-		algType = MACROSCOPIC_STANDARD;
-		memoryType = NONE;
-	} else {
-		algType = MACROSCOPIC_WITH_MEMORY;
-		memoryType = MACROSCOPIC;
-	}
 
-	bool hasMemoryArgument = algType == MICROSCOPIC_WITH_MEMORY;
+	bool hasMemoryArgument = strcmp("standard", typeStr) != 0;
 	if (hasMemoryArgument) {
-		char *memoryStr = argv[5];
+		char *memoryStr = argv[4];
 		if (strcmp("absolute", memoryStr) != 0
 				&& strcmp("relative", memoryStr) != 0
 				&& strcmp("forgetting", memoryStr) != 0) {
-			cerr << "Wrong argument 5: \"" << memoryStr << "\"" << endl;
+			cerr << "Wrong argument 4: \"" << memoryStr << "\"" << endl;
 			return false;
 		}
 		if (!strcmp("absolute", memoryStr)) {
 			memoryType = ABSOLUTE;
 		} else if (!strcmp("relative", memoryStr)) {
 			memoryType = RELATIVE;
-		} else {
+		} else if (!strcmp("forgetting", memoryStr)) {
 			memoryType = FORGETTING;
+		} else {
+			memoryType = NONE;
 		}
 	}
 
-	if (!hasMemoryArgument && argc == 7) {
+	if (!hasMemoryArgument && argc == 6) {
 		cerr << "Wrong number of arguments!" << endl;
 		return false;
 	}
 
 	int offset = hasMemoryArgument == true;
-	int lastArg = 5 + offset;
+	int lastArg = 4 + offset;
 	if (argc == lastArg + 1) {
 		maxIterations = atoi(argv[lastArg]);
 		if (maxIterations <= 0) {
-			cerr << "Wrong argument " << lastArg << ": \"" << argv[lastArg]
-					<< "\"" << endl;
+			cerr << "Wrong argument " << lastArg <<
+				": \"" << argv[lastArg]	<< "\"" << endl;
 			return false;
 		}
 	}
@@ -146,11 +124,7 @@ bool parseArguments(int argc, char *argv[]) {
 inline void printResult(unique_ptr<IGeneticAlgorithm> &algorithm,
 		double seconds, int iterations) {
 	cout << "--------------------------------------------------" << endl;
-	if (algType == MICROSCOPIC_STANDARD || algType == MICROSCOPIC_WITH_MEMORY) {
-		cout << "MICROSCOPIC ";
-	} else {
-		cout << "MACROSCOPIC ";
-	}
+	cout << "MICROSCOPIC ";
 	switch (memoryType) {
 		case ABSOLUTE:
 			cout << "with ABSOLUTE memory";
@@ -161,43 +135,30 @@ inline void printResult(unique_ptr<IGeneticAlgorithm> &algorithm,
 		case FORGETTING:
 			cout << "with FORGETTING memory";
 			break;
-		case MACROSCOPIC:
-			cout << "with MACROSCOPIC memory";
-			break;
 		default:
-			cout << "standard";
+			cout << "STANDARD";
 			break;
 	}
 	cout << " for input file \"" << inputFile << "\"." << endl;
 
-	if (algType == MICROSCOPIC_STANDARD || algType == MICROSCOPIC_WITH_MEMORY) {
-		int time = int(algorithm->getResult());
-		cout << "Result is " << time << ", which is ";
-		if (time == resultTime) {
-			cout << "CORRECT." << endl;
-		} else {
-			cout << "INCORRECT (should be " << resultTime << ")." << endl;
-		}
-		if (time < resultTime) {
-			cerr << "ERROR: incorrect result - better than optimal!" << endl;
-		}
+	int time = int(algorithm->getResult());
+	cout << "Result is " << time << ", which is ";
+	if (time == resultTime) {
+		cout << "CORRECT." << endl;
 	} else {
-		double result = algorithm->getResult();
-		cout << "Result is " << fabs(goal - result) << ", sum is " << result
-				<< ", should be " << goal << "." << endl;
+		cout << "INCORRECT (should be " << resultTime << ")." << endl;
+	}
+	if (time < resultTime) {
+		cerr << "ERROR: incorrect result - better than optimal!" << endl;
 	}
 
-        cout << "It took " << seconds << " seconds to find a solution." << endl;
-        cout << "Total number of iterations: " << iterations << "." << endl;
+	cout << "It took " << seconds << " seconds to find a solution." << endl;
+	cout << "Total number of iterations: " << iterations << "." << endl;
 	cout << "--------------------------------------------------" << endl;
 }
 
 inline double currentResult(unique_ptr<IGeneticAlgorithm> &algorithm) {
-	double result = algorithm->getResult();
-	if (algType == MACROSCOPIC_STANDARD || algType == MACROSCOPIC_WITH_MEMORY) {
-		result = goal - result;
-	}
-	return result;
+	return algorithm->getResult();
 }
 
 int main(int argc, char *argv[]) {
@@ -211,11 +172,9 @@ int main(int argc, char *argv[]) {
 	double seconds, result, bestResult = numeric_limits<double>::max();
 	clock_t start, end;
 	ifstream fin(inputFile.c_str());
-	unique_ptr<IGeneticAlgorithm> algorithm =
-		GeneticAlgorithmFactory::newGeneticAlgorithm(algType,
-													 crType,
-													 memoryType,
-													 fin);
+	unique_ptr<IGeneticAlgorithm> algorithm(
+		new JobSchedulingGA(fin, crType, memoryType)
+	);
 	fin.close();
 
 	cout << "START" << endl;
@@ -226,10 +185,10 @@ int main(int argc, char *argv[]) {
 		algorithm->selection();
 		result = currentResult(algorithm);
 		if (result < bestResult) {
-                        cout << "i";
-                        bestResult = result;
-                        iters_without_improvement = 0;
-                }
+			cout << "i";
+			bestResult = result;
+			iters_without_improvement = 0;
+		}
 		algorithm->crossover();
 		algorithm->mutation();
 		printIterationNumber(i);

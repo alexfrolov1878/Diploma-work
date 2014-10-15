@@ -11,9 +11,9 @@ using std::random_shuffle;
 using std::min;
 
 void OnePointVectorStrategy::execute(
-		unique_ptr<MicroscopicPopulation> &population,
+		unique_ptr<Population> &population,
 		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MicroscopicMemoryVector> &microscopicMemoryVector) {
+		unique_ptr<MemoryVector> &memoryVector) {
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
 	double prob, prob1, prob2, before1, before2, after1, after2;
@@ -29,9 +29,9 @@ void OnePointVectorStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_TASK_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob1 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob2 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
@@ -47,11 +47,11 @@ void OnePointVectorStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_TASK,
+				memoryVector->swapMutElements(CROSSOVER_TASK,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i], 0, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i + 1], 0, before2, after2);
 			}
 		}
@@ -67,8 +67,8 @@ void OnePointVectorStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_PRIO_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
+			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
@@ -81,11 +81,11 @@ void OnePointVectorStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_PRIO,
+				memoryVector->swapMutElements(CROSSOVER_PRIO,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i], 1, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i + 1], 1, before2, after2);
 			}
 		}
@@ -93,9 +93,9 @@ void OnePointVectorStrategy::execute(
 }
 
 void OnePointMatrixThrowingStrategy::execute(
-		unique_ptr<MicroscopicPopulation> &population,
+		unique_ptr<Population> &population,
 		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MicroscopicMemoryVector> &microscopicMemoryVector) {
+		unique_ptr<MemoryVector> &memoryVector) {
 // TODO: implement correct crossover operation
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
@@ -112,9 +112,9 @@ void OnePointMatrixThrowingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_TASK_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob1 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob2 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
@@ -130,11 +130,11 @@ void OnePointMatrixThrowingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_TASK,
+				memoryVector->swapMutElements(CROSSOVER_TASK,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i], 0, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i + 1], 0, before2, after2);
 			}
 		}
@@ -150,8 +150,8 @@ void OnePointMatrixThrowingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_PRIO_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
+			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
@@ -164,11 +164,11 @@ void OnePointMatrixThrowingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_PRIO,
+				memoryVector->swapMutElements(CROSSOVER_PRIO,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i], 1, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i + 1], 1, before2, after2);
 			}
 		}
@@ -176,9 +176,9 @@ void OnePointMatrixThrowingStrategy::execute(
 }
 
 void OnePointMatrixSwappingStrategy::execute(
-		unique_ptr<MicroscopicPopulation> &population,
+		unique_ptr<Population> &population,
 		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MicroscopicMemoryVector> &microscopicMemoryVector) {
+		unique_ptr<MemoryVector> &memoryVector) {
 // TODO: implement correct crossover operation
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
@@ -195,9 +195,9 @@ void OnePointMatrixSwappingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_TASK_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob1 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob2 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
@@ -213,11 +213,11 @@ void OnePointMatrixSwappingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_TASK,
+				memoryVector->swapMutElements(CROSSOVER_TASK,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i], 0, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i + 1], 0, before2, after2);
 			}
 		}
@@ -233,8 +233,8 @@ void OnePointMatrixSwappingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_PRIO_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
+			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
@@ -247,11 +247,11 @@ void OnePointMatrixSwappingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_PRIO,
+				memoryVector->swapMutElements(CROSSOVER_PRIO,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i], 1, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i + 1], 1, before2, after2);
 			}
 		}
@@ -259,9 +259,9 @@ void OnePointMatrixSwappingStrategy::execute(
 }
 
 void UniformMatrixThrowingStrategy::execute(
-		unique_ptr<MicroscopicPopulation> &population,
+		unique_ptr<Population> &population,
 		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MicroscopicMemoryVector> &microscopicMemoryVector) {
+		unique_ptr<MemoryVector> &memoryVector) {
 // TODO: implement correct crossover operation
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
@@ -278,9 +278,9 @@ void UniformMatrixThrowingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_TASK_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob1 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob2 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
@@ -296,11 +296,11 @@ void UniformMatrixThrowingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_TASK,
+				memoryVector->swapMutElements(CROSSOVER_TASK,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i], 0, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i + 1], 0, before2, after2);
 			}
 		}
@@ -316,8 +316,8 @@ void UniformMatrixThrowingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_PRIO_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
+			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
@@ -330,11 +330,11 @@ void UniformMatrixThrowingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_PRIO,
+				memoryVector->swapMutElements(CROSSOVER_PRIO,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i], 1, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i + 1], 1, before2, after2);
 			}
 		}
@@ -342,9 +342,9 @@ void UniformMatrixThrowingStrategy::execute(
 }
 
 void UniformMatrixSwappingStrategy::execute(
-		unique_ptr<MicroscopicPopulation> &population,
+		unique_ptr<Population> &population,
 		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MicroscopicMemoryVector> &microscopicMemoryVector) {
+		unique_ptr<MemoryVector> &memoryVector) {
 // TODO: implement correct crossover operation
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
@@ -361,9 +361,9 @@ void UniformMatrixSwappingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_TASK_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob1 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_TASK,
+			prob2 = memoryVector->getElement(CROSSOVER_TASK,
 				pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
@@ -379,11 +379,11 @@ void UniformMatrixSwappingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_TASK,
+				memoryVector->swapMutElements(CROSSOVER_TASK,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i], 0, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_TASK,
+				memoryVector->useChangeStrategy(CROSSOVER_TASK,
 					pairs[i + 1], 0, before2, after2);
 			}
 		}
@@ -399,8 +399,8 @@ void UniformMatrixSwappingStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_PRIO_PROBABILITY;
 		} else {
-			prob1 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = microscopicMemoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
+			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
@@ -413,11 +413,11 @@ void UniformMatrixSwappingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				microscopicMemoryVector->swapMutElements(CROSSOVER_PRIO,
+				memoryVector->swapMutElements(CROSSOVER_PRIO,
 					pairs[i], pairs[i + 1], start);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i], 1, before1, after1);
-				microscopicMemoryVector->useChangeStrategy(CROSSOVER_PRIO,
+				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
 					pairs[i + 1], 1, before2, after2);
 			}
 		}

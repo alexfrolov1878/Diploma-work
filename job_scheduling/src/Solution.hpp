@@ -44,11 +44,10 @@ public:
 		return p1.getValue() > p2.getValue();
 	}
 };
+
 typedef priority_queue<Priority, vector<Priority>, PriorityComparison> Mypq;
 
-/*=============================MICROSCOPIC===================================*/
-
-class MicroscopicSolution {
+class Solution {
 private:
 	vector<int> tasks;
 	vector<int> priorities;
@@ -57,10 +56,10 @@ private:
 	double survivalValue;
 	int sumOfComputationalComplexity;
 public:
-	MicroscopicSolution();
-	MicroscopicSolution(const MicroscopicSolution &that);
-	MicroscopicSolution& operator=(MicroscopicSolution that);
-	~MicroscopicSolution();
+	Solution();
+	Solution(const Solution &that);
+	Solution& operator=(Solution that);
+	~Solution();
 
 	const vector<int> &getTasks() const;
 	int getTask(int index) const;
@@ -82,31 +81,6 @@ public:
 	void generate();
 	void buildSchedule(vector<Process> &initProcesses);
 	void mutate(SolutionPart part, int index);
-};
-
-/*=============================MACROSCOPIC===================================*/
-
-class MacroscopicSolution {
-private:
-	vector<int> indicators;
-	double field;
-	double survivalValue;
-public:
-	MacroscopicSolution();
-	MacroscopicSolution(const MacroscopicSolution &that);
-	~MacroscopicSolution();
-
-	int getIndicator(int index) const;
-	double getField() const;
-	void setField(double _field);
-	double getSurvivalValue() const;
-	void setSurvivalValue(double _survivalValue);
-
-	void print(ostream &out);
-	void generate();
-	void buildField(vector<double> &weights);
-	void crossover(MacroscopicSolution &that);
-	void mutate();
 };
 
 #endif /* SOLUTION_HPP_ */

@@ -19,7 +19,7 @@ enum SolutionPart {
 };
 typedef vector<vector<double> > MemoryMatrix;
 
-/*========================STRATEGIES=============================*/
+/*========================INTERFACES=============================*/
 
 class IChangeStrategy {
 public:
@@ -39,18 +39,18 @@ public:
 			double before, double after) = 0;
 };
 
-/*=======================BASE CLASSES============================*/
+/*===============================================================*/
 
-class MicroscopicMemoryVector : public IChangeContext {
+class MemoryVector : public IChangeContext {
 protected:
 	int rows;
 	int columns;
 	MemoryMatrix mutMem;
 	MemoryMatrix crMem;
 public:
-	MicroscopicMemoryVector(const MemoryType &type);
-	MicroscopicMemoryVector(MicroscopicMemoryVector &that);
-	virtual ~MicroscopicMemoryVector();
+	MemoryVector(const MemoryType &type);
+	MemoryVector(MemoryVector &that);
+	virtual ~MemoryVector();
 
 	vector<double> getMutRow(int index);
 	void setMutRow(int index, vector<double> row);
@@ -63,27 +63,5 @@ public:
 	virtual void useChangeStrategy(SolutionPart part, int row, int index,
 			double before, double after);
 };
-
-class MacroscopicMemoryVector {
-private:
-	static const MemoryType type = MACROSCOPIC;
-	vector<double> c1;
-	vector<double> c2;
-	vector<double> c3;
-	int size;
-	vector<double> elements;
-public:
-	MacroscopicMemoryVector();
-	~MacroscopicMemoryVector();
-
-	double getElement(SolutionPart part);
-	void print(ostream &out);
-
-	MemoryType getType() const;
-	void changeElement(int index, double k1Before, double k1After,
-			double k2Before, double k2After, double qBefore, double qAfter);
-};
-
-/*=====================================================================*/
 
 #endif /* MEMORYVECTOR_HPP_ */

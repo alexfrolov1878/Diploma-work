@@ -12,19 +12,17 @@ using std::unique_ptr;
 using std::vector;
 
 class Process;
-class MicroscopicSolution;
-class MicroscopicPopulation;
-class MacroscopicPopulation;
-class MicroscopicMemoryVector;
-class MacroscopicMemoryVector;
+class Solution;
+class Population;
+class MemoryVector;
 
 class OnePointVectorStrategy : public ICrossoverStrategy {
 public:
 	virtual ~OnePointVectorStrategy() {}
 	virtual void execute(
-		unique_ptr<MicroscopicPopulation> &population,
+		unique_ptr<Population> &population,
 		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MicroscopicMemoryVector> &microscopicMemoryVector);
+		unique_ptr<MemoryVector> &microscopicMemoryVector);
 };
 
 class OnePointMatrixThrowingStrategy : public ICrossoverStrategy {

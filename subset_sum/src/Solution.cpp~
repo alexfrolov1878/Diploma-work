@@ -1,0 +1,124 @@
+#include <vector>
+
+#include "Solution.hpp"
+#include "main.hpp"
+#include "Process.hpp"
+#include "Processor.hpp"
+
+using std::vector;
+using std::ostream;
+using std::endl;
+
+int getBinaryLength(int num) {
+	if (num == numProcessors - 1) {
+		if (numProcessorsBinaryLength == -1) {
+			int i, tmp;
+			for (tmp = 1, i = 0; num >= tmp; i++) {
+				tmp *= 2;
+			}
+			numProcessorsBinaryLength = i;
+		}
+		return numProcessorsBinaryLength;
+	} else if (num == numProcesses - 1) {
+		if (numProcessesBinaryLength == -1) {
+			int i, tmp;
+			for (tmp = 1, i = 0; num >= tmp; i++) {
+				tmp *= 2;
+			}
+			numProcessesBinaryLength = i;
+		}
+		return numProcessesBinaryLength;
+	}
+	return -1;
+}
+int mutateInt(int value, double power, int limit) {
+	int binaryLength, n, l;
+
+	binaryLength = getBinaryLength(limit);
+	n = int ((binaryLength - 1) * (power + 0.5));
+	for (int i = 0; i < n; i++) {
+		l = Random::getRandomInt(0, binaryLength);
+		value ^= (1 << l);
+	}
+
+	if (value < 0) {
+		value += limit;
+	} else if (value > limit) {
+		value -= limit;
+	}
+	return value;
+}
+
+MacroscopicSolution::MacroscopicSolution() {
+	indicators = vector<int>(numWeights);
+	field = 0.0;
+	survivalValue = 0.0;
+}
+MacroscopicSolution::MacroscopicSolution(const MacroscopicSolution& that) {
+	indicators = that.indicators;
+	field = that.field;
+	survivalValue = that.survivalValue;
+}
+MacroscopicSolution::~MacroscopicSolution() {
+	indicators.clear();
+}
+
+int MacroscopicSolution::getIndicator(int index) const {
+	return indicators[index];
+}
+double MacroscopicSolution::getField() const {
+	return field;
+}
+void MacroscopicSolution::setField(double _field) {
+	field = _field;
+}
+double MacroscopicSolution::getSurvivalValue() const {
+	return survivalValue;
+}
+void MacroscopicSolution::setSurvivalValue(double _survivalValue) {
+	survivalValue = _survivalValue;
+}
+
+void MacroscopicSolution::print(ostream &out) {
+	out << "Indicators: ";
+	for (int i = 0; i < numWeights; i++) {
+		out << indicators[i] << " ";
+	}
+	out << endl;
+}
+void MacroscopicSolution::generate() {
+	double random_value;
+	for (int i = 0; i < numWeights; i++) {
+		random_value = Random::getRandomDouble(0, 1);
+		indicators[i] = random_value < 0.5;
+	}
+}
+void MacroscopicSolution::buildField(vector<double> &weights) {
+	double sum = 0.0;
+	for (int i = 0; i < numWeights; i++) {
+		sum += weights[i] * indicators[i];
+	}
+	field = sum;
+}
+void MacroscopicSolution::crossover(MacroscopicSolution &that) {
+	double r;
+	bool value1, value2;
+	for (int i = 0; i < numWeights; i++) {
+		r = Random::getRandomDouble(0, 1);
+		if (r < MACROSCOPIC_CROSSOVER_PROBABILITY) {
+			value1 = this->indicators[i];
+			value2 = that.indicators[i];
+			this->indicators[i] = value2;
+			that.indicators[i] = value1;
+		}
+	}
+}
+void MacroscopicSolution::mutate() {
+	double r;
+	for (int i = 0; i < numWeights; i++) {
+		r = Random::getRandomDouble(0, 1);
+		if (r < MACROSCOPIC_MUTATION_PROBABILITY) {
+			indicators[i] = !indicators[i];
+		}
+	}
+}

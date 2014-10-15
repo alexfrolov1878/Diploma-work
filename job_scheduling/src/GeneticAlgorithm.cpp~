@@ -20,11 +20,11 @@ using std::min;
 
 /*========================DERIVED LEVEL 1 CLASSES==============================*/
 /*=============================MICROSCOPIC=====================================*/
-double MicroscopicGA::bestSeenSurvivalValue = 0.0;
-unique_ptr<MicroscopicSolution> MicroscopicGA::bestSeenSolution =
-	unique_ptr<MicroscopicSolution>(new MicroscopicSolution());
+double JobSchedulingGA::bestSeenSurvivalValue = 0.0;
+unique_ptr<Solution> JobSchedulingGA::bestSeenSolution =
+	unique_ptr<Solution>(new MicroscopicSolution());
 
-MicroscopicGA::MicroscopicGA(ifstream &fin,
+JobSchedulingGA::JobSchedulingGA(ifstream &fin,
 	CrossoverType _crossoverType, MemoryType _memoryType) {
 	int j, tmp;
 
@@ -92,30 +92,30 @@ MicroscopicGA::MicroscopicGA(ifstream &fin,
 			break;
 	}
 }
-MicroscopicGA::~MicroscopicGA() {
+JobSchedulingGA::~JobSchedulingGA() {
 	initProcesses.clear();
 }
 
-double MicroscopicGA::getBestSeenSurvivalValue() {
+double JobSchedulingGA::getBestSeenSurvivalValue() {
 	return bestSeenSurvivalValue;
 }
-void MicroscopicGA::setBestSeenSurvivalValue(double bestSeenSurvivalValue) {
-	MicroscopicGA::bestSeenSurvivalValue = bestSeenSurvivalValue;
+void JobSchedulingGA::setBestSeenSurvivalValue(double bestSeenSurvivalValue) {
+	JobSchedulingGA::bestSeenSurvivalValue = bestSeenSurvivalValue;
 }
-unique_ptr<MicroscopicSolution> &MicroscopicGA::getBestSeenSolution() {
+unique_ptr<MicroscopicSolution> &JobSchedulingGA::getBestSeenSolution() {
 	return bestSeenSolution;
 }
-void MicroscopicGA::setBestSeenSolution(const MicroscopicSolution &solution) {
-	MicroscopicGA::bestSeenSolution.reset(new MicroscopicSolution(solution));
+void JobSchedulingGA::setBestSeenSolution(const MicroscopicSolution &solution) {
+	JobSchedulingGA::bestSeenSolution.reset(new MicroscopicSolution(solution));
 }
 
-void MicroscopicGA::generatePopulation() {
+void JobSchedulingGA::generatePopulation() {
 	population->generate();
 }
-void MicroscopicGA::countSurvivalValues() {
+void JobSchedulingGA::countSurvivalValues() {
 	population->countSurvivalValues(initProcesses);
 }
-void MicroscopicGA::selection() {
+void JobSchedulingGA::selection() {
 	int maxIndex, index;
 	double sumOfSurvivalValues, survivalValue, maxValue;
 	auto solutions = population->getSolutions();
@@ -168,17 +168,17 @@ void MicroscopicGA::selection() {
 	newSolutions.clear();
 	sectors.clear();
 }
-void MicroscopicGA::crossover() {
+void JobSchedulingGA::crossover() {
 	useCrossoverStrategy();
 }
-void MicroscopicGA::setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op) {
+void JobSchedulingGA::setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op) {
 	operation = move(_op);
 }
-void MicroscopicGA::useCrossoverStrategy() {
+void JobSchedulingGA::useCrossoverStrategy() {
 	operation->execute(population, memoryType, initProcesses,
 		microscopicMemoryVector);
 }
-void MicroscopicGA::mutation() {
+void JobSchedulingGA::mutation() {
 	double r;
 	double prob, before, after;
 	auto solutions = population->getSolutions();
@@ -231,10 +231,10 @@ void MicroscopicGA::mutation() {
 		}
 	}
 }
-void MicroscopicGA::printCurrentPopulation(ostream &out) {
+void JobSchedulingGA::printCurrentPopulation(ostream &out) {
 	population->print(out);
 }
-double MicroscopicGA::getResult() {
+double JobSchedulingGA::getResult() {
 	return bestSeenSolution->getTime();
 }
 /*=============================================================================*/

@@ -1,7 +1,7 @@
 RM := rm -rf
 AR := ar rcs
 CXX = g++
-CXXFLAGS = -O2 -g -Wall -std=c++0x -fmessage-length=0
+CXXFLAGS = -O2 -g -Wall -std=c++11 -fmessage-length=0
 
 # Strict compiler options
 CXXFLAGS += -Werror -Wformat-security -Wignored-qualifiers -Winit-self \
