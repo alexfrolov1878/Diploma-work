@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../GA.hpp"
+#include "GA.hpp"
 
 using std::unique_ptr;
 using std::vector;

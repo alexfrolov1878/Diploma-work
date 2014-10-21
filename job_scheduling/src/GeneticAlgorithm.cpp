@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "../GA.hpp"
+#include "GA.hpp"
 #include "main.hpp"
 #include "Population.hpp"
 #include "Process.hpp"

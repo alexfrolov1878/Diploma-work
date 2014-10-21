@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "Processor.hpp"
-#include "../GA.hpp"
+#include "GA.hpp"
 #include "main.hpp"
 
 using std::vector;

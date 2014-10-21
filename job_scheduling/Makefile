@@ -11,48 +11,55 @@ CXXFLAGS += -Werror -Wformat-security -Wignored-qualifiers -Winit-self \
 		-Wnon-virtual-dtor -Wstrict-null-sentinel -Wold-style-cast \
 		-Woverloaded-virtual -Wsign-promo -Wextra -pedantic
 
-CPP_SRCS := \
-src/CrossoverStrategies.cpp \
-src/GeneticAlgorithm.cpp \
-src/ChangeMemoryStrategies.cpp \
-src/MemoryVector.cpp \
-src/Population.cpp \
-src/Process.cpp \
-src/Processor.cpp \
-src/Solution.cpp \
-src/main.cpp
+# Directories with source code
+SRC_DIR = src
+INCLUDE_DIR = include
 
-OBJS := \
-./CrossoverStrategies.o \
-./GeneticAlgorithm.o \
-./ChangeMemoryStrategies.o \
-./MemoryVector.o \
-./Population.o \
-./Process.o \
-./Processor.o \
-./Solution.o \
-./main.o
+BUILD_DIR = build
+OBJ_DIR = $(BUILD_DIR)/obj
+LIB_DIR = $(BUILD_DIR)/lib
+BIN_DIR = $(BUILD_DIR)/bin
 
-%.o: src/%.cpp
-	@echo 'Building file: $<'
-	$(CXX) $(CXXFLAGS) -c -o "$@" "$<"
+# Add headers dirs to gcc search path
+CXXFLAGS += -I $(INCLUDE_DIR)
 
-lib: $(OBJS)
-	$(AR) libGA.a $(OBJS)
+# Helper macros
+make_path = $(addsuffix $(1), $(basename $(subst $(2), $(3), $(4))))
+# Takes path list with source files and returns pathes to related objects.
+src_to_obj = $(call make_path,.o, $(SRC_DIR), $(OBJ_DIR), $(1))
+# All source files in the project that must be built into movable object code.
+CXXFILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJFILES := $(call src_to_obj, $(CXXFILES))
 
-GA.exe: lib
+# Suppress makefile rebuilding.
+Makefile: ;
+
+dir.touch:
+	mkdir -p $(OBJ_DIR) $(LIB_DIR) $(BIN_DIR)
+
+$(BIN_DIR)/GA.exe: dir.touch $(LIB_DIR)/libGA.a
 	@echo 'Building target: $@'
-	$(CXX) $(CXXFLAGS) -static -L. -lGA -o "GA.exe"
+	$(CXX) $(CXXFLAGS) -static -L./$(LIB_DIR) -lGA -o $@
 	@echo 'Finished building target: $@'
 
-	# All Target
-all: GA.exe clean
+$(LIB_DIR)/libGA.a: $(OBJFILES)
+	@echo 'Building library: $@'
+	$(AR) $@ $(OBJFILES)
 
-# Other Targets
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@echo 'Building file: $<'
+	$(CXX) $(CXXFLAGS) -c -o $(call src_to_obj, $<) $<
+
+
+# Default target
+.DEFAULT_GOAL := all
+
+# All Target
+all: $(BIN_DIR)/GA.exe
+
+# Delete all temprorary and binary files
 clean:
-	$(RM) $(OBJS)
-cleanall:
-	$(RM) $(OBJS) GA.exe libGA.a
+	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean
-.SECONDARY:
+# Fictive target
+.PHONY: all

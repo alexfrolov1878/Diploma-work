@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../GA.hpp"
+#include "GA.hpp"
 
 using std::unique_ptr;
 using std::vector;
@@ -18,7 +18,7 @@ typedef vector<vector<double> > MemoryMatrix;
 class IChangeStrategy {
 public:
 	virtual ~IChangeStrategy() {}
-	virtual void changeElement(SolutionPart part, int row, int index,
+	virtual void changeElement(int row, int index,
 			double before, double after,
 			MemoryMatrix &mutMem, MemoryMatrix &crMem) = 0;
 };
@@ -47,7 +47,7 @@ public:
 	// TODO: ...
 	~MemoryVector();
 
-	double getElement(SolutionPart part);
+	double getElement();
 	void print(ostream &out);
 	void changeElement(int index, double k1Before, double k1After,
 			double k2Before, double k2After, double qBefore, double qAfter);

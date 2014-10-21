@@ -5,12 +5,13 @@
 #include <vector>
 #include <memory>
 
-#include "../GA.hpp"
+#include "GA.hpp"
 #include "main.hpp"
 
 using std::unique_ptr;
 using std::vector;
 
+class Process;
 class Solution;
 class Population;
 class MemoryVector;
@@ -21,6 +22,7 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
+		vector<Process> &initProcesses,
 		unique_ptr<MemoryVector> &memoryVector);
 };
 
@@ -30,6 +32,7 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
+		vector<Process> &initProcesses,
 		unique_ptr<MemoryVector> &memoryVector);
 };
 
@@ -39,6 +42,7 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
+		vector<Process> &initProcesses,
 		unique_ptr<MemoryVector> &memoryVector);
 };
 
@@ -48,6 +52,7 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
+		vector<Process> &initProcesses,
 		unique_ptr<MemoryVector> &memoryVector);
 };
 
@@ -57,6 +62,7 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
+		vector<Process> &initProcesses,
 		unique_ptr<MemoryVector> &memoryVector);
 };
 

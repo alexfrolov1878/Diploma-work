@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../GA.hpp"
+#include "GA.hpp"
 #include "MemoryVector.hpp"
 
 using std::vector;

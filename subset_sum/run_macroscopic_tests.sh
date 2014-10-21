@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exe=$1
+exe=./build/bin/GA.exe
 iter=$2
 
 memory() {

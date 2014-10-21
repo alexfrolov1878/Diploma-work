@@ -37,7 +37,7 @@ MemoryVector::~MemoryVector() {
 	c3.clear();
 }
 
-double MemoryVector::getElement(SolutionPart part) {
+double MemoryVector::getElement() {
 	if (part == MUTATION_PRIO || part == MUTATION_PRIO) {
 		return elements[0];
 	}

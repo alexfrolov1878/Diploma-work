@@ -5,7 +5,7 @@
 #include <queue>
 #include <vector>
 
-#include "../GA.hpp"
+#include "GA.hpp"
 #include "MemoryVector.hpp"
 
 using std::priority_queue;
