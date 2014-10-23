@@ -108,15 +108,11 @@ bool parseArguments(int argc, char *argv[]) {
 		return false;
 	}
 
-	int offset = hasMemoryArgument == true;
-	int lastArg = 4 + offset;
-	if (argc == lastArg + 1) {
-		maxIterations = atoi(argv[lastArg]);
-		if (maxIterations <= 0) {
-			cerr << "Wrong argument " << lastArg <<
-				": \"" << argv[lastArg]	<< "\"" << endl;
-			return false;
-		}
+	maxIterations = atoi(argv[argc - 1]);
+	if (maxIterations <= 0) {
+		cerr << "Wrong argument " << argc << ": \"" <<
+			argv[argc - 1]	<< "\"" << endl;
+		return false;
 	}
 	return true;
 }

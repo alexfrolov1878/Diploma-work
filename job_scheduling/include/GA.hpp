@@ -41,10 +41,11 @@ enum MemoryType {
 	FORGETTING
 };
 
-const double MUTATION_TASK_PROBABILITY = 0.5;
-const double MUTATION_PRIO_PROBABILITY = 0.5;
+const double SELECTION_N_BEST = 0.05 * NUM_SOLUTIONS;
 const double CROSSOVER_TASK_PROBABILITY = 0.5;
 const double CROSSOVER_PRIO_PROBABILITY = 0.5;
+const double MUTATION_TASK_PROBABILITY = 0.5;
+const double MUTATION_PRIO_PROBABILITY = 0.5;
 const double MUTATION_TASK_POWER = 0.25;
 const double MUTATION_PRIO_POWER = 0.25;
 

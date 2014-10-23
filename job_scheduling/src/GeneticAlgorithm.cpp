@@ -115,10 +115,14 @@ void JobSchedulingGA::countSurvivalValues() {
 	population->countSurvivalValues(initProcesses);
 }
 void JobSchedulingGA::selection() {
-	int maxIndex, index;
-	double sumOfSurvivalValues, survivalValue, maxValue;
+	int maxIndex, index, limit, nSel1, nBestExists, l;
+	double sumOfSurvivalValues, survivalValue, averageValue, maxValue;
 	auto solutions = population->getSolutions();
-	vector<Solution> newSolutions;
+	vector<Solution> newSolutions(NUM_SOLUTIONS);
+	unique_ptr<MemoryVector> newMemoryVector;
+	if (memoryType != NONE) {
+		newMemoryVector.reset(new MemoryVector(memoryType));
+	}
 
 	maxValue = solutions[0].getSurvivalValue();
 	maxIndex = 0;
@@ -131,6 +135,7 @@ void JobSchedulingGA::selection() {
 			maxIndex = i;
 		}
 	}
+	averageValue = sumOfSurvivalValues / NUM_SOLUTIONS;
 
 	population->setBestSurvivalValue(maxValue);
 	double curMaxValue = getBestSeenSurvivalValue();
@@ -139,32 +144,69 @@ void JobSchedulingGA::selection() {
 		setBestSeenSolution(solutions[maxIndex]);
 	}
 
-	vector<double> sectors = vector<double>(NUM_SOLUTIONS);
-	double sum = 0.0;
+	nBestExists = 0;
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		sum += 2 * M_PI * solutions[i].getSurvivalValue() / sumOfSurvivalValues;
-		sectors[i] = sum;
-	}
-
-	unique_ptr<MemoryVector> newMemoryVector;
-	if (memoryType != NONE) {
-		newMemoryVector.reset(new MemoryVector(memoryType));
-	}
-
-	newSolutions.reserve(NUM_SOLUTIONS);
-	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		double rand = Random::getRandomDouble(0, 2 * M_PI);
-		index = lower_bound(sectors.begin(), sectors.end(), rand) - sectors.begin();
-		newSolutions.push_back(solutions[index]);
-		if (newMemoryVector) {
-			newMemoryVector->setMutRow(index, memoryVector->getMutRow(index));
+		if (fabs(solutions[i].getSurvivalValue() - maxValue) < 1e-6) {
+			nBestExists++;
 		}
 	}
+
+	nSel1 = 0;
+	l = 0;
+	for (int i = 0; i < NUM_SOLUTIONS; i++) {
+		limit = solutions[i].getSurvivalValue() / averageValue;
+		for (int j = 0; j < limit; j++) {
+			newSolutions.push_back(solutions[i]);
+			if (newMemoryVector) {
+				newMemoryVector->setMutRow(l++, memoryVector->getMutRow(i));
+			}
+		}
+		nSel1 += limit;
+	}
+
+	if (nSel1 == NUM_SOLUTIONS) {
+		// set (SELECTION_N_BEST - nBestExists) worst values to maxValue
+		int nLeft = SELECTION_N_BEST - nBestExists;
+		for (int i = NUM_SOLUTIONS - nLeft - 1; i < NUM_SOLUTIONS; i++) {
+			newSolutions[i] = solutions[maxIndex];
+			if (newMemoryVector) {
+				newMemoryVector->setMutRow(i, memoryVector->getMutRow(maxIndex));
+			}
+		}
+	} else {
+		// add (NUM_SOLUTIONS - nSel1 - SELECTION_N_BEST + nBestExists)
+		// with the roulette method
+		int nLeft = NUM_SOLUTIONS - nSel1 - (SELECTION_N_BEST - nBestExists);
+		vector<double> sectors = vector<double>(NUM_SOLUTIONS);
+		double sum = 0.0;
+		for (int i = 0; i < NUM_SOLUTIONS; i++) {
+			sum += 2 * M_PI * solutions[i].getSurvivalValue() / sumOfSurvivalValues;
+			sectors[i] = sum;
+		}
+		for (int i = 0; i < nLeft; i++) {
+			double rand = Random::getRandomDouble(0, 2 * M_PI);
+			index = lower_bound(sectors.begin(), sectors.end(), rand) - sectors.begin();
+			newSolutions.push_back(solutions[index]);
+			if (newMemoryVector) {
+				newMemoryVector->setMutRow(l++, memoryVector->getMutRow(index));
+			}
+		}
+		// add (SELECTION_N_BEST - nBestExists) maxValues
+		nLeft = SELECTION_N_BEST - nBestExists;
+		if (nLeft > 0) {
+			for (int i = 0; i < nLeft; i++) {
+				newSolutions.push_back(solutions[maxIndex]);
+				if (newMemoryVector) {
+					newMemoryVector->setMutRow(l++, memoryVector->getMutRow(maxIndex));
+				}
+			}
+		}
+		sectors.clear();
+	}	
+
 	population->setSolutions(newSolutions);
 	memoryVector = move(newMemoryVector);
-
 	newSolutions.clear();
-	sectors.clear();
 }
 void JobSchedulingGA::crossover() {
 	useCrossoverStrategy();
