@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "GA.hpp"
-#include "MemoryVector.hpp"
+#include "MemoryMatrix.hpp"
 
 using std::priority_queue;
 using std::vector;
@@ -58,7 +58,7 @@ private:
 public:
 	Solution();
 	Solution(const Solution &that);
-	Solution& operator=(Solution that);
+	Solution &operator=(Solution that);
 	~Solution();
 
 	const vector<int> &getTasks() const;
@@ -75,7 +75,6 @@ public:
 	void setSurvivalValue(double _survivalValue);
 	int getSumOfComputationalComplexity() const;
 	void setSumOfComputationalComplexity(int _sumOfComputationalComplexity);
-	double getMemoryElement(SolutionPart part, int offset = 0) const;
 
 	void print(ostream &out);
 	void generate();

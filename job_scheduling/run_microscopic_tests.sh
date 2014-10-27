@@ -102,6 +102,7 @@ memory_forgetting() {
 }
 
 standard() {
+	echo "$exe ./tests/tests_size/test_10.txt $cr_type memory absolute $iter"
 	echo "====================SIZE===================="
 	$exe ./tests/tests_size/test_10.txt $cr_type standard $iter
 	$exe ./tests/tests_size/test_15.txt $cr_type standard $iter
@@ -133,7 +134,7 @@ standard() {
 	$exe ./tests/tests_ratio/test_0_4.txt $cr_type standard $iter
 }
 
-standard          > standard.txt   2>&1
-memory_absolute   > absolute.txt   2>&1
-memory_relative   > relative.txt   2>&1
-memory_forgetting > forgetting.txt 2>&1
+standard          #> standard.txt   2>&1
+#memory_absolute   > absolute.txt   2>&1
+#memory_relative   > relative.txt   2>&1
+#memory_forgetting > forgetting.txt 2>&1

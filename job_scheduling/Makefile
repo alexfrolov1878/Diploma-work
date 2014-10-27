@@ -60,6 +60,7 @@ all: $(BIN_DIR)/GA.exe
 # Delete all temprorary and binary files
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -f *.txt
 
 # Fictive target
 .PHONY: all

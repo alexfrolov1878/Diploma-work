@@ -8,66 +8,24 @@ static void pruneElement(double &element) {
 	}
 }
 
-void AbsoluteStrategy::changeElement(SolutionPart part, int row, int index,
-		double before, double after, MemoryMatrix &mutMem, MemoryMatrix &crMem) {
-	switch (part) {
-		case MUTATION_TASK:
-		case MUTATION_PRIO:
-			if (before < after) {
-				mutMem[row][index] -= MP;
-			} else if (before > after) {
-				mutMem[row][index] += MP;
-			}
-			pruneElement(mutMem[row][index]);
-			break;
-		case CROSSOVER_TASK:
-		case CROSSOVER_PRIO:
-			if (before < after) {
-				crMem[row][index] -= MP;
-			} else if (before > after) {
-				crMem[row][index] += MP;
-			}
-			pruneElement(crMem[row][index]);
-			break;
-		default:
-			break;
+void AbsoluteStrategy::changeElement(MatrixDouble &memMatr,
+		int row, int index, double before, double after) {
+	if (before < after) {
+		memMatr[row][index] -= MP;
+	} else if (before > after) {
+		memMatr[row][index] += MP;
 	}
+	pruneElement(memMatr[row][index]);
 }
 
-void RelativeStrategy::changeElement(SolutionPart part, int row, int index,
-		double before, double after, MemoryMatrix &mutMem, MemoryMatrix &crMem) {
-	switch (part) {
-		case MUTATION_TASK:
-		case MUTATION_PRIO:
-			mutMem[row][index] += before - after;
-			pruneElement(mutMem[row][index]);
-			break;
-		case CROSSOVER_TASK:
-		case CROSSOVER_PRIO:
-			crMem[row][index] += before - after;
-			pruneElement(crMem[row][index]);
-			break;
-		default:
-			break;
-	}
+void RelativeStrategy::changeElement(MatrixDouble &memMatr,
+		int row, int index, double before, double after) {
+	memMatr[row][index] += before - after;
+	pruneElement(memMatr[row][index]);
 }
 
-void ForgettingStrategy::changeElement(SolutionPart part, int row, int index,
-		double before, double after, MemoryMatrix &mutMem, MemoryMatrix &crMem) {
-	switch (part) {
-		case MUTATION_TASK:
-		case MUTATION_PRIO:
-			mutMem[row][index] = REMEMBERING_POWER * mutMem[row][index]
-					+ (before - after);
-			pruneElement(mutMem[row][index]);
-			break;
-		case CROSSOVER_TASK:
-		case CROSSOVER_PRIO:
-			crMem[row][index] = REMEMBERING_POWER * crMem[row][index]
-					+ (before - after);
-			pruneElement(crMem[row][index]);
-			break;
-		default:
-			break;
-	}
+void ForgettingStrategy::changeElement(MatrixDouble &memMatr,
+		int row, int index, double before, double after) {
+	memMatr[row][index] = REMEMBERING_POWER * memMatr[row][index] + (before - after);
+	pruneElement(memMatr[row][index]);
 }

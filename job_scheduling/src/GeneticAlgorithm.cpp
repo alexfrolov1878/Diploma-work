@@ -17,6 +17,7 @@ using std::ifstream;
 using std::move;
 using std::random_shuffle;
 using std::min;
+using std::max;
 
 double JobSchedulingGA::bestSeenSurvivalValue = 0.0;
 unique_ptr<Solution> JobSchedulingGA::bestSeenSolution =
@@ -55,7 +56,8 @@ JobSchedulingGA::JobSchedulingGA(ifstream &fin,
 	temp.clear();
 
 	memoryType = _memoryType;
-	memoryVector.reset(new MemoryVector(_memoryType));
+	mutationMatr.reset(new MemoryMatrix(memoryType, NUM_SOLUTIONS, 2 * numProcesses));
+	crossoverMatr.reset(new MemoryMatrix(memoryType, NUM_SOLUTIONS, 2 * numProcesses));
 
 	crossoverType = _crossoverType;
 	switch (crossoverType) {
@@ -119,9 +121,12 @@ void JobSchedulingGA::selection() {
 	double sumOfSurvivalValues, survivalValue, averageValue, maxValue;
 	auto solutions = population->getSolutions();
 	vector<Solution> newSolutions(NUM_SOLUTIONS);
-	unique_ptr<MemoryVector> newMemoryVector;
+	unique_ptr<MemoryMatrix> newMutMatr, newCrMatr;
 	if (memoryType != NONE) {
-		newMemoryVector.reset(new MemoryVector(memoryType));
+		newMutMatr.reset(new MemoryMatrix(memoryType,
+			NUM_SOLUTIONS, 2 * numProcesses));
+		newCrMatr.reset(new MemoryMatrix(memoryType,
+			NUM_SOLUTIONS, 2 * numProcesses));
 	}
 
 	maxValue = solutions[0].getSurvivalValue();
@@ -156,10 +161,12 @@ void JobSchedulingGA::selection() {
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
 		limit = solutions[i].getSurvivalValue() / averageValue;
 		for (int j = 0; j < limit; j++) {
-			newSolutions.push_back(solutions[i]);
-			if (newMemoryVector) {
-				newMemoryVector->setMutRow(l++, memoryVector->getMutRow(i));
+			newSolutions[l] = solutions[i];
+			if (memoryType != NONE) {
+				newMutMatr->setRow(l, mutationMatr->getRow(i));
+				newCrMatr->setRow(l, crossoverMatr->getRow(i));
 			}
+			l++;
 		}
 		nSel1 += limit;
 	}
@@ -169,14 +176,16 @@ void JobSchedulingGA::selection() {
 		int nLeft = SELECTION_N_BEST - nBestExists;
 		for (int i = NUM_SOLUTIONS - nLeft - 1; i < NUM_SOLUTIONS; i++) {
 			newSolutions[i] = solutions[maxIndex];
-			if (newMemoryVector) {
-				newMemoryVector->setMutRow(i, memoryVector->getMutRow(maxIndex));
+			if (memoryType != NONE) {
+				newMutMatr->setRow(i, mutationMatr->getRow(maxIndex));
+				newCrMatr->setRow(i, crossoverMatr->getRow(maxIndex));
 			}
 		}
 	} else {
 		// add (NUM_SOLUTIONS - nSel1 - SELECTION_N_BEST + nBestExists)
 		// with the roulette method
-		int nLeft = NUM_SOLUTIONS - nSel1 - (SELECTION_N_BEST - nBestExists);
+		int nLeftBest = max(0, SELECTION_N_BEST - nBestExists);
+		int nLeft = NUM_SOLUTIONS - nSel1 - nLeftBest;
 		vector<double> sectors = vector<double>(NUM_SOLUTIONS);
 		double sum = 0.0;
 		for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -186,26 +195,30 @@ void JobSchedulingGA::selection() {
 		for (int i = 0; i < nLeft; i++) {
 			double rand = Random::getRandomDouble(0, 2 * M_PI);
 			index = lower_bound(sectors.begin(), sectors.end(), rand) - sectors.begin();
-			newSolutions.push_back(solutions[index]);
-			if (newMemoryVector) {
-				newMemoryVector->setMutRow(l++, memoryVector->getMutRow(index));
+			newSolutions[l] = solutions[index];
+			if (memoryType != NONE) {
+				newMutMatr->setRow(l, mutationMatr->getRow(index));
+				newCrMatr->setRow(l, crossoverMatr->getRow(index));
 			}
+			l++;
 		}
 		// add (SELECTION_N_BEST - nBestExists) maxValues
-		nLeft = SELECTION_N_BEST - nBestExists;
-		if (nLeft > 0) {
-			for (int i = 0; i < nLeft; i++) {
-				newSolutions.push_back(solutions[maxIndex]);
-				if (newMemoryVector) {
-					newMemoryVector->setMutRow(l++, memoryVector->getMutRow(maxIndex));
+		if (nLeftBest > 0) {
+			for (int i = 0; i < nLeftBest; i++) {
+				newSolutions[l] = solutions[maxIndex];
+				if (memoryType != NONE) {
+					newMutMatr->setRow(l, mutationMatr->getRow(maxIndex));
+					newCrMatr->setRow(l, crossoverMatr->getRow(maxIndex));
 				}
+				l++;
 			}
 		}
 		sectors.clear();
-	}	
+	}
 
 	population->setSolutions(newSolutions);
-	memoryVector = move(newMemoryVector);
+	mutationMatr = move(newMutMatr);
+	crossoverMatr = move(newCrMatr);
 	newSolutions.clear();
 }
 void JobSchedulingGA::crossover() {
@@ -215,7 +228,8 @@ void JobSchedulingGA::setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op) {
 	operation = move(_op);
 }
 void JobSchedulingGA::useCrossoverStrategy() {
-	operation->execute(population, memoryType, initProcesses, memoryVector);
+	operation->execute(population, memoryType, initProcesses,
+		mutationMatr, crossoverMatr);
 }
 void JobSchedulingGA::mutation() {
 	double r;
@@ -227,20 +241,19 @@ void JobSchedulingGA::mutation() {
 		for (int j = 0; j < numProcesses; j++) {
 			r = Random::getRandomDouble(0, 1);
 			if (memoryType == NONE) {
-				prob = MUTATION_TASK_PROBABILITY;
+				prob = MUTATION_PROBABILITY;
 			} else {
-				prob = memoryVector->getElement(MUTATION_TASK, i, j);
+				prob = mutationMatr->getElement(TASK, i, j);
 			}
 			if (r <= prob) {
 				before = solutions[i].getSurvivalValue();
-				population->mutateSolution(MUTATION_TASK, i, j);
+				population->mutateSolution(TASK, i, j);
 				population->countSurvivalValue(i, initProcesses);
 				after = solutions[i].getSurvivalValue();
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					memoryVector->useChangeStrategy(MUTATION_TASK, i, j,
-						before, after);
+					mutationMatr->useChangeStrategy(i, j, before, after);
 				}
 			}
 		}
@@ -251,20 +264,19 @@ void JobSchedulingGA::mutation() {
 		for (int j = 0; j < numProcesses; j++) {
 			r = Random::getRandomDouble(0, 1);
 			if (memoryType == NONE) {
-				prob = MUTATION_PRIO_PROBABILITY;
+				prob = MUTATION_PROBABILITY;
 			} else {
-				 prob = memoryVector->getElement(MUTATION_PRIO, i, j);
+				 prob = mutationMatr->getElement(PRIO, i, j);
 			}
 			if (r <= prob) {
 				before = solutions[i].getSurvivalValue();
-				population->mutateSolution(MUTATION_PRIO, i, j);
+				population->mutateSolution(PRIO, i, j);
 				population->countSurvivalValue(i, initProcesses);
 				after = solutions[i].getSurvivalValue();
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					memoryVector->useChangeStrategy(MUTATION_PRIO, i, j,
-						before, after);
+					mutationMatr->useChangeStrategy(i, j, before, after);
 				}
 			}
 		}

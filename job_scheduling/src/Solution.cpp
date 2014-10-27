@@ -36,6 +36,7 @@ int getBinaryLength(int num) {
 	}
 	return -1;
 }
+
 int mutateInt(int value, double power, int limit) {
 	int binaryLength, n, l;
 
@@ -62,6 +63,7 @@ Solution::Solution() {
 	survivalValue = 0.0;
 	sumOfComputationalComplexity = 0;
 }
+
 Solution::Solution(const Solution &that) {
 	tasks = that.tasks;
 	priorities = that.priorities;
@@ -70,6 +72,7 @@ Solution::Solution(const Solution &that) {
 	survivalValue = that.survivalValue;
 	sumOfComputationalComplexity = that.sumOfComputationalComplexity;
 }
+
 Solution& Solution::operator=(Solution that) {
 	tasks.swap(that.tasks);
 	priorities.swap(that.priorities);
@@ -79,6 +82,7 @@ Solution& Solution::operator=(Solution that) {
 	sumOfComputationalComplexity = that.sumOfComputationalComplexity;
 	return *this;
 }
+
 Solution::~Solution() {
 	tasks.clear();
 	priorities.clear();
@@ -87,42 +91,55 @@ Solution::~Solution() {
 const vector<int> &Solution::getTasks() const {
 	return tasks;
 }
+
 int Solution::getTask(int index) const {
 	return tasks[index];
 }
+
 void Solution::setTask(int index, int value) {
 	tasks[index] = value;
 }
+
 const vector<int> &Solution::getPriorities() const {
 	return priorities;
 }
+
 int Solution::getPriority(int index) const {
 	return priorities[index];
 }
+
 void Solution::setPriority(int index, int value) {
 	priorities[index] = value;
 }
+
 double Solution::getDowntime() const {
 	return downtime;
 }
+
 void Solution::setDowntime(double _downtime) {
 	downtime = _downtime;
 }
+
 int Solution::getTime() const {
 	return time;
 }
+
 void Solution::setTime(int _time) {
 	time = _time;
 }
+
 double Solution::getSurvivalValue() const {
 	return survivalValue;
 }
+
 void Solution::setSurvivalValue(double _survivalValue) {
 	survivalValue = _survivalValue;
 }
+
 int Solution::getSumOfComputationalComplexity() const {
 	return sumOfComputationalComplexity;
 }
+
 void Solution::setSumOfComputationalComplexity(
 		int _sumOfComputationalComplexity) {
 	sumOfComputationalComplexity = _sumOfComputationalComplexity;
@@ -145,6 +162,7 @@ void Solution::print(ostream &out) {
 	out << "sum_of_computational_complexity = " << sumOfComputationalComplexity
 			<< endl;
 }
+
 void Solution::generate() {
 	int randomValue;
 	for (int i = 0; i < numProcesses; i++) {
@@ -154,6 +172,7 @@ void Solution::generate() {
 		priorities[i] = randomValue;
 	}
 }
+
 void Solution::buildSchedule(vector<Process> &initProcesses) {
 	enum State {
 		SCHEDULED, HAS_DEPENDENCIES, NO_DEPENDENCIES
@@ -258,15 +277,14 @@ void Solution::buildSchedule(vector<Process> &initProcesses) {
 	processors.clear();
 	p.clear();
 }
+
 void Solution::mutate(SolutionPart part, int index) {
 	int mutated;
-	if (part == MUTATION_TASK) {
-		mutated = mutateInt(tasks[index], MUTATION_TASK_POWER,
-				numProcessors - 1);
+	if (part == TASK) {
+		mutated = mutateInt(tasks[index], MUTATION_POWER, numProcessors - 1);
 		tasks[index] = mutated;
-	} else if (part == MUTATION_PRIO) {
-		mutated = mutateInt(priorities[index], MUTATION_PRIO_POWER,
-				numProcesses - 1);
+	} else {
+		mutated = mutateInt(priorities[index], MUTATION_POWER, numProcesses - 1);
 		priorities[index] = mutated;
 	}
 }

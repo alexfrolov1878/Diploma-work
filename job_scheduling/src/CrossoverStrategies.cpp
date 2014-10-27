@@ -12,8 +12,10 @@ using std::min;
 
 void OnePointVectorStrategy::execute(
 		unique_ptr<Population> &population,
-		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector) {
+		MemoryType memoryType,
+		vector<Process> &initProcesses,
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr) {
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
 	double prob, prob1, prob2, before1, before2, after1, after2;
@@ -27,19 +29,16 @@ void OnePointVectorStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_TASK_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i + 1]);
+			prob1 = crMatr->getElement(TASK, pairs[i]);
+			prob2 = crMatr->getElement(TASK, pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_TASK,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -47,12 +46,10 @@ void OnePointVectorStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_TASK,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i], 0, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i + 1], 0, before2, after2);
+				mutMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 0, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 0, before2, after2);
 			}
 		}
 	}
@@ -65,28 +62,25 @@ void OnePointVectorStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_PRIO_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = crMatr->getElement(PRIO, pairs[i]);
+			prob2 = crMatr->getElement(PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_PRIO,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(PRIO, pairs[i], pairs[i + 1]);
 			after1 = solutions[pairs[i]].getSurvivalValue();
 			after2 = solutions[pairs[i + 1]].getSurvivalValue();
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_PRIO,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i], 1, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i + 1], 1, before2, after2);
+				mutMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 1, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 1, before2, after2);
 			}
 		}
 	}
@@ -94,9 +88,10 @@ void OnePointVectorStrategy::execute(
 
 void OnePointMatrixThrowingStrategy::execute(
 		unique_ptr<Population> &population,
-		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector) {
-// TODO: implement correct crossover operation
+		MemoryType memoryType,
+		vector<Process> &initProcesses,
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr) {
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
 	double prob, prob1, prob2, before1, before2, after1, after2;
@@ -110,19 +105,16 @@ void OnePointMatrixThrowingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_TASK_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i + 1]);
+			prob1 = crMatr->getElement(TASK, pairs[i]);
+			prob2 = crMatr->getElement(TASK, pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_TASK,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -130,12 +122,10 @@ void OnePointMatrixThrowingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_TASK,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i], 0, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i + 1], 0, before2, after2);
+				mutMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 0, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 0, before2, after2);
 			}
 		}
 	}
@@ -148,28 +138,25 @@ void OnePointMatrixThrowingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_PRIO_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = crMatr->getElement(PRIO, pairs[i]);
+			prob2 = crMatr->getElement(PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_PRIO,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(PRIO, pairs[i], pairs[i + 1]);
 			after1 = solutions[pairs[i]].getSurvivalValue();
 			after2 = solutions[pairs[i + 1]].getSurvivalValue();
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_PRIO,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i], 1, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i + 1], 1, before2, after2);
+				mutMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 1, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 1, before2, after2);
 			}
 		}
 	}
@@ -177,9 +164,10 @@ void OnePointMatrixThrowingStrategy::execute(
 
 void OnePointMatrixSwappingStrategy::execute(
 		unique_ptr<Population> &population,
-		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector) {
-// TODO: implement correct crossover operation
+		MemoryType memoryType,
+		vector<Process> &initProcesses,
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr) {
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
 	double prob, prob1, prob2, before1, before2, after1, after2;
@@ -193,19 +181,16 @@ void OnePointMatrixSwappingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_TASK_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i + 1]);
+			prob1 = crMatr->getElement(TASK, pairs[i]);
+			prob2 = crMatr->getElement(TASK, pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_TASK,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -213,12 +198,10 @@ void OnePointMatrixSwappingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_TASK,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i], 0, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i + 1], 0, before2, after2);
+				mutMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 0, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 0, before2, after2);
 			}
 		}
 	}
@@ -231,28 +214,25 @@ void OnePointMatrixSwappingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_PRIO_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = crMatr->getElement(PRIO, pairs[i]);
+			prob2 = crMatr->getElement(PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_PRIO,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(PRIO, pairs[i], pairs[i + 1]);
 			after1 = solutions[pairs[i]].getSurvivalValue();
 			after2 = solutions[pairs[i + 1]].getSurvivalValue();
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_PRIO,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i], 1, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i + 1], 1, before2, after2);
+				mutMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 1, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 1, before2, after2);
 			}
 		}
 	}
@@ -260,9 +240,10 @@ void OnePointMatrixSwappingStrategy::execute(
 
 void UniformMatrixThrowingStrategy::execute(
 		unique_ptr<Population> &population,
-		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector) {
-// TODO: implement correct crossover operation
+		MemoryType memoryType,
+		vector<Process> &initProcesses,
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr) {
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
 	double prob, prob1, prob2, before1, before2, after1, after2;
@@ -276,19 +257,16 @@ void UniformMatrixThrowingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_TASK_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i + 1]);
+			prob1 = crMatr->getElement(TASK, pairs[i]);
+			prob2 = crMatr->getElement(TASK, pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_TASK,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -296,12 +274,10 @@ void UniformMatrixThrowingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_TASK,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i], 0, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i + 1], 0, before2, after2);
+				mutMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 0, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 0, before2, after2);
 			}
 		}
 	}
@@ -314,28 +290,25 @@ void UniformMatrixThrowingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_PRIO_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = crMatr->getElement(PRIO, pairs[i]);
+			prob2 = crMatr->getElement(PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_PRIO,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(PRIO, pairs[i], pairs[i + 1]);
 			after1 = solutions[pairs[i]].getSurvivalValue();
 			after2 = solutions[pairs[i + 1]].getSurvivalValue();
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_PRIO,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i], 1, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i + 1], 1, before2, after2);
+				mutMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 1, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 1, before2, after2);
 			}
 		}
 	}
@@ -343,9 +316,10 @@ void UniformMatrixThrowingStrategy::execute(
 
 void UniformMatrixSwappingStrategy::execute(
 		unique_ptr<Population> &population,
-		MemoryType memoryType, vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector) {
-// TODO: implement correct crossover operation
+		MemoryType memoryType,
+		vector<Process> &initProcesses,
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr) {
 	double r;
 	int pairs[NUM_SOLUTIONS], start;
 	double prob, prob1, prob2, before1, before2, after1, after2;
@@ -359,19 +333,16 @@ void UniformMatrixSwappingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_TASK_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_TASK,
-				pairs[i + 1]);
+			prob1 = crMatr->getElement(TASK, pairs[i]);
+			prob2 = crMatr->getElement(TASK, pairs[i + 1]);
 			prob = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_TASK,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -379,12 +350,10 @@ void UniformMatrixSwappingStrategy::execute(
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_TASK,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i], 0, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_TASK,
-					pairs[i + 1], 0, before2, after2);
+				mutMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 0, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 0, before2, after2);
 			}
 		}
 	}
@@ -397,28 +366,25 @@ void UniformMatrixSwappingStrategy::execute(
 	for (int i = 0; i < NUM_SOLUTIONS; i += 2) {
 		r = Random::getRandomDouble(0, 1);
 		if (memoryType == NONE) {
-			prob = CROSSOVER_PRIO_PROBABILITY;
+			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i]);
-			prob2 = memoryVector->getElement(CROSSOVER_PRIO, pairs[i + 1]);
+			prob1 = crMatr->getElement(PRIO, pairs[i]);
+			prob2 = crMatr->getElement(PRIO, pairs[i + 1]);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(CROSSOVER_PRIO,
-				pairs[i], pairs[i + 1]);
+			start = population->crossoverSolutions(PRIO, pairs[i], pairs[i + 1]);
 			after1 = solutions[pairs[i]].getSurvivalValue();
 			after2 = solutions[pairs[i + 1]].getSurvivalValue();
 			if (memoryType == NONE) {
 				//do nothing
 			} else {
-				memoryVector->swapMutElements(CROSSOVER_PRIO,
-					pairs[i], pairs[i + 1], start);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i], 1, before1, after1);
-				memoryVector->useChangeStrategy(CROSSOVER_PRIO,
-					pairs[i + 1], 1, before2, after2);
+				mutMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
+				crMatr->useChangeStrategy(pairs[i], 1, before1, after1);
+				crMatr->useChangeStrategy(pairs[i + 1], 1, before2, after2);
 			}
 		}
 	}

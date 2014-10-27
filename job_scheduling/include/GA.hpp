@@ -15,7 +15,7 @@ using std::ifstream;
 class Process;
 class Solution;
 class Population;
-class MemoryVector;
+class MemoryMatrix;
 
 extern int resultTime;
 extern int numProcesses;
@@ -41,13 +41,16 @@ enum MemoryType {
 	FORGETTING
 };
 
-const double SELECTION_N_BEST = 0.05 * NUM_SOLUTIONS;
-const double CROSSOVER_TASK_PROBABILITY = 0.5;
-const double CROSSOVER_PRIO_PROBABILITY = 0.5;
-const double MUTATION_TASK_PROBABILITY = 0.5;
-const double MUTATION_PRIO_PROBABILITY = 0.5;
-const double MUTATION_TASK_POWER = 0.25;
-const double MUTATION_PRIO_POWER = 0.25;
+enum SolutionPart {
+	TASK,
+	PRIO
+};
+
+const int SELECTION_N_BEST = 0.05 * NUM_SOLUTIONS;
+
+const double CROSSOVER_PROBABILITY = 0.5;
+const double MUTATION_PROBABILITY = 0.5;
+const double MUTATION_POWER = 0.25;
 
 const double MIN_MEM_PARAM_VALUE = 0.1;
 const double MAX_MEM_PARAM_VALUE = 0.9;
@@ -79,7 +82,8 @@ public:
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector) = 0;
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr) = 0;
 };
 
 class ICrossoverContext {
@@ -102,7 +106,8 @@ protected:
 
 	unique_ptr<Population> population;
 	vector<Process> initProcesses;
-    unique_ptr<MemoryVector> memoryVector;
+    unique_ptr<MemoryMatrix> mutationMatr;
+    unique_ptr<MemoryMatrix> crossoverMatr;
 public:
 	JobSchedulingGA(ifstream &fin,
 					CrossoverType crossoverType,

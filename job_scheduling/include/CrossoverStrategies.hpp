@@ -7,6 +7,7 @@
 
 #include "GA.hpp"
 #include "main.hpp"
+#include "MemoryMatrix.hpp"
 
 using std::unique_ptr;
 using std::vector;
@@ -14,7 +15,7 @@ using std::vector;
 class Process;
 class Solution;
 class Population;
-class MemoryVector;
+class MemoryMatrix;
 
 class OnePointVectorStrategy : public ICrossoverStrategy {
 public:
@@ -23,7 +24,8 @@ public:
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
 };
 
 class OnePointMatrixThrowingStrategy : public ICrossoverStrategy {
@@ -33,7 +35,8 @@ public:
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
 };
 
 class OnePointMatrixSwappingStrategy : public ICrossoverStrategy {
@@ -43,7 +46,8 @@ public:
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
 };
 
 class UniformMatrixThrowingStrategy : public ICrossoverStrategy {
@@ -53,7 +57,8 @@ public:
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
 };
 
 class UniformMatrixSwappingStrategy : public ICrossoverStrategy {
@@ -63,7 +68,8 @@ public:
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
 };
 
 #endif /* CROSSOVER_STRATEGY_HPP_ */

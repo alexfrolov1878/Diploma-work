@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "MemoryVector.hpp"
+#include "MemoryMatrix.hpp"
 #include "Solution.hpp"
 
 using std::vector;
@@ -18,7 +18,7 @@ private:
 public:
 	Population(double value = 0.0, int idx = 0);
 	Population(const Population& that);
-	Population& operator=(Population that);
+	Population &operator=(Population that);
 	~Population();
 
 	const vector<Solution> &getSolutions() const;
