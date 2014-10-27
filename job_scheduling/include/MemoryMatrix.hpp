@@ -20,7 +20,7 @@ public:
 	
 	virtual vector<double> &getRow(int index) = 0;
 	virtual void setRow(int index, vector<double> &row) = 0;
-	virtual double getElement(SolutionPart part, int row, int column = 0) = 0;
+	virtual double getElement(SolutionPart part, int row, int column) = 0;
 	virtual void swapElements(SolutionPart part, int index1, int index2, int start) = 0;
 	virtual void print(ostream &out, int row) = 0;
 };
@@ -38,7 +38,7 @@ protected:
 public: 
 	virtual ~IChangeContext() {}
 	virtual void setChangeStrategy(unique_ptr<IChangeStrategy> _op) = 0;
-	virtual void useChangeStrategy(int row, int index,
+	virtual void useChangeStrategy(SolutionPart part, int row, int index,
 		double before, double after) = 0;
 };
 
@@ -56,12 +56,13 @@ public:
 
 	virtual vector<double> &getRow(int index);
 	virtual void setRow(int index, vector<double> &row);
-	virtual double getElement(SolutionPart part, int row, int column = 0);
+	virtual double getElement(SolutionPart part, int row, int column);
 	virtual void swapElements(SolutionPart part, int index1, int index2, int start);
 	virtual void print(ostream &out, int row);
 
 	virtual void setChangeStrategy(unique_ptr<IChangeStrategy> _operation);
-	virtual void useChangeStrategy(int row, int index, double before, double after);
+	virtual void useChangeStrategy(SolutionPart part, int row, int index,
+		double before, double after);
 };
 
 #endif /* MEMORYVECTOR_HPP_ */

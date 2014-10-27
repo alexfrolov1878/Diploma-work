@@ -72,30 +72,6 @@ void Population::generate() {
 	bestSolutionIdx = 0;
 }
 
-int Population::crossoverSolutions(SolutionPart part, int firstIdx, int secondIdx) {
-	int r, tmp1, tmp2;
-	vector<int> first;
-	vector<int> second;
-	if (part == TASK) {
-		first = solutions[firstIdx].getTasks();
-		second = solutions[secondIdx].getTasks();
-	} else if (part == PRIO) {
-		first = solutions[firstIdx].getPriorities();
-		second = solutions[secondIdx].getPriorities();
-	} else {
-		return -1;
-	}
-
-	r = Random::getRandomInt(0, numProcesses);
-	for (int i = r + 1; i < numProcesses; i++) {
-		tmp1 = first[i];
-		tmp2 = second[i];
-		first[i] = tmp2;
-		second[i] = tmp1;
-	}
-	return r + 1;
-}
-
 void Population::mutateSolution(SolutionPart part, int index, int offset) {
 	solutions[index].mutate(part, offset);
 }

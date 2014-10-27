@@ -103,7 +103,10 @@ void MemoryMatrix::setChangeStrategy(unique_ptr<IChangeStrategy> _op) {
 	operation = move(_op);
 }
 
-void MemoryMatrix::useChangeStrategy(int row, int index,
+void MemoryMatrix::useChangeStrategy(SolutionPart part, int row, int index,
 		double before, double after) {
+	if (part == PRIO) {
+		index += numProcesses;
+	}
 	operation->changeElement(elements, row, index, before, after);
 }

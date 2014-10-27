@@ -10,6 +10,32 @@ using std::vector;
 using std::random_shuffle;
 using std::min;
 
+int OnePointVectorStrategy::crossoverSolutions(unique_ptr<Population> &population,
+		SolutionPart part, int firstIdx, int secondIdx) {
+	int r, tmp1, tmp2;
+	vector<int> first;
+	vector<int> second;
+	auto solutions = population->getSolutions();
+	if (part == TASK) {
+		first = solutions[firstIdx].getTasks();
+		second = solutions[secondIdx].getTasks();
+	} else if (part == PRIO) {
+		first = solutions[firstIdx].getPriorities();
+		second = solutions[secondIdx].getPriorities();
+	} else {
+		return -1;
+	}
+
+	r = Random::getRandomInt(0, numProcesses);
+	for (int i = r + 1; i < numProcesses; i++) {
+		tmp1 = first[i];
+		tmp2 = second[i];
+		first[i] = tmp2;
+		second[i] = tmp1;
+	}
+	return r + 1;
+}
+
 void OnePointVectorStrategy::execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
@@ -31,14 +57,14 @@ void OnePointVectorStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = crMatr->getElement(TASK, pairs[i]);
-			prob2 = crMatr->getElement(TASK, pairs[i + 1]);
+			prob1 = crMatr->getElement(TASK, pairs[i], 0);
+			prob2 = crMatr->getElement(TASK, pairs[i + 1], 0);
 			prob = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
+			start = crossoverSolutions(population, TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -48,8 +74,8 @@ void OnePointVectorStrategy::execute(
 			} else {
 				mutMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
 				crMatr->swapElements(TASK, pairs[i], pairs[i + 1], start);
-				crMatr->useChangeStrategy(pairs[i], 0, before1, after1);
-				crMatr->useChangeStrategy(pairs[i + 1], 0, before2, after2);
+				crMatr->useChangeStrategy(TASK, pairs[i], 0, before1, after1);
+				crMatr->useChangeStrategy(TASK, pairs[i + 1], 0, before2, after2);
 			}
 		}
 	}
@@ -64,14 +90,14 @@ void OnePointVectorStrategy::execute(
 		if (memoryType == NONE) {
 			prob = CROSSOVER_PROBABILITY;
 		} else {
-			prob1 = crMatr->getElement(PRIO, pairs[i]);
-			prob2 = crMatr->getElement(PRIO, pairs[i + 1]);
+			prob1 = crMatr->getElement(PRIO, pairs[i], 0);
+			prob2 = crMatr->getElement(PRIO, pairs[i + 1], 0);
 			prob1 = min(prob1, prob2);
 		}
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(PRIO, pairs[i], pairs[i + 1]);
+			start = crossoverSolutions(population, TASK, pairs[i], pairs[i + 1]);
 			after1 = solutions[pairs[i]].getSurvivalValue();
 			after2 = solutions[pairs[i + 1]].getSurvivalValue();
 			if (memoryType == NONE) {
@@ -79,11 +105,42 @@ void OnePointVectorStrategy::execute(
 			} else {
 				mutMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
 				crMatr->swapElements(PRIO, pairs[i], pairs[i + 1], start);
-				crMatr->useChangeStrategy(pairs[i], 1, before1, after1);
-				crMatr->useChangeStrategy(pairs[i + 1], 1, before2, after2);
+				crMatr->useChangeStrategy(PRIO, pairs[i], 1, before1, after1);
+				crMatr->useChangeStrategy(PRIO, pairs[i + 1], 1, before2, after2);
 			}
 		}
 	}
+}
+
+/*
+
+//=========================================================================
+//=========================================================================
+
+int OnePointMatrixThrowingStrategy::crossoverSolutions(SolutionPart part,
+		int firstIdx, int secondIdx) {
+	int r, tmp1, tmp2;
+	vector<int> first;
+	vector<int> second;
+	auto solutions = population->getSolutions();
+	if (part == TASK) {
+		first = solutions[firstIdx].getTasks();
+		second = solutions[secondIdx].getTasks();
+	} else if (part == PRIO) {
+		first = solutions[firstIdx].getPriorities();
+		second = solutions[secondIdx].getPriorities();
+	} else {
+		return -1;
+	}
+
+	r = Random::getRandomInt(0, numProcesses);
+	for (int i = r + 1; i < numProcesses; i++) {
+		tmp1 = first[i];
+		tmp2 = second[i];
+		first[i] = tmp2;
+		second[i] = tmp1;
+	}
+	return r + 1;
 }
 
 void OnePointMatrixThrowingStrategy::execute(
@@ -114,7 +171,7 @@ void OnePointMatrixThrowingStrategy::execute(
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
+			start = crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -160,6 +217,35 @@ void OnePointMatrixThrowingStrategy::execute(
 			}
 		}
 	}
+}
+
+//=========================================================================
+//=========================================================================
+
+int OnePointMatrixSwappingStrategy::crossoverSolutions(SolutionPart part,
+		int firstIdx, int secondIdx) {
+	int r, tmp1, tmp2;
+	vector<int> first;
+	vector<int> second;
+	auto solutions = population->getSolutions();
+	if (part == TASK) {
+		first = solutions[firstIdx].getTasks();
+		second = solutions[secondIdx].getTasks();
+	} else if (part == PRIO) {
+		first = solutions[firstIdx].getPriorities();
+		second = solutions[secondIdx].getPriorities();
+	} else {
+		return -1;
+	}
+
+	r = Random::getRandomInt(0, numProcesses);
+	for (int i = r + 1; i < numProcesses; i++) {
+		tmp1 = first[i];
+		tmp2 = second[i];
+		first[i] = tmp2;
+		second[i] = tmp1;
+	}
+	return r + 1;
 }
 
 void OnePointMatrixSwappingStrategy::execute(
@@ -190,7 +276,7 @@ void OnePointMatrixSwappingStrategy::execute(
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
+			start = crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -236,6 +322,35 @@ void OnePointMatrixSwappingStrategy::execute(
 			}
 		}
 	}
+}
+
+//=========================================================================
+//=========================================================================
+
+int UniformMatrixThrowingStrategy::crossoverSolutions(SolutionPart part,
+		int firstIdx, int secondIdx) {
+	int r, tmp1, tmp2;
+	vector<int> first;
+	vector<int> second;
+	auto solutions = population->getSolutions();
+	if (part == TASK) {
+		first = solutions[firstIdx].getTasks();
+		second = solutions[secondIdx].getTasks();
+	} else if (part == PRIO) {
+		first = solutions[firstIdx].getPriorities();
+		second = solutions[secondIdx].getPriorities();
+	} else {
+		return -1;
+	}
+
+	r = Random::getRandomInt(0, numProcesses);
+	for (int i = r + 1; i < numProcesses; i++) {
+		tmp1 = first[i];
+		tmp2 = second[i];
+		first[i] = tmp2;
+		second[i] = tmp1;
+	}
+	return r + 1;
 }
 
 void UniformMatrixThrowingStrategy::execute(
@@ -266,7 +381,7 @@ void UniformMatrixThrowingStrategy::execute(
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
+			start = crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -312,6 +427,35 @@ void UniformMatrixThrowingStrategy::execute(
 			}
 		}
 	}
+}
+
+//=========================================================================
+//=========================================================================
+
+int UniformMatrixSwappingStrategy::crossoverSolutions(SolutionPart part,
+		int firstIdx, int secondIdx) {
+	int r, tmp1, tmp2;
+	vector<int> first;
+	vector<int> second;
+	auto solutions = population->getSolutions();
+	if (part == TASK) {
+		first = solutions[firstIdx].getTasks();
+		second = solutions[secondIdx].getTasks();
+	} else if (part == PRIO) {
+		first = solutions[firstIdx].getPriorities();
+		second = solutions[secondIdx].getPriorities();
+	} else {
+		return -1;
+	}
+
+	r = Random::getRandomInt(0, numProcesses);
+	for (int i = r + 1; i < numProcesses; i++) {
+		tmp1 = first[i];
+		tmp2 = second[i];
+		first[i] = tmp2;
+		second[i] = tmp1;
+	}
+	return r + 1;
 }
 
 void UniformMatrixSwappingStrategy::execute(
@@ -342,7 +486,7 @@ void UniformMatrixSwappingStrategy::execute(
 		if (r <= prob) {
 			before1 = solutions[pairs[i]].getSurvivalValue();
 			before2 = solutions[pairs[i + 1]].getSurvivalValue();
-			start = population->crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
+			start = crossoverSolutions(TASK, pairs[i], pairs[i + 1]);
 			population->countSurvivalValue(pairs[i], initProcesses);
 			population->countSurvivalValue(pairs[i + 1], initProcesses);
 			after1 = solutions[pairs[i]].getSurvivalValue();
@@ -389,3 +533,5 @@ void UniformMatrixSwappingStrategy::execute(
 		}
 	}
 }
+
+*/

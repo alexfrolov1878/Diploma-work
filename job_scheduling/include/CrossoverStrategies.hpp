@@ -18,6 +18,9 @@ class Population;
 class MemoryMatrix;
 
 class OnePointVectorStrategy : public ICrossoverStrategy {
+private:
+	int crossoverSolutions(unique_ptr<Population> &population,
+		SolutionPart part, int firstIdx, int secondIdx);
 public:
 	virtual ~OnePointVectorStrategy() {}
 	virtual void execute(
@@ -25,9 +28,10 @@ public:
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
 		unique_ptr<MemoryMatrix> &mutMatr,
-		unique_ptr<MemoryMatrix> &crMatr);
+		unique_ptr<MemoryMatrix> &crMatr
+	);
 };
-
+/*
 class OnePointMatrixThrowingStrategy : public ICrossoverStrategy {
 public:
 	virtual ~OnePointMatrixThrowingStrategy() {}
@@ -71,5 +75,5 @@ public:
 		unique_ptr<MemoryMatrix> &mutMatr,
 		unique_ptr<MemoryMatrix> &crMatr);
 };
-
+*/
 #endif /* CROSSOVER_STRATEGY_HPP_ */

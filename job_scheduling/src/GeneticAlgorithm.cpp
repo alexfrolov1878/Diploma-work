@@ -66,6 +66,7 @@ JobSchedulingGA::JobSchedulingGA(ifstream &fin,
 				new OnePointVectorStrategy())
 			);
 			break;
+		/*
 		case ONE_POINT_MATRIX_THROWING:
 			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
 				new OnePointMatrixThrowingStrategy())
@@ -86,9 +87,10 @@ JobSchedulingGA::JobSchedulingGA(ifstream &fin,
 				new UniformMatrixSwappingStrategy())
 			);
 			break;
+		*/
 		default:
 			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
-				new OnePointMatrixSwappingStrategy())
+				new OnePointVectorStrategy())
 			);
 			break;
 	}
@@ -253,7 +255,7 @@ void JobSchedulingGA::mutation() {
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					mutationMatr->useChangeStrategy(i, j, before, after);
+					mutationMatr->useChangeStrategy(TASK, i, j, before, after);
 				}
 			}
 		}
@@ -276,7 +278,7 @@ void JobSchedulingGA::mutation() {
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					mutationMatr->useChangeStrategy(i, j, before, after);
+					mutationMatr->useChangeStrategy(PRIO, i, j, before, after);
 				}
 			}
 		}

@@ -30,7 +30,6 @@ public:
 
 	void print(ostream &out);
 	void generate();
-	int crossoverSolutions(SolutionPart part, int firstIdx, int secondIdx);
 	void mutateSolution(SolutionPart part, int index, int offset);
 	void countSurvivalValue(int index, vector<Process> &initProcesses);
 	void countSurvivalValues(vector<Process> &initProcesses);
