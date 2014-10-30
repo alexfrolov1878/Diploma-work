@@ -33,7 +33,7 @@ Population::~Population() {
 	solutions.clear();
 }
 
-const vector<Solution> &Population::getSolutions() const {
+vector<Solution> &Population::getSolutions() {
 	return solutions;
 }
 

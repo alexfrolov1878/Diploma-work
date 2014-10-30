@@ -9,23 +9,33 @@ static void pruneElement(double &element) {
 }
 
 void AbsoluteStrategy::changeElement(MatrixDouble &memMatr,
-		int row, int index, double before, double after) {
+		int row, int start, int end, double before, double after) {
+	double add = 0.0;
+
 	if (before < after) {
-		memMatr[row][index] -= MP;
+		add -= MP;
 	} else if (before > after) {
-		memMatr[row][index] += MP;
+		add += MP;
 	}
-	pruneElement(memMatr[row][index]);
+
+	for (int i = start; i < end; i++) {
+		memMatr[row][i] += add;
+		pruneElement(memMatr[row][i]);
+	}
 }
 
 void RelativeStrategy::changeElement(MatrixDouble &memMatr,
-		int row, int index, double before, double after) {
-	memMatr[row][index] += before - after;
-	pruneElement(memMatr[row][index]);
+		int row, int start, int end, double before, double after) {
+	for (int i = start; i < end; i++) {
+		memMatr[row][i] = before - after;
+		pruneElement(memMatr[row][i]);
+	}
 }
 
 void ForgettingStrategy::changeElement(MatrixDouble &memMatr,
-		int row, int index, double before, double after) {
-	memMatr[row][index] = REMEMBERING_POWER * memMatr[row][index] + (before - after);
-	pruneElement(memMatr[row][index]);
+		int row, int start, int end, double before, double after) {
+	for (int i = start; i < end; i++) {
+		memMatr[row][i] = REMEMBERING_POWER * memMatr[row][i] + (before - after);
+		pruneElement(memMatr[row][i]);
+	}	
 }

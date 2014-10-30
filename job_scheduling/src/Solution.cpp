@@ -88,7 +88,7 @@ Solution::~Solution() {
 	priorities.clear();
 }
 
-const vector<int> &Solution::getTasks() const {
+vector<int> &Solution::getTasks() {
 	return tasks;
 }
 
@@ -100,7 +100,7 @@ void Solution::setTask(int index, int value) {
 	tasks[index] = value;
 }
 
-const vector<int> &Solution::getPriorities() const {
+vector<int> &Solution::getPriorities() {
 	return priorities;
 }
 

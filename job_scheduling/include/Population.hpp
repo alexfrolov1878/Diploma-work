@@ -21,7 +21,7 @@ public:
 	Population &operator=(Population that);
 	~Population();
 
-	const vector<Solution> &getSolutions() const;
+	vector<Solution> &getSolutions();
 	void setSolutions(vector<Solution> &_solutions);
 	int getBestSolutionIdx() const;
 	void setBestSolutionIdx(int _bestSolutionIdx);

@@ -61,10 +61,10 @@ public:
 	Solution &operator=(Solution that);
 	~Solution();
 
-	const vector<int> &getTasks() const;
+	vector<int> &getTasks();
 	int getTask(int index) const;
 	void setTask(int index, int value);
-	const vector<int> &getPriorities() const;
+	vector<int> &getPriorities();
 	int getPriority(int index) const;
 	void setPriority(int index, int value);
 	double getDowntime() const;

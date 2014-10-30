@@ -17,10 +17,10 @@ class Solution;
 class Population;
 class MemoryMatrix;
 
+void onePointSwap(vector<int> &first, vector<int> &second, int start, int end);
+void onePointCopy(vector<int> &first, vector<int> &second, int start, int end);
+
 class OnePointVectorStrategy : public ICrossoverStrategy {
-private:
-	int crossoverSolutions(unique_ptr<Population> &population,
-		SolutionPart part, int firstIdx, int secondIdx);
 public:
 	virtual ~OnePointVectorStrategy() {}
 	virtual void execute(
@@ -31,17 +31,6 @@ public:
 		unique_ptr<MemoryMatrix> &crMatr
 	);
 };
-/*
-class OnePointMatrixThrowingStrategy : public ICrossoverStrategy {
-public:
-	virtual ~OnePointMatrixThrowingStrategy() {}
-	virtual void execute(
-		unique_ptr<Population> &population,
-		MemoryType memoryType,
-		vector<Process> &initProcesses,
-		unique_ptr<MemoryMatrix> &mutMatr,
-		unique_ptr<MemoryMatrix> &crMatr);
-};
 
 class OnePointMatrixSwappingStrategy : public ICrossoverStrategy {
 public:
@@ -51,18 +40,21 @@ public:
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
 		unique_ptr<MemoryMatrix> &mutMatr,
-		unique_ptr<MemoryMatrix> &crMatr);
+		unique_ptr<MemoryMatrix> &crMatr
+	);
 };
 
-class UniformMatrixThrowingStrategy : public ICrossoverStrategy {
+
+class OnePointMatrixCopyingStrategy : public ICrossoverStrategy {
 public:
-	virtual ~UniformMatrixThrowingStrategy() {}
+	virtual ~OnePointMatrixCopyingStrategy() {}
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
 		vector<Process> &initProcesses,
 		unique_ptr<MemoryMatrix> &mutMatr,
-		unique_ptr<MemoryMatrix> &crMatr);
+		unique_ptr<MemoryMatrix> &crMatr
+	);
 };
 
 class UniformMatrixSwappingStrategy : public ICrossoverStrategy {
@@ -75,5 +67,16 @@ public:
 		unique_ptr<MemoryMatrix> &mutMatr,
 		unique_ptr<MemoryMatrix> &crMatr);
 };
-*/
+
+class UniformMatrixCopyingStrategy : public ICrossoverStrategy {
+public:
+	virtual ~UniformMatrixCopyingStrategy() {}
+	virtual void execute(
+		unique_ptr<Population> &population,
+		MemoryType memoryType,
+		vector<Process> &initProcesses,
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
+};
+
 #endif /* CROSSOVER_STRATEGY_HPP_ */
