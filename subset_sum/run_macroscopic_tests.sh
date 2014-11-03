@@ -1,57 +1,46 @@
 #!/bin/bash
 
-exe=./build/bin/GA.exe
-iter=$2
+EXE=./build/bin/GA.exe
+ITERS=$1
 
-memory() {
+run_tests() {
+	CR_TYPE=$1
+	MEM_TYPE=$2
+	ARGS="${CR_TYPE} ${MEM_TYPE} ${ITERS}"
 	echo "====================SIZE===================="
-	$exe ./tests/tests_size/test_100.txt memory $iter
-	$exe ./tests/tests_size/test_200.txt memory $iter
-	$exe ./tests/tests_size/test_300.txt memory $iter
-	$exe ./tests/tests_size/test_400.txt memory $iter
-	$exe ./tests/tests_size/test_500.txt memory $iter
-	$exe ./tests/tests_size/test_750.txt memory $iter
-	$exe ./tests/tests_size/test_1000.txt memory $iter
-	$exe ./tests/tests_size/test_1500.txt memory $iter
-	$exe ./tests/tests_size/test_2000.txt memory $iter
-	$exe ./tests/tests_size/test_2500.txt memory $iter
+	${EXE} tests/tests_size/test_100.txt ${ARGS}
+	${EXE} tests/tests_size/test_200.txt ${ARGS}
+	${EXE} tests/tests_size/test_300.txt ${ARGS}
+	${EXE} tests/tests_size/test_400.txt ${ARGS}
+	${EXE} tests/tests_size/test_500.txt ${ARGS}
+	${EXE} tests/tests_size/test_750.txt ${ARGS}
+	${EXE} tests/tests_size/test_1000.txt ${ARGS}
+	${EXE} tests/tests_size/test_1500.txt ${ARGS}
+	${EXE} tests/tests_size/test_2000.txt ${ARGS}
+	${EXE} tests/tests_size/test_2500.txt ${ARGS}
 	echo "====================GOAL===================="
-	$exe ./tests/tests_goal/test_0_1.txt memory $iter
-	$exe ./tests/tests_goal/test_0_2.txt memory $iter
-	$exe ./tests/tests_goal/test_0_3.txt memory $iter
-	$exe ./tests/tests_goal/test_0_4.txt memory $iter
-	$exe ./tests/tests_goal/test_0_45.txt memory $iter
-	$exe ./tests/tests_goal/test_0_55.txt memory $iter
-	$exe ./tests/tests_goal/test_0_6.txt memory $iter
-	$exe ./tests/tests_goal/test_0_7.txt memory $iter
-	$exe ./tests/tests_goal/test_0_8.txt memory $iter
-	$exe ./tests/tests_goal/test_0_9.txt memory $iter
+	${EXE} tests/tests_goal/test_0_1.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_2.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_3.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_4.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_45.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_55.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_6.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_7.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_8.txt ${ARGS}
+	${EXE} tests/tests_goal/test_0_9.txt ${ARGS}
 }
 
-standard() {
-	echo "====================SIZE===================="
-	$exe ./tests/tests_size/test_100.txt standard $iter
-	$exe ./tests/tests_size/test_200.txt standard $iter
-	$exe ./tests/tests_size/test_300.txt standard $iter
-	$exe ./tests/tests_size/test_400.txt standard $iter
-	$exe ./tests/tests_size/test_500.txt standard $iter
-	$exe ./tests/tests_size/test_750.txt standard $iter
-	$exe ./tests/tests_size/test_1000.txt standard $iter
-	$exe ./tests/tests_size/test_1500.txt standard $iter
-	$exe ./tests/tests_size/test_2000.txt standard $iter
-	$exe ./tests/tests_size/test_2500.txt standard $iter
-	echo "====================GOAL===================="
-	$exe ./tests/tests_goal/test_0_1.txt standard $iter
-	$exe ./tests/tests_goal/test_0_2.txt standard $iter
-	$exe ./tests/tests_goal/test_0_3.txt standard $iter
-	$exe ./tests/tests_goal/test_0_4.txt standard $iter
-	$exe ./tests/tests_goal/test_0_45.txt standard $iter
-	$exe ./tests/tests_goal/test_0_55.txt standard $iter
-	$exe ./tests/tests_goal/test_0_6.txt standard $iter
-	$exe ./tests/tests_goal/test_0_7.txt standard $iter
-	$exe ./tests/tests_goal/test_0_8.txt standard $iter
-	$exe ./tests/tests_goal/test_0_9.txt standard $iter
-}
+CR_TYPES=( 1 2 3 4 5 )
+MEM_TYPES=( "standard" "memory" )
 
-standard > standard.txt 2>&1
-memory   > memory.txt   2>&1
+for ((i = 0; i < ${#CR_TYPES[@]}; i++))
+do
+	CR_TYPE="${CR_TYPES[$i]}"
+	for ((j = 0; j < ${#MEM_TYPES[@]}; j++))
+	do
+		MEM_TYPE="${MEM_TYPES[$j]}"
+		FILENAME=`echo "${MEM_TYPE}_${CR_TYPE}" | sed -e "s/ /_/g"`
+		run_tests "${CR_TYPE}" "${MEM_TYPE}" > ${FILENAME}.txt 2>&1
+	done
+done

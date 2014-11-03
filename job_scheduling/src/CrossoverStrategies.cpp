@@ -38,7 +38,7 @@ void OnePointVectorStrategy::execute(
 	double r;
 	int pairs[NUM_SOLUTIONS], point;
 	double prob, prob1, prob2, before1, before2, after1, after2;
-	auto solutions = population->getSolutions();
+	auto &solutions = population->getSolutions();
 
 	//crossover over tasks
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -68,6 +68,8 @@ void OnePointVectorStrategy::execute(
 				//do nothing
 			} else {
 				mutMatr->swapElements(TASK, pairs[i], pairs[i + 1],
+					point, numProcesses);
+				crMatr->swapElements(TASK, pairs[i], pairs[i + 1],
 					point, numProcesses);
 				crMatr->useChangeStrategy(TASK, pairs[i],
 					0, 1, before1, after1);
@@ -106,6 +108,8 @@ void OnePointVectorStrategy::execute(
 			} else {
 				mutMatr->swapElements(PRIO, pairs[i], pairs[i + 1],
 					point, numProcesses);
+				crMatr->swapElements(PRIO, pairs[i], pairs[i + 1],
+					point, numProcesses);
 				crMatr->useChangeStrategy(PRIO, pairs[i],
 					0, 1, before1, after1);
 				crMatr->useChangeStrategy(PRIO, pairs[i + 1],
@@ -127,7 +131,7 @@ void OnePointMatrixSwappingStrategy::execute(
 	double r;
 	int pairs[NUM_SOLUTIONS], point;
 	double prob, prob1, prob2, before1, before2, after1, after2;
-	auto solutions = population->getSolutions();
+	auto &solutions = population->getSolutions();
 
 	//crossover over tasks
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -236,7 +240,7 @@ void OnePointMatrixCopyingStrategy::execute(
 	double r;
 	int pairs[NUM_SOLUTIONS], point;
 	double prob, prob1, prob2, before1, before2, after1, after2;
-	auto solutions = population->getSolutions();
+	auto &solutions = population->getSolutions();
 
 	//crossover over tasks
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -417,7 +421,7 @@ void UniformMatrixSwappingStrategy::execute(
 	double r;
 	int pairs[NUM_SOLUTIONS];
 	double prob, prob1, prob2, before1, before2, after1, after2;
-	auto solutions = population->getSolutions();
+	auto &solutions = population->getSolutions();
 	vector<int> v;
 
 	//crossover over tasks
@@ -525,7 +529,7 @@ void UniformMatrixCopyingStrategy::execute(
 	double r;
 	int pairs[NUM_SOLUTIONS];
 	double prob, prob1, prob2, before1, before2, after1, after2;
-	auto solutions = population->getSolutions();
+	auto &solutions = population->getSolutions();
 	vector<int> v1, v2, v3;
 
 	//crossover over tasks
@@ -546,14 +550,14 @@ void UniformMatrixCopyingStrategy::execute(
 				prob = min(prob1, prob2);
 			}
 			if (memoryType != NONE && prob1 > GOOD_CROSSOVER_PROBABILITY &&
-				prob2 < BAD_CROSSOVER_PROBABILITY) {
+					prob2 < BAD_CROSSOVER_PROBABILITY) {
 				onePointCopy(solutions[pairs[i]].getTasks(),
 					solutions[pairs[i + 1]].getTasks(), j, j + 1);
 				if (memoryType != NONE) {
 					v1.push_back(j);
 				}
 			} else if (memoryType != NONE && prob1 > GOOD_CROSSOVER_PROBABILITY &&
-				prob2 < BAD_CROSSOVER_PROBABILITY) {
+					prob2 < BAD_CROSSOVER_PROBABILITY) {
 				onePointCopy(solutions[pairs[i + 1]].getTasks(),
 					solutions[pairs[i]].getTasks(), j, j + 1);
 				if (memoryType != NONE) {
@@ -628,14 +632,14 @@ void UniformMatrixCopyingStrategy::execute(
 				prob = min(prob1, prob2);
 			}
 			if (memoryType != NONE && prob1 > GOOD_CROSSOVER_PROBABILITY &&
-				prob2 < BAD_CROSSOVER_PROBABILITY) {
+					prob2 < BAD_CROSSOVER_PROBABILITY) {
 				onePointCopy(solutions[pairs[i]].getPriorities(),
 					solutions[pairs[i + 1]].getPriorities(), j, j + 1);
 				if (memoryType != NONE) {
 					v1.push_back(j);
 				}
 			} else if (memoryType != NONE && prob1 > GOOD_CROSSOVER_PROBABILITY &&
-				prob2 < BAD_CROSSOVER_PROBABILITY) {
+					prob2 < BAD_CROSSOVER_PROBABILITY) {
 				onePointCopy(solutions[pairs[i + 1]].getPriorities(),
 					solutions[pairs[i]].getPriorities(), j, j + 1);
 				if (memoryType != NONE) {

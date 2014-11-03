@@ -56,11 +56,12 @@ const double MUTATION_POWER = 0.25;
 
 const double MIN_MEM_PARAM_VALUE = 0.1;
 const double MAX_MEM_PARAM_VALUE = 0.9;
-const double MP = 0.05;
+const double MP = 0.1;
+const double RELATIVE_DIFF_FACTOR = 7.5;
 const double REMEMBERING_POWER = 0.5;
 
-const double C1 = 0.3;
-const double C2 = 0.7;
+const double C1 = 0.7;
+const double C2 = 0.3;
 
 /*======================INTERFACES================================*/
 class IGeneticAlgorithm {

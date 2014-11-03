@@ -25,7 +25,7 @@ public:
 		int start, int end) = 0;
 	virtual void copyElements(SolutionPart part, int index1, int index2,
 		int start, int end) = 0;
-	virtual void print(ostream &out, int row) = 0;
+	virtual void print(ostream &out) = 0;
 };
 
 class IChangeStrategy {
@@ -53,7 +53,7 @@ protected:
 	int columns;
 	MatrixDouble elements;
 public:
-	MemoryMatrix(const MemoryType &type, int rows, int columns);
+	MemoryMatrix(const MemoryType &type, double value, int rows, int columns);
 	MemoryMatrix(MemoryMatrix &that);
 	virtual ~MemoryMatrix();
 
@@ -64,7 +64,7 @@ public:
 		int start, int end);
 	virtual void copyElements(SolutionPart part, int index1, int index2,
 		int start, int end);
-	virtual void print(ostream &out, int row);
+	virtual void print(ostream &out);
 
 	virtual void setChangeStrategy(unique_ptr<IChangeStrategy> _operation);
 	virtual void useChangeStrategy(SolutionPart part, int row, int start,

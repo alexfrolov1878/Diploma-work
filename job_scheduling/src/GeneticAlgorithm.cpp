@@ -18,6 +18,8 @@ using std::move;
 using std::random_shuffle;
 using std::min;
 using std::max;
+using std::cout;
+using std::endl;
 
 double JobSchedulingGA::bestSeenSurvivalValue = 0.0;
 unique_ptr<Solution> JobSchedulingGA::bestSeenSolution =
@@ -56,8 +58,10 @@ JobSchedulingGA::JobSchedulingGA(ifstream &fin,
 	temp.clear();
 
 	memoryType = _memoryType;
-	mutationMatr.reset(new MemoryMatrix(memoryType, NUM_SOLUTIONS, 2 * numProcesses));
-	crossoverMatr.reset(new MemoryMatrix(memoryType, NUM_SOLUTIONS, 2 * numProcesses));
+	mutationMatr.reset(new MemoryMatrix(memoryType, MUTATION_PROBABILITY,
+		NUM_SOLUTIONS, 2 * numProcesses));
+	crossoverMatr.reset(new MemoryMatrix(memoryType, CROSSOVER_PROBABILITY,
+		NUM_SOLUTIONS, 2 * numProcesses));
 
 	crossoverType = _crossoverType;
 	switch (crossoverType) {
@@ -123,9 +127,9 @@ void JobSchedulingGA::selection() {
 	vector<Solution> newSolutions(NUM_SOLUTIONS);
 	unique_ptr<MemoryMatrix> newMutMatr, newCrMatr;
 	if (memoryType != NONE) {
-		newMutMatr.reset(new MemoryMatrix(memoryType,
+		newMutMatr.reset(new MemoryMatrix(memoryType, MUTATION_PROBABILITY,
 			NUM_SOLUTIONS, 2 * numProcesses));
-		newCrMatr.reset(new MemoryMatrix(memoryType,
+		newCrMatr.reset(new MemoryMatrix(memoryType, CROSSOVER_PROBABILITY,
 			NUM_SOLUTIONS, 2 * numProcesses));
 	}
 
@@ -234,7 +238,7 @@ void JobSchedulingGA::useCrossoverStrategy() {
 void JobSchedulingGA::mutation() {
 	double r;
 	double prob, before, after;
-	auto solutions = population->getSolutions();
+	auto &solutions = population->getSolutions();
 
 	//mutation over tasks
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -253,7 +257,7 @@ void JobSchedulingGA::mutation() {
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					mutationMatr->useChangeStrategy(TASK, i, j, j + 1, before, after);
+					mutationMatr->useChangeStrategy(TASK, i, j, j + 1, after, before);
 				}
 			}
 		}
@@ -276,7 +280,7 @@ void JobSchedulingGA::mutation() {
 				if (memoryType == NONE) {
 					//do nothing
 				} else {
-					mutationMatr->useChangeStrategy(PRIO, i, j, j + 1, before, after);
+					mutationMatr->useChangeStrategy(PRIO, i, j, j + 1, after, before);
 				}
 			}
 		}

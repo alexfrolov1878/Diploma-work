@@ -62,9 +62,11 @@ public:
 	~Solution();
 
 	vector<int> &getTasks();
+	void setTasks(vector<int> &_tasks);
 	int getTask(int index) const;
 	void setTask(int index, int value);
 	vector<int> &getPriorities();
+	void setPriorities(vector<int> &_priorities);
 	int getPriority(int index) const;
 	void setPriority(int index, int value);
 	double getDowntime() const;

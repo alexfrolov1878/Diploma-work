@@ -62,6 +62,9 @@ void Population::print(ostream &out) {
 		out << "	Solution " << i + 1 << endl;
 		solutions[i].print(out);
 	}
+	out << endl;
+	out << "=========================================" << endl;
+	out << endl;
 }
 
 void Population::generate() {

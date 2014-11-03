@@ -16,6 +16,8 @@ using std::string;
 using std::cin;
 using std::cout;
 using std::cerr;
+using std::ifstream;
+using std::ofstream;
 using std::endl;
 using std::flush;
 
@@ -111,7 +113,7 @@ bool parseArguments(int argc, char *argv[]) {
 
 	maxIterations = atoi(argv[argc - 1]);
 	if (maxIterations <= 0) {
-		cerr << "Wrong argument " << argc << ": \"" <<
+		cerr << "Wrong last argument (" << argc << "): \"" <<
 			argv[argc - 1]	<< "\"" << endl;
 		return false;
 	}

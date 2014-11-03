@@ -1,4 +1,5 @@
 #include <vector>
+#include <cmath>
 
 #include "Solution.hpp"
 #include "main.hpp"
@@ -8,39 +9,16 @@
 using std::priority_queue;
 using std::vector;
 using std::ostream;
+using std::log2;
+using std::cout;
 using std::endl;
 
-int numProcessorsBinaryLength = -1;
-int numProcessesBinaryLength = -1;
 int sumComplexity = -1;
 
-int getBinaryLength(int num) {
-	if (num == numProcessors - 1) {
-		if (numProcessorsBinaryLength == -1) {
-			int i, tmp;
-			for (tmp = 1, i = 0; num >= tmp; i++) {
-				tmp *= 2;
-			}
-			numProcessorsBinaryLength = i;
-		}
-		return numProcessorsBinaryLength;
-	} else if (num == numProcesses - 1) {
-		if (numProcessesBinaryLength == -1) {
-			int i, tmp;
-			for (tmp = 1, i = 0; num >= tmp; i++) {
-				tmp *= 2;
-			}
-			numProcessesBinaryLength = i;
-		}
-		return numProcessesBinaryLength;
-	}
-	return -1;
-}
-
-int mutateInt(int value, double power, int limit) {
+inline int mutateInt(int value, double power, int limit) {
 	int binaryLength, n, l;
 
-	binaryLength = getBinaryLength(limit);
+	binaryLength = int(log2(limit)) + 1;
 	n = int ((binaryLength - 1) * (power + 0.5));
 	for (int i = 0; i < n; i++) {
 		l = Random::getRandomInt(0, binaryLength);
@@ -92,6 +70,10 @@ vector<int> &Solution::getTasks() {
 	return tasks;
 }
 
+void Solution::setTasks(vector<int> &_tasks) {
+	tasks.swap(_tasks);
+}
+
 int Solution::getTask(int index) const {
 	return tasks[index];
 }
@@ -102,6 +84,10 @@ void Solution::setTask(int index, int value) {
 
 vector<int> &Solution::getPriorities() {
 	return priorities;
+}
+
+void Solution::setPriorities(vector<int> &_priorities) {
+	priorities.swap(_priorities);
 }
 
 int Solution::getPriority(int index) const {
@@ -159,8 +145,8 @@ void Solution::print(ostream &out) {
 	out << "time = " << time << endl;
 	out << "downtime = " << downtime << endl;
 	out << "survival_value = " << survivalValue << endl;
-	out << "sum_of_computational_complexity = " << sumOfComputationalComplexity
-			<< endl;
+	out << "sum_of_computational_complexity = " << sumOfComputationalComplexity << endl;
+	out << endl;
 }
 
 void Solution::generate() {
@@ -279,12 +265,11 @@ void Solution::buildSchedule(vector<Process> &initProcesses) {
 }
 
 void Solution::mutate(SolutionPart part, int index) {
-	int mutated;
 	if (part == TASK) {
-		mutated = mutateInt(tasks[index], MUTATION_POWER, numProcessors - 1);
-		tasks[index] = mutated;
+		tasks[index] = mutateInt(tasks[index], MUTATION_POWER,
+			numProcessors - 1);
 	} else {
-		mutated = mutateInt(priorities[index], MUTATION_POWER, numProcesses - 1);
-		priorities[index] = mutated;
+		priorities[index] = mutateInt(priorities[index], MUTATION_POWER,
+			numProcesses - 1);
 	}
 }

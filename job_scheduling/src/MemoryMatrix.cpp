@@ -8,19 +8,10 @@ using std::vector;
 using std::ostream;
 using std::endl;
 
-MemoryMatrix::MemoryMatrix(const MemoryType &type, int _rows, int _columns) {
+MemoryMatrix::MemoryMatrix(const MemoryType &type, double value, int _rows, int _columns) {
 	rows = _rows;
 	columns = _columns;
-
-	elements = MatrixDouble(rows, vector<double>(columns, 0.0));
-	vector<double> tmp(columns);
-	for (int i = 0; i < rows; i++) {
-		tmp.clear();
-		for (int j = 0; j < columns; j++) {
-			tmp.push_back(MUTATION_PROBABILITY);
-		}
-		elements.push_back(tmp);
-	}
+	elements = MatrixDouble(rows, vector<double>(columns, value));
 
 	switch (type) {
 		case ABSOLUTE:
@@ -95,15 +86,23 @@ void MemoryMatrix::copyElements(SolutionPart part, int index1, int index2, int s
 	}
 }
 
-void MemoryMatrix::print(ostream &out, int row) {
-	out << "Task probabilities: ";
-	for (int i = 0; i < numProcesses; i++) {
-		out << elements[row][i] << " ";
+void MemoryMatrix::print(ostream &out) {
+	out << "Task probabilities: " << endl;
+	for (int i = 0; i < rows; i++) {
+		out << "ROW " << i + 1 << ": " << endl;
+		for (int j = 0; j < columns / 2; j++) {
+			out << elements[i][j] << " ";
+		}
+		out << endl;
 	}
-	out << endl;
-	out << "Prio probabilities: ";
-	for (int i = numProcesses; i < 2 * numProcesses; i++) {
-		out << elements[row][i] << " ";
+	out << endl << endl;
+	out << "Prio probabilities: " << endl;
+	for (int i = 0; i < rows; i++) {
+		out << "ROW " << i + 1 << ": " << endl;
+		for (int j = columns / 2; j < columns; j++) {
+			out << elements[i][j] << " ";
+		}
+		out << endl;
 	}
 	out << endl;
 }
