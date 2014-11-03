@@ -10,7 +10,8 @@ using std::ostream;
 using std::endl;
 using std::exp;
 
-vector<double> Population::weights = vector<double>();
+vector<double> Population::weights = vector<double>(numWeights, 0.0);
+
 Population::Population() {
 	k1 = 0.0;
 	k2 = 0.0;
@@ -20,6 +21,7 @@ Population::Population() {
 	k2Initial = 0.0;
 	solutions = vector<Solution>(NUM_SOLUTIONS);
 }
+
 Population::Population(const Population& that) {
 	solutions = that.solutions;
 	k1 = that.k1;
@@ -29,6 +31,18 @@ Population::Population(const Population& that) {
 	k2Initial = that.k2Initial;
 	qMax = that.qMax;
 }
+
+Population& Population::operator=(Population that) {
+	solutions = that.solutions;
+	k1 = that.k1;
+	k2 = that.k2;
+	q = that.q;
+	k1Initial = that.k1Initial;
+	k2Initial = that.k2Initial;
+	qMax = that.qMax;
+	return *this;
+}
+
 Population::~Population() {
 	solutions.clear();
 }
@@ -36,27 +50,35 @@ Population::~Population() {
 void Population::setWeights(vector<double> &weights) {
 	Population::weights.swap(weights);
 }
-const vector<Solution>& Population::getSolutions() const {
+
+vector<Solution>& Population::getSolutions() {
 	return solutions;
 }
+
 void Population::setSolutions(vector<Solution> &_solutions) {
 	solutions.swap(_solutions);
 }
+
 double Population::getK1() const {
 	return k1;
 }
+
 void Population::setK1(double _k1) {
 	k1 = _k1;
 }
+
 double Population::getK2() const {
 	return k2;
 }
+
 void Population::setK2(double _k2) {
 	k2 = _k2;
 }
+
 double Population::getQ() const {
 	return q;
 }
+
 double Population::countQab(int a, int b) {
 	double Qab = 0.0;
 	for (int i = 0; i < numWeights; i++) {
@@ -66,6 +88,7 @@ double Population::countQab(int a, int b) {
 	}
 	return Qab / 4.0 / numWeights;
 }
+
 double Population::countQ() {
 	double result = 0.0;
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -78,6 +101,7 @@ double Population::countQ() {
 	}
 	return result / NUM_SOLUTIONS / (NUM_SOLUTIONS - 1);
 }
+
 double Population::recountQ() {
 	double sum = 0.0;
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -101,9 +125,11 @@ double Population::recountQ() {
 	}
 	return result;
 }
+
 void Population::setQ(double _q) {
 	q = _q;
 }
+
 void Population::updateMacroparameters(Operation operation) {
 	double value1, value2;
 	double G = goal;
@@ -141,6 +167,7 @@ void Population::print(ostream &out) {
 		}
 	}
 }
+
 void Population::generate() {
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
 		solutions[i].generate();
@@ -159,12 +186,15 @@ void Population::generate() {
 	k1Initial = k1;
 	k2Initial = k2;
 }
+
 void Population::crossoverSolutions(int firstIdx, int secondIdx) {
 	solutions[firstIdx].crossover(solutions[secondIdx]);
 }
+
 void Population::mutateSolution(int index) {
 	solutions[index].mutate();
 }
+
 void Population::countSurvivalValue(int index) {
 	solutions[index].buildField(weights);
 	double N = numWeights;
@@ -174,11 +204,13 @@ void Population::countSurvivalValue(int index) {
 	double value = exp(-1.0 * selectionStrength * energy);
 	solutions[index].setSurvivalValue(value);
 }
+
 void Population::countSurvivalValues() {
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
 		countSurvivalValue(i);
 	}
 }
+
 double Population::getResult() {
 	double N = numWeights;
 	double G = goal;

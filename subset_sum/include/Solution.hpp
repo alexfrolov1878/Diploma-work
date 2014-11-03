@@ -18,7 +18,7 @@ private:
 public:
 	Solution();
 	Solution(const Solution &that);
-	// TODO: ...
+	Solution &operator=(Solution that);
 	~Solution();
 
 	int getIndicator(int index) const;

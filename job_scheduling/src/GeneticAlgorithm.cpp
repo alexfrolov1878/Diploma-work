@@ -104,12 +104,15 @@ JobSchedulingGA::~JobSchedulingGA() {
 double JobSchedulingGA::getBestSeenSurvivalValue() {
 	return bestSeenSurvivalValue;
 }
+
 void JobSchedulingGA::setBestSeenSurvivalValue(double bestSeenSurvivalValue) {
 	JobSchedulingGA::bestSeenSurvivalValue = bestSeenSurvivalValue;
 }
+
 unique_ptr<Solution> &JobSchedulingGA::getBestSeenSolution() {
 	return bestSeenSolution;
 }
+
 void JobSchedulingGA::setBestSeenSolution(const Solution &solution) {
 	JobSchedulingGA::bestSeenSolution.reset(new Solution(solution));
 }
@@ -117,9 +120,11 @@ void JobSchedulingGA::setBestSeenSolution(const Solution &solution) {
 void JobSchedulingGA::generatePopulation() {
 	population->generate();
 }
+
 void JobSchedulingGA::countSurvivalValues() {
 	population->countSurvivalValues(initProcesses);
 }
+
 void JobSchedulingGA::selection() {
 	int maxIndex, index, limit, nSel1, nBestExists, l;
 	double sumOfSurvivalValues, survivalValue, averageValue, maxValue;
@@ -225,16 +230,20 @@ void JobSchedulingGA::selection() {
 	crossoverMatr = move(newCrMatr);
 	newSolutions.clear();
 }
+
 void JobSchedulingGA::crossover() {
 	useCrossoverStrategy();
 }
+
 void JobSchedulingGA::setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op) {
 	operation = move(_op);
 }
+
 void JobSchedulingGA::useCrossoverStrategy() {
 	operation->execute(population, memoryType, initProcesses,
 		mutationMatr, crossoverMatr);
 }
+
 void JobSchedulingGA::mutation() {
 	double r;
 	double prob, before, after;
@@ -286,9 +295,11 @@ void JobSchedulingGA::mutation() {
 		}
 	}
 }
+
 void JobSchedulingGA::printCurrentPopulation(ostream &out) {
 	population->print(out);
 }
+
 double JobSchedulingGA::getResult() {
 	return bestSeenSolution->getTime();
 }

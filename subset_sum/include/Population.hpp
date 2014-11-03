@@ -28,7 +28,7 @@ private:
 public:
 	Population();
 	Population(const Population& that);
-	// TODO: ...
+	Population &operator=(Population that);
 	~Population();
 
 	void setWeights(vector<double> &weights);

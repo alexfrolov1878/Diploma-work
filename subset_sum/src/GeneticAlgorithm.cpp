@@ -18,8 +18,8 @@ using std::random_shuffle;
 using std::min;
 
 SubsetSumGA::SubsetSumGA(ifstream &fin,
-							 CrossoverType _crossoverType,
-							 MemoryType _memoryType) {
+						 CrossoverType _crossoverType,
+						 MemoryType _memoryType) {
 	fin >> numWeights;
 	fin >> goal;
 	fin >> selectionStrength;
@@ -33,14 +33,44 @@ SubsetSumGA::SubsetSumGA(ifstream &fin,
 	population->setWeights(weights);
 
 	memoryType = _memoryType;
-	if (memoryType == MACROSCOPIC) {
-		macroscopicMemoryVector.reset(new MemoryVector());
-	} else {
-		macroscopicMemoryVector.reset(nullptr);
-	}
+	mutationMatr.reset(new MemoryMatrix(memoryType, MUTATION_PROBABILITY,
+		NUM_SOLUTIONS, numWeights));
+	crossoverMatr.reset(new MemoryMatrix(memoryType, CROSSOVER_PROBABILITY,
+		NUM_SOLUTIONS, numWeights));
 
 	crossoverType = _crossoverType;
-	// TODO: ...
+	switch (crossoverType) {
+		case ONE_POINT_VECTOR:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointVectorStrategy())
+			);
+			break;
+		case ONE_POINT_MATRIX_SWAPPING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointMatrixSwappingStrategy())
+			);
+			break;
+		case ONE_POINT_MATRIX_COPYING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointMatrixCopyingStrategy())
+			);
+			break;
+		case UNIFORM_MATRIX_SWAPPING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new UniformMatrixSwappingStrategy())
+			);
+			break;
+		case UNIFORM_MATRIX_COPYING:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new UniformMatrixCopyingStrategy())
+			);
+			break;
+		default:
+			setCrossoverStrategy(unique_ptr<ICrossoverStrategy>(
+				new OnePointMatrixCopyingStrategy())
+			);
+			break;
+	}
 }
 SubsetSumGA::~SubsetSumGA() {
 	weights.clear();
@@ -49,13 +79,15 @@ SubsetSumGA::~SubsetSumGA() {
 void SubsetSumGA::generatePopulation() {
 	population->generate();
 }
+
 void SubsetSumGA::countSurvivalValues() {
 	population->countSurvivalValues();
 }
+
 void SubsetSumGA::selection() {
 	int index;
 	auto solutions = population->getSolutions();
-	vector<Solution> newSolutions;
+	vector<Solution> newSolutions(NUM_SOLUTIONS);
 
 	double sumOfSurvivalValues = 0.0;
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
@@ -68,19 +100,18 @@ void SubsetSumGA::selection() {
 		sum += 2 * M_PI * solutions[i].getSurvivalValue() / sumOfSurvivalValues;
 		sectors[i] = sum;
 	}
-
-	newSolutions.reserve(NUM_SOLUTIONS);
 	for (int i = 0; i < NUM_SOLUTIONS; i++) {
 		double rand = Random::getRandomDouble(0, 2 * M_PI);
 		index = lower_bound(sectors.begin(), sectors.end(), rand) - sectors.begin();
-		newSolutions.push_back(solutions[index]);
+		newSolutions[i] = solutions[index];
 	}
+
 	population->setSolutions(newSolutions);
 	population->updateMacroparameters(SELECTION);
-
 	newSolutions.clear();
 	sectors.clear();
 }
+
 void SubsetSumGA::crossover() {
 	double k1Before = population->getK1();
 	double k2Before = population->getK2();
@@ -101,11 +132,12 @@ void SubsetSumGA::crossover() {
 	double k1After = population->getK1();
 	double k2After = population->getK2();
 	double qAfter = population->getQ();
-	if (memoryVector) {
-		memoryVector->changeElement(0, k1Before, k1After,
+	if (memoryType != NONE) {
+		crossoverMatr->changeElement(0, k1Before, k1After,
 			k2Before, k2After, qBefore, qAfter);
 	}
 }
+
 void SubsetSumGA::mutation() {
 	double k1Before = population->getK1();
 	double k2Before = population->getK2();
@@ -120,15 +152,16 @@ void SubsetSumGA::mutation() {
 	double k1After = population->getK1();
 	double k2After = population->getK2();
 	double qAfter = population->getQ();
-	if (memoryVector) {
-		memoryVector->changeElement(1, k1After, k1Before,
+	if (memoryType != NONE) {
+		mutationMatr->changeElement(1, k1After, k1Before,
 			k2After, k2Before, qAfter, qBefore);
 	}
 }
+
 void SubsetSumGA::printCurrentPopulation(ostream &out) {
 	population->print(out);
 }
+
 double SubsetSumGA::getResult() {
 	return population->getResult();
 }
-/*=============================================================================*/

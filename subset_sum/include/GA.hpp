@@ -26,16 +26,18 @@ enum {
 
 enum CrossoverType {
 	ONE_POINT_VECTOR,
-	ONE_POINT_MATRIX_THROWING,
 	ONE_POINT_MATRIX_SWAPPING,
-	UNIFORM_MATRIX_THROWING,
-	UNIFORM_MATRIX_SWAPPING
+	ONE_POINT_MATRIX_COPYING,
+	UNIFORM_MATRIX_SWAPPING,
+	UNIFORM_MATRIX_COPYING,
 };
 
 enum MemoryType {
 	NONE,
 	MACROSCOPIC
 };
+
+const int SELECTION_N_BEST = 0.05 * NUM_SOLUTIONS;
 
 const double MACROSCOPIC_CROSSOVER_PROBABILITY = 0.5;
 const double MACROSCOPIC_MUTATION_PROBABILITY = 0.5;
@@ -49,11 +51,9 @@ const double G_NEIGHBOURHOOD_RADIUS = 0.2;
 
 const double MIN_MEM_PARAM_VALUE = 0.1;
 const double MAX_MEM_PARAM_VALUE = 0.9;
-const double MP = 0.05;
-const double REMEMBERING_POWER = 0.5;
 
-const double C1 = 0.3;
-const double C2 = 0.7;
+const double C1 = 0.7;
+const double C2 = 0.1;
 
 /*======================INTERFACES================================*/
 class IGeneticAlgorithm {
@@ -76,7 +76,8 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
-		unique_ptr<MemoryVector> &memoryVector) = 0;
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr) = 0;
 };
 
 class ICrossoverContext {
@@ -92,11 +93,13 @@ public:
 class SubsetSumGA: public IGeneticAlgorithm {
 protected:
 	vector<double> weights;
+	
 	CrossoverType crossoverType;
 	MemoryType memoryType;
 
 	unique_ptr<Population> population;
-	unique_ptr<MemoryVector> memoryVector;
+	unique_ptr<MemoryMatrix> mutationMatr;
+    unique_ptr<MemoryMatrix> crossoverMatr;
 public:
 	SubsetSumGA(ifstream &fin,
 			   	CrossoverType crossoverType,
