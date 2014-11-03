@@ -258,5 +258,5 @@ void SubsetSumGA::printCurrentPopulation(ostream &out) {
 }
 
 double SubsetSumGA::getResult() {
-	return population->getResult();
+	return bestSeenSolution->getField();
 }

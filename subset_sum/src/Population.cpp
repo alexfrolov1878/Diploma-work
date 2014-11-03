@@ -91,19 +91,3 @@ void Population::countSurvivalValues() {
 		countSurvivalValue(i);
 	}
 }
-
-double Population::getResult() {
-	double N = numWeights;
-	double G = goal;
-	double h, energy, result;
-	double min = N + 1;
-	for (int i = 0; i < NUM_SOLUTIONS; i++) {
-		h = solutions[i].getField();
-		energy = (h - G) * (h - G) / N;
-		if (energy < min) {
-			min = energy;
-			result = h;
-		}
-	}
-	return result;
-}

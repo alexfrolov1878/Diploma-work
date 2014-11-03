@@ -36,7 +36,6 @@ public:
 	void mutateSolution(int index, int offset);
 	void countSurvivalValue(int index);
 	void countSurvivalValues();
-	double getResult();
 };
 
 #endif /* POPULATION_HPP_ */
