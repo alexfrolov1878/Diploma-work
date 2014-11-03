@@ -107,7 +107,7 @@ bool parseArguments(int argc, char *argv[]) {
 			return false;
 		}
 		goalRatio = atof(argv[3]);
-		if (goalRatio <= 0 || goalRatio >= 1) {
+		if (goalRatio < 0 || goalRatio > 1) {
 			cerr << "Wrong argument 3: \"" << argv[3] << "\"" << endl;
 			return false;
 		}

@@ -13,12 +13,16 @@ run_tests() {
 	${EXE} tests/tests_size/test_300.txt ${ARGS}
 	${EXE} tests/tests_size/test_400.txt ${ARGS}
 	${EXE} tests/tests_size/test_500.txt ${ARGS}
-	${EXE} tests/tests_size/test_750.txt ${ARGS}
+	${EXE} tests/tests_size/test_600.txt ${ARGS}
+	${EXE} tests/tests_size/test_700.txt ${ARGS}
+	${EXE} tests/tests_size/test_800.txt ${ARGS}
+	${EXE} tests/tests_size/test_900.txt ${ARGS}
 	${EXE} tests/tests_size/test_1000.txt ${ARGS}
 	${EXE} tests/tests_size/test_1500.txt ${ARGS}
 	${EXE} tests/tests_size/test_2000.txt ${ARGS}
 	${EXE} tests/tests_size/test_2500.txt ${ARGS}
 	echo "====================GOAL===================="
+	${EXE} tests/tests_goal/test_0_0.txt ${ARGS}
 	${EXE} tests/tests_goal/test_0_1.txt ${ARGS}
 	${EXE} tests/tests_goal/test_0_2.txt ${ARGS}
 	${EXE} tests/tests_goal/test_0_3.txt ${ARGS}
@@ -29,6 +33,7 @@ run_tests() {
 	${EXE} tests/tests_goal/test_0_7.txt ${ARGS}
 	${EXE} tests/tests_goal/test_0_8.txt ${ARGS}
 	${EXE} tests/tests_goal/test_0_9.txt ${ARGS}
+	${EXE} tests/tests_goal/test_1_0.txt ${ARGS}
 }
 
 CR_TYPES=( 1 2 3 4 5 )
