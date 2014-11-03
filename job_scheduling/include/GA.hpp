@@ -127,12 +127,13 @@ public:
 	virtual void generatePopulation();
 	virtual void countSurvivalValues();
 	virtual void selection();
-	virtual void setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op);
-	virtual void useCrossoverStrategy();
 	virtual void crossover();
 	virtual void mutation();
 	virtual void printCurrentPopulation(ostream &out);
 	virtual double getResult();
+
+	virtual void setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op);
+	virtual void useCrossoverStrategy();
 };
 
 #endif /* GA_HPP_ */

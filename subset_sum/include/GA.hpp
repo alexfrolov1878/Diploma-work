@@ -14,7 +14,7 @@ using std::ifstream;
 
 class Solution;
 class Population;
-class MemoryVector;
+class MemoryMatrix;
 
 extern double goal;
 extern int numWeights;
@@ -34,23 +34,24 @@ enum CrossoverType {
 
 enum MemoryType {
 	NONE,
-	MACROSCOPIC
+	ABSOLUTE,
+	RELATIVE,
+	FORGETTING
 };
 
 const int SELECTION_N_BEST = 0.05 * NUM_SOLUTIONS;
 
-const double MACROSCOPIC_CROSSOVER_PROBABILITY = 0.5;
-const double MACROSCOPIC_MUTATION_PROBABILITY = 0.5;
-const double MACROSCOPIC_C1_CROSSOVER = 0.5;
-const double MACROSCOPIC_C1_MUTATION = 0.5;
-const double MACROSCOPIC_C2_CROSSOVER = 0.5;
-const double MACROSCOPIC_C2_MUTATION = 0.5;
-const double MACROSCOPIC_C3_CROSSOVER = 0.5;
-const double MACROSCOPIC_C3_MUTATION = 0.5;
-const double G_NEIGHBOURHOOD_RADIUS = 0.2;
+const double CROSSOVER_PROBABILITY = 0.5;
+const double GOOD_CROSSOVER_PROBABILITY = 0.66;
+const double BAD_CROSSOVER_PROBABILITY = 0.33;
+const double MUTATION_PROBABILITY = 0.5;
+const double MUTATION_POWER = 0.25;
 
 const double MIN_MEM_PARAM_VALUE = 0.1;
 const double MAX_MEM_PARAM_VALUE = 0.9;
+const double MP = 0.1;
+const double RELATIVE_DIFF_FACTOR = 7.5;
+const double REMEMBERING_POWER = 0.5;
 
 const double C1 = 0.7;
 const double C2 = 0.1;
@@ -90,8 +91,10 @@ public:
 };
 /*==============================================================*/
 
-class SubsetSumGA: public IGeneticAlgorithm {
+class SubsetSumGA: public IGeneticAlgorithm, ICrossoverContext {
 protected:
+	static double bestSeenSurvivalValue;
+	static unique_ptr<Solution> bestSeenSolution;
 	vector<double> weights;
 	
 	CrossoverType crossoverType;
@@ -108,6 +111,11 @@ public:
 	SubsetSumGA& operator=(SubsetSumGA that);
 	~SubsetSumGA();
 
+	static double getBestSeenSurvivalValue();
+	static void setBestSeenSurvivalValue(double bestSeenSurvivalValue);
+	static unique_ptr<Solution> &getBestSeenSolution();
+	static void setBestSeenSolution(const Solution &solution);
+
 	virtual void generatePopulation();
 	virtual void countSurvivalValues();
 	virtual void selection();
@@ -115,6 +123,9 @@ public:
 	virtual void mutation();
 	virtual void printCurrentPopulation(ostream &out);
 	virtual double getResult();
+
+	virtual void setCrossoverStrategy(unique_ptr<ICrossoverStrategy> _op);
+	virtual void useCrossoverStrategy();
 };
 
 #endif /* GA_HPP_ */

@@ -39,10 +39,11 @@ inline void printIterationNumber(int i) {
 
 inline void printUsage() {
 	cout
-		<< "Usage: GA.exe input_file cr_type has_memory [max_iter]" << endl
+		<< "Usage: GA.exe input_file cr_type has_memory [memory_type] [max_iter]" << endl
 		<< "	input_file: file with input data" << endl
 		<< "	cr_type: crossover type (1 - 5)" << endl
 		<< "	has_memory: memory usage (\"standard\" or \"memory\")" << endl
+		<< "	memory_type: memory type used (\"absolute\", \"relative\" or \"forgetting\")" << endl
 		<< "	max_iter: number of maximum iterations without improvement" << endl;
 }
 
@@ -57,7 +58,7 @@ inline bool exists(char name[]) {
 }
 
 bool parseArguments(int argc, char *argv[]) {
-	if (argc != 4 && argc != 5) {
+	if (argc != 4 && argc != 5 && argc != 6) {
 		cerr << "Wrong number of arguments!" << endl;
 		return false;
 	}
@@ -80,20 +81,37 @@ bool parseArguments(int argc, char *argv[]) {
 		cerr << "Wrong argument 3: \"" << typeStr << "\"" << endl;
 		return false;
 	}
-	if (!strcmp("standard", typeStr)) {
-		memoryType = NONE;
-	} else {
-		memoryType = MACROSCOPIC;
-	}
 
-	bool hasMemoryArgument = algType == MICROSCOPIC_WITH_MEMORY;
-
-	if (argc ==  5) {
-		maxIterations = atoi(argv[4]);
-		if (maxIterations <= 0) {
-			cerr << "Wrong argument 4: \"" << argv[4] << "\"" << endl;
+	bool hasMemoryArgument = strcmp("standard", typeStr) != 0;
+	if (hasMemoryArgument) {
+		char *memoryStr = argv[4];
+		if (strcmp("absolute", memoryStr) != 0
+				&& strcmp("relative", memoryStr) != 0
+				&& strcmp("forgetting", memoryStr) != 0) {
+			cerr << "Wrong argument 4: \"" << memoryStr << "\"" << endl;
 			return false;
 		}
+		if (!strcmp("absolute", memoryStr)) {
+			memoryType = ABSOLUTE;
+		} else if (!strcmp("relative", memoryStr)) {
+			memoryType = RELATIVE;
+		} else if (!strcmp("forgetting", memoryStr)) {
+			memoryType = FORGETTING;
+		} else {
+			memoryType = NONE;
+		}
+	}
+
+	if (!hasMemoryArgument && argc == 6) {
+		cerr << "Wrong number of arguments!" << endl;
+		return false;
+	}
+
+	maxIterations = atoi(argv[argc - 1]);
+	if (maxIterations <= 0) {
+		cerr << "Wrong last argument (" << argc << "): \"" <<
+			argv[argc - 1]	<< "\"" << endl;
+		return false;
 	}
 	return true;
 }
@@ -101,10 +119,16 @@ bool parseArguments(int argc, char *argv[]) {
 inline void printResult(unique_ptr<IGeneticAlgorithm> &algorithm,
 		double seconds, int iterations) {
 	cout << "--------------------------------------------------" << endl;
-	cout << "MACROSCOPIC ";
+	cout << "SubsetSumGA ";
 	switch (memoryType) {
-		case MACROSCOPIC:
-			cout << "with MACROSCOPIC memory";
+		case ABSOLUTE:
+			cout << "with ABSOLUTE memory";
+			break;
+		case RELATIVE:
+			cout << "with RELATIVE memory";
+			break;
+		case FORGETTING:
+			cout << "with FORGETTING memory";
 			break;
 		default:
 			cout << "STANDARD";
@@ -113,11 +137,11 @@ inline void printResult(unique_ptr<IGeneticAlgorithm> &algorithm,
 	cout << " for input file \"" << inputFile << "\"." << endl;
 
 	double result = algorithm->getResult();
-	cout << "Result is " << fabs(goal - result) << ", sum is " << result
-			<< ", should be " << goal << "." << endl;
+	cout << "Result is " << fabs(goal - result) << endl;
+	cout << "Sum is " << result	<< ", should be " << goal << "." << endl;
 
-    cout << "It took " << seconds << " seconds to find a solution." << endl;
-    cout << "Total number of iterations: " << iterations << "." << endl;
+	cout << "It took " << seconds << " seconds to find a solution." << endl;
+	cout << "Total number of iterations: " << iterations << "." << endl;
 	cout << "--------------------------------------------------" << endl;
 }
 

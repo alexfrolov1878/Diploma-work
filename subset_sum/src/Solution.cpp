@@ -30,8 +30,20 @@ Solution::~Solution() {
 	indicators.clear();
 }
 
+vector<int> &Solution::getIndicators() {
+	return indicators;
+}
+
+void Solution::setIndicators(vector<int> &_indicators) {
+	indicators.swap(_indicators);
+}
+
 int Solution::getIndicator(int index) const {
 	return indicators[index];
+}
+
+void Solution::setIndicator(int index, int value) {
+	indicators[index] = value;
 }
 
 double Solution::getField() const {
@@ -74,26 +86,9 @@ void Solution::buildField(vector<double> &weights) {
 	field = sum;
 }
 
-void Solution::crossover(Solution &that) {
-	double r;
-	bool value1, value2;
-	for (int i = 0; i < numWeights; i++) {
-		r = Random::getRandomDouble(0, 1);
-		if (r < MACROSCOPIC_CROSSOVER_PROBABILITY) {
-			value1 = this->indicators[i];
-			value2 = that.indicators[i];
-			this->indicators[i] = value2;
-			that.indicators[i] = value1;
-		}
-	}
-}
-
-void Solution::mutate() {
-	double r;
-	for (int i = 0; i < numWeights; i++) {
-		r = Random::getRandomDouble(0, 1);
-		if (r < MACROSCOPIC_MUTATION_PROBABILITY) {
-			indicators[i] = !indicators[i];
-		}
+void Solution::mutate(int index) {
+	double r = Random::getRandomDouble(0, 1);
+	if (r < MUTATION_PROBABILITY) {
+		indicators[index] = !indicators[index];
 	}
 }

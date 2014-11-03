@@ -4,27 +4,19 @@
 #include <iostream>
 #include <vector>
 
-#include "MemoryVector.hpp"
+#include "MemoryMatrix.hpp"
 #include "Solution.hpp"
 
 using std::vector;
 using std::ostream;
-
-enum Operation {
-	SELECTION, CROSSOVER, MUTATION
-};
 
 class Population {
 protected:
 	static vector<double> weights;
 private:
 	vector<Solution> solutions;
-	double k1;
-	double k2;
-	double q;
-	double k1Initial;
-	double k2Initial;
-	double qMax;
+	double bestSurvivalValue;
+	int bestSolutionIdx;
 public:
 	Population();
 	Population(const Population& that);
@@ -32,23 +24,16 @@ public:
 	~Population();
 
 	void setWeights(vector<double> &weights);
-	const vector<Solution>& getSolutions() const;
+	vector<Solution>& getSolutions();
 	void setSolutions(vector<Solution> &_solutions);
-	double getK1() const;
-	void setK1(double _k1);
-	double getK2() const;
-	void setK2(double _k2);
-	double getQ() const;
-	double countQab(int a, int b);
-	double countQ();
-	double recountQ();
-	void setQ(double _q);
-	void updateMacroparameters(Operation operation);
+	int getBestSolutionIdx() const;
+	void setBestSolutionIdx(int _bestSolutionIdx);
+	double getBestSurvivalValue() const;
+	void setBestSurvivalValue(double _bestSurvivalValue);
 
 	void print(ostream &out);
 	void generate();
-	void crossoverSolutions(int firstIdx, int secondIdx);
-	void mutateSolution(int index);
+	void mutateSolution(int index, int offset);
 	void countSurvivalValue(int index);
 	void countSurvivalValues();
 	double getResult();

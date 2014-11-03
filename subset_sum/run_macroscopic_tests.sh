@@ -32,7 +32,7 @@ run_tests() {
 }
 
 CR_TYPES=( 1 2 3 4 5 )
-MEM_TYPES=( "standard" "memory" )
+MEM_TYPES=( "standard" "memory absolute" "memory relative" "memory forgetting" )
 
 for ((i = 0; i < ${#CR_TYPES[@]}; i++))
 do

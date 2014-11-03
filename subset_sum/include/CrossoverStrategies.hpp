@@ -7,13 +7,17 @@
 
 #include "GA.hpp"
 #include "main.hpp"
+#include "MemoryMatrix.hpp"
 
 using std::unique_ptr;
 using std::vector;
 
 class Solution;
 class Population;
-class MemoryVector;
+class MemoryMatrix;
+
+void onePointSwap(vector<int> &first, vector<int> &second, int start, int end);
+void onePointCopy(vector<int> &first, vector<int> &second, int start, int end);
 
 class OnePointVectorStrategy : public ICrossoverStrategy {
 public:
@@ -21,16 +25,9 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
-		unique_ptr<MemoryVector> &memoryVector);
-};
-
-class OnePointMatrixThrowingStrategy : public ICrossoverStrategy {
-public:
-	virtual ~OnePointMatrixThrowingStrategy() {}
-	virtual void execute(
-		unique_ptr<Population> &population,
-		MemoryType memoryType,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr
+	);
 };
 
 class OnePointMatrixSwappingStrategy : public ICrossoverStrategy {
@@ -39,16 +36,21 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr
+	);
 };
 
-class UniformMatrixThrowingStrategy : public ICrossoverStrategy {
+
+class OnePointMatrixCopyingStrategy : public ICrossoverStrategy {
 public:
-	virtual ~UniformMatrixThrowingStrategy() {}
+	virtual ~OnePointMatrixCopyingStrategy() {}
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr
+	);
 };
 
 class UniformMatrixSwappingStrategy : public ICrossoverStrategy {
@@ -57,7 +59,18 @@ public:
 	virtual void execute(
 		unique_ptr<Population> &population,
 		MemoryType memoryType,
-		unique_ptr<MemoryVector> &memoryVector);
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
+};
+
+class UniformMatrixCopyingStrategy : public ICrossoverStrategy {
+public:
+	virtual ~UniformMatrixCopyingStrategy() {}
+	virtual void execute(
+		unique_ptr<Population> &population,
+		MemoryType memoryType,
+		unique_ptr<MemoryMatrix> &mutMatr,
+		unique_ptr<MemoryMatrix> &crMatr);
 };
 
 #endif /* CROSSOVER_STRATEGY_HPP_ */

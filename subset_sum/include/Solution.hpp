@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "GA.hpp"
-#include "MemoryVector.hpp"
 
 using std::vector;
 using std::ostream;
@@ -21,7 +20,10 @@ public:
 	Solution &operator=(Solution that);
 	~Solution();
 
+	vector<int> &getIndicators();
+	void setIndicators(vector<int> &_indicators);
 	int getIndicator(int index) const;
+	void setIndicator(int index, int value);
 	double getField() const;
 	void setField(double _field);
 	double getSurvivalValue() const;
@@ -30,8 +32,7 @@ public:
 	void print(ostream &out);
 	void generate();
 	void buildField(vector<double> &weights);
-	void crossover(Solution &that);
-	void mutate();
+	void mutate(int index);
 };
 
 #endif /* SOLUTION_HPP_ */

@@ -123,7 +123,7 @@ bool parseArguments(int argc, char *argv[]) {
 inline void printResult(unique_ptr<IGeneticAlgorithm> &algorithm,
 		double seconds, int iterations) {
 	cout << "--------------------------------------------------" << endl;
-	cout << "MICROSCOPIC ";
+	cout << "JobSchedulingGA ";
 	switch (memoryType) {
 		case ABSOLUTE:
 			cout << "with ABSOLUTE memory";
