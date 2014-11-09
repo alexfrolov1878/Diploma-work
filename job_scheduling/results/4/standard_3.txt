@@ -1,0 +1,252 @@
+====================SIZE====================
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_size/test_10.txt".
+Result is 26, which is CORRECT.
+It took 0.517438 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_size/test_15.txt".
+Result is 13, which is CORRECT.
+It took 0.614922 seconds to find a solution.
+Total number of iterations: 251.
+--------------------------------------------------
+START
+i0 i10 20 i30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_size/test_20.txt".
+Result is 30, which is CORRECT.
+It took 1.13003 seconds to find a solution.
+Total number of iterations: 273.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 i230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_size/test_25.txt".
+Result is 32, which is INCORRECT (should be 30).
+It took 4.65475 seconds to find a solution.
+Total number of iterations: 479.
+--------------------------------------------------
+START
+i0 i10 20 ii30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 i240 250 
+260 270 280 290 300 i310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_size/test_50.txt".
+Result is 40, which is INCORRECT (should be 37).
+It took 11.5533 seconds to find a solution.
+Total number of iterations: 553.
+--------------------------------------------------
+START
+i0 iii10 20 i30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_size/test_100.txt".
+Result is 51, which is INCORRECT (should be 40).
+It took 21.2239 seconds to find a solution.
+Total number of iterations: 271.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_size/test_500.txt".
+Result is 80, which is INCORRECT (should be 52).
+It took 1022.1 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+====================CONN====================
+START
+i0 i10 i20 30 40 50 60 70 80 90 100 110 120 130 140 i150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_conn/test_0_0.txt".
+Result is 41, which is INCORRECT (should be 30).
+It took 44.6364 seconds to find a solution.
+Total number of iterations: 393.
+--------------------------------------------------
+START
+i0 i10 i20 30 i40 50 60 70 80 90 100 110 120 130 140 150 160 i170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_conn/test_0_1.txt".
+Result is 49, which is INCORRECT (should be 40).
+It took 30.2089 seconds to find a solution.
+Total number of iterations: 416.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_conn/test_0_2.txt".
+Result is 49, which is INCORRECT (should be 40).
+It took 18.6689 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 i10 20 30 40 i50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_conn/test_0_3.txt".
+Result is 51, which is INCORRECT (should be 40).
+It took 23.1928 seconds to find a solution.
+Total number of iterations: 300.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 i60 70 80 90 100 110 120 130 140 150 160 170 180 i190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_conn/test_0_4.txt".
+Result is 51, which is INCORRECT (should be 40).
+It took 34.2724 seconds to find a solution.
+Total number of iterations: 434.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 60 70 80 90 100 110 120 130 i140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_conn/test_0_5.txt".
+Result is 52, which is INCORRECT (should be 40).
+It took 31.0623 seconds to find a solution.
+Total number of iterations: 383.
+--------------------------------------------------
+====================DISP====================
+START
+i0 10 20 30 40 50 60 70 i80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_disp/test_3.txt".
+Result is 15, which is INCORRECT (should be 12).
+It took 26.6448 seconds to find a solution.
+Total number of iterations: 329.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 60 70 i80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 i250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_disp/test_5.txt".
+Result is 39, which is INCORRECT (should be 25).
+It took 48.7752 seconds to find a solution.
+Total number of iterations: 493.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 i120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_disp/test_10.txt".
+Result is 72, which is INCORRECT (should be 56).
+It took 35.7848 seconds to find a solution.
+Total number of iterations: 365.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_disp/test_15.txt".
+Result is 78, which is INCORRECT (should be 63).
+It took 22.7124 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 i60 70 80 90 100 110 120 130 140 150 160 i170 180 190 200 210 220 230 240 i250 
+260 270 280 i290 300 310 320 330 340 350 360 370 380 i390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 560 570 580 590 600 610 620 630 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_disp/test_20.txt".
+Result is 104, which is INCORRECT (should be 86).
+It took 64.5049 seconds to find a solution.
+Total number of iterations: 640.
+--------------------------------------------------
+START
+i0 i10 i20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_disp/test_25.txt".
+Result is 137, which is INCORRECT (should be 109).
+It took 26.9632 seconds to find a solution.
+Total number of iterations: 264.
+--------------------------------------------------
+====================RATIO====================
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_ratio/test_0_02.txt".
+Result is 225, which is CORRECT.
+It took 23.4512 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 10 i20 i30 40 50 60 70 80 90 100 110 120 130 140 150 160 i170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_ratio/test_0_05.txt".
+Result is 81, which is INCORRECT (should be 75).
+It took 31.8257 seconds to find a solution.
+Total number of iterations: 411.
+--------------------------------------------------
+START
+i0 iii10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 i230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 i390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 560 570 580 590 600 610 620 630 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_ratio/test_0_1.txt".
+Result is 49, which is INCORRECT (should be 40).
+It took 49.1469 seconds to find a solution.
+Total number of iterations: 634.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 i190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_ratio/test_0_2.txt".
+Result is 32, which is INCORRECT (should be 21).
+It took 33.5659 seconds to find a solution.
+Total number of iterations: 438.
+--------------------------------------------------
+START
+i0 i10 20 i30 i40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 i250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_ratio/test_0_3.txt".
+Result is 32, which is INCORRECT (should be 20).
+It took 60.781 seconds to find a solution.
+Total number of iterations: 497.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 60 70 80 90 100 110 120 i130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 
+END
+--------------------------------------------------
+JobSchedulingGA STANDARD for input file "tests/tests_ratio/test_0_4.txt".
+Result is 22, which is INCORRECT (should be 11).
+It took 33.6359 seconds to find a solution.
+Total number of iterations: 379.
+--------------------------------------------------

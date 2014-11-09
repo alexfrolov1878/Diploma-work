@@ -1,0 +1,252 @@
+====================SIZE====================
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_100.txt".
+Result is 0.0018225
+Sum is 17.4957, should be 17.4939.
+It took 0.180172 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_200.txt".
+Result is 0.0785401
+Sum is 35.6583, should be 35.7368.
+It took 0.600961 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_300.txt".
+Result is 0.348504
+Sum is 53.3914, should be 53.0429.
+It took 1.26465 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_400.txt".
+Result is 4.40575
+Sum is 72.6013, should be 68.1955.
+It took 2.17927 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_500.txt".
+Result is 10.1811
+Sum is 99.7746, should be 89.5935.
+It took 3.32575 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_600.txt".
+Result is 12.1025
+Sum is 117.022, should be 104.92.
+It took 4.72224 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_700.txt".
+Result is 13.3416
+Sum is 131.561, should be 118.219.
+It took 6.36922 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_800.txt".
+Result is 22.4086
+Sum is 161.545, should be 139.136.
+It took 8.25843 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_900.txt".
+Result is 26.6085
+Sum is 180.972, should be 154.363.
+It took 10.3973 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_1000.txt".
+Result is 31.5349
+Sum is 209.829, should be 178.294.
+It took 12.7745 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_1500.txt".
+Result is 52.9594
+Sum is 315.145, should be 262.186.
+It took 28.3794 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_2000.txt".
+Result is 73.2882
+Sum is 420.163, should be 346.875.
+It took 50.0525 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_size/test_2500.txt".
+Result is 117.379
+Sum is 559.231, should be 441.852.
+It took 77.9117 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+====================GOAL====================
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_0.txt".
+Result is 94.8334
+Sum is 94.8334, should be 0.
+It took 3.32725 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_1.txt".
+Result is 66.0101
+Sum is 90.4755, should be 24.4654.
+It took 3.32899 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_2.txt".
+Result is 42.2648
+Sum is 91.4634, should be 49.1986.
+It took 3.32881 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_3.txt".
+Result is 18.0215
+Sum is 90.9589, should be 72.9374.
+It took 3.32735 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_4.txt".
+Result is 0.149406
+Sum is 99.0408, should be 98.8914.
+It took 3.34409 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_45.txt".
+Result is 0.00188893
+Sum is 109.499, should be 109.501.
+It took 3.43754 seconds to find a solution.
+Total number of iterations: 103.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_55.txt".
+Result is 0.0011831
+Sum is 139.651, should be 139.65.
+It took 6.78013 seconds to find a solution.
+Total number of iterations: 204.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_6.txt".
+Result is 0.186641
+Sum is 145.249, should be 145.436.
+It took 3.52844 seconds to find a solution.
+Total number of iterations: 106.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_7.txt".
+Result is 13.6499
+Sum is 163.038, should be 176.688.
+It took 6.1459 seconds to find a solution.
+Total number of iterations: 185.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_8.txt".
+Result is 40.4371
+Sum is 163.711, should be 204.148.
+It took 5.84607 seconds to find a solution.
+Total number of iterations: 176.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_0_9.txt".
+Result is 64.885
+Sum is 166.011, should be 230.896.
+It took 6.3405 seconds to find a solution.
+Total number of iterations: 191.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA with RELATIVE memory for input file "tests/tests_goal/test_1_0.txt".
+Result is 96.924
+Sum is 161.975, should be 258.899.
+It took 3.98766 seconds to find a solution.
+Total number of iterations: 120.
+--------------------------------------------------

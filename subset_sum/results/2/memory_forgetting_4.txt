@@ -1,0 +1,252 @@
+====================SIZE====================
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_100.txt".
+Result is 0.0002466
+Sum is 17.4937, should be 17.4939.
+It took 0.072225 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_200.txt".
+Result is 0.000979
+Sum is 35.7358, should be 35.7368.
+It took 0.191045 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_300.txt".
+Result is 0.00759455
+Sum is 53.0505, should be 53.0429.
+It took 0.366241 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_400.txt".
+Result is 0.0060566
+Sum is 68.1894, should be 68.1955.
+It took 0.600792 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_500.txt".
+Result is 0.0218216
+Sum is 89.5717, should be 89.5935.
+It took 0.887491 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_600.txt".
+Result is 0.0333997
+Sum is 104.887, should be 104.92.
+It took 1.22752 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_700.txt".
+Result is 0.00214162
+Sum is 118.217, should be 118.219.
+It took 1.63044 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_800.txt".
+Result is 1.52928
+Sum is 140.665, should be 139.136.
+It took 2.0972 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_900.txt".
+Result is 1.64373
+Sum is 156.007, should be 154.363.
+It took 2.61709 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_1000.txt".
+Result is 12.7647
+Sum is 191.059, should be 178.294.
+It took 3.21405 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_1500.txt".
+Result is 27.1639
+Sum is 289.35, should be 262.186.
+It took 6.92933 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_2000.txt".
+Result is 55.779
+Sum is 402.654, should be 346.875.
+It took 12.0907 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_size/test_2500.txt".
+Result is 74.9369
+Sum is 516.789, should be 441.852.
+It took 18.6905 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+====================GOAL====================
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_0.txt".
+Result is 70.6391
+Sum is 70.6391, should be 0.
+It took 0.8873 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_1.txt".
+Result is 49.6751
+Sum is 74.1405, should be 24.4654.
+It took 0.888232 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_2.txt".
+Result is 27.621
+Sum is 76.8196, should be 49.1986.
+It took 0.889368 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_3.txt".
+Result is 0.461957
+Sum is 73.3994, should be 72.9374.
+It took 0.88816 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_4.txt".
+Result is 0.00190302
+Sum is 98.8895, should be 98.8914.
+It took 0.879452 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_45.txt".
+Result is 6.07309e-06
+Sum is 109.501, should be 109.501.
+It took 0.880779 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_55.txt".
+Result is 0.000826489
+Sum is 139.651, should be 139.65.
+It took 0.889937 seconds to find a solution.
+Total number of iterations: 100.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_6.txt".
+Result is 0.00063941
+Sum is 145.437, should be 145.436.
+It took 0.925084 seconds to find a solution.
+Total number of iterations: 105.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_7.txt".
+Result is 0.563906
+Sum is 176.124, should be 176.688.
+It took 1.20203 seconds to find a solution.
+Total number of iterations: 141.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_8.txt".
+Result is 26.5443
+Sum is 177.604, should be 204.148.
+It took 1.28208 seconds to find a solution.
+Total number of iterations: 150.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 130 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_0_9.txt".
+Result is 51.6565
+Sum is 179.24, should be 230.896.
+It took 1.1468 seconds to find a solution.
+Total number of iterations: 133.
+--------------------------------------------------
+START
+0 10 20 30 40 50 60 70 80 90 100 110 120 
+END
+--------------------------------------------------
+SubsetSumGA with FORGETTING memory for input file "tests/tests_goal/test_1_0.txt".
+Result is 75.3001
+Sum is 183.599, should be 258.899.
+It took 1.11289 seconds to find a solution.
+Total number of iterations: 128.
+--------------------------------------------------

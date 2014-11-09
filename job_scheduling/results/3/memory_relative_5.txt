@@ -1,0 +1,257 @@
+====================SIZE====================
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size/test_10.txt".
+Result is 26, which is CORRECT.
+It took 0.563949 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size/test_15.txt".
+Result is 13, which is CORRECT.
+It took 0.608013 seconds to find a solution.
+Total number of iterations: 252.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size/test_20.txt".
+Result is 30, which is CORRECT.
+It took 0.963782 seconds to find a solution.
+Total number of iterations: 251.
+--------------------------------------------------
+START
+i0 i10 ii20 30 40 50 60 70 80 i90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size/test_25.txt".
+Result is 31, which is INCORRECT (should be 30).
+It took 2.79951 seconds to find a solution.
+Total number of iterations: 336.
+--------------------------------------------------
+START
+i0 i10 20 i30 40 i50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 i290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size/test_50.txt".
+Result is 38, which is INCORRECT (should be 37).
+It took 9.1287 seconds to find a solution.
+Total number of iterations: 536.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 i100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size/test_100.txt".
+Result is 49, which is INCORRECT (should be 40).
+It took 25.6674 seconds to find a solution.
+Total number of iterations: 350.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size/test_500.txt".
+Result is 77, which is INCORRECT (should be 52).
+It took 1028.24 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+====================CONN====================
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 i200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_conn/test_0_0.txt".
+Result is 40, which is INCORRECT (should be 30).
+It took 49.8126 seconds to find a solution.
+Total number of iterations: 449.
+--------------------------------------------------
+START
+i0 10 i20 30 40 i50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+ii260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_conn/test_0_1.txt".
+Result is 47, which is INCORRECT (should be 40).
+It took 34.9222 seconds to find a solution.
+Total number of iterations: 509.
+--------------------------------------------------
+START
+i0 iii10 20 30 40 50 i60 i70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 i240 250 
+260 270 i280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_conn/test_0_2.txt".
+Result is 47, which is INCORRECT (should be 40).
+It took 35.8278 seconds to find a solution.
+Total number of iterations: 525.
+--------------------------------------------------
+START
+i0 i10 20 i30 40 50 i60 i70 80 90 100 110 120 i130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_conn/test_0_3.txt".
+Result is 50, which is INCORRECT (should be 40).
+It took 26.6573 seconds to find a solution.
+Total number of iterations: 371.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 i50 60 70 i80 90 100 i110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_conn/test_0_4.txt".
+Result is 50, which is INCORRECT (should be 40).
+It took 26.4471 seconds to find a solution.
+Total number of iterations: 357.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 i120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 i370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 560 570 580 590 600 610 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_conn/test_0_5.txt".
+Result is 49, which is INCORRECT (should be 40).
+It took 46.1369 seconds to find a solution.
+Total number of iterations: 613.
+--------------------------------------------------
+====================DISP====================
+START
+i0 10 i20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_disp/test_3.txt".
+Result is 15, which is INCORRECT (should be 12).
+It took 20.4066 seconds to find a solution.
+Total number of iterations: 265.
+--------------------------------------------------
+START
+i0 10 20 30 40 i50 i60 70 80 90 100 110 120 130 i140 150 160 170 180 190 200 210 220 i230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_disp/test_5.txt".
+Result is 39, which is INCORRECT (should be 25).
+It took 45.854 seconds to find a solution.
+Total number of iterations: 475.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 i240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_disp/test_10.txt".
+Result is 72, which is INCORRECT (should be 56).
+It took 45.4337 seconds to find a solution.
+Total number of iterations: 485.
+--------------------------------------------------
+START
+i0 i10 20 30 i40 50 60 i70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_disp/test_15.txt".
+Result is 74, which is INCORRECT (should be 63).
+It took 28.2779 seconds to find a solution.
+Total number of iterations: 320.
+--------------------------------------------------
+START
+i0 i10 20 ii30 40 50 60 70 i80 90 100 110 120 130 i140 150 160 i170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_disp/test_20.txt".
+Result is 102, which is INCORRECT (should be 86).
+It took 40.2295 seconds to find a solution.
+Total number of iterations: 420.
+--------------------------------------------------
+START
+i0 10 i20 30 i40 50 60 70 80 90 100 110 120 130 140 150 160 i170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_disp/test_25.txt".
+Result is 129, which is INCORRECT (should be 109).
+It took 39.5714 seconds to find a solution.
+Total number of iterations: 419.
+--------------------------------------------------
+====================RATIO====================
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_ratio/test_0_02.txt".
+Result is 225, which is CORRECT.
+It took 24.0731 seconds to find a solution.
+Total number of iterations: 251.
+--------------------------------------------------
+START
+i0 10 20 ii30 40 50 60 70 80 90 100 110 120 i130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_ratio/test_0_05.txt".
+Result is 77, which is INCORRECT (should be 75).
+It took 26.9479 seconds to find a solution.
+Total number of iterations: 372.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 60 70 80 i90 100 110 120 130 140 i150 160 170 180 190 i200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_ratio/test_0_1.txt".
+Result is 48, which is INCORRECT (should be 40).
+It took 31.6011 seconds to find a solution.
+Total number of iterations: 441.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 i80 90 100 110 120 130 140 150 160 i170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_ratio/test_0_2.txt".
+Result is 32, which is INCORRECT (should be 21).
+It took 30.3786 seconds to find a solution.
+Total number of iterations: 417.
+--------------------------------------------------
+START
+i0 ii10 20 30 i40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+i260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_ratio/test_0_3.txt".
+Result is 31, which is INCORRECT (should be 20).
+It took 59.5068 seconds to find a solution.
+Total number of iterations: 504.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 i60 i70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_ratio/test_0_4.txt".
+Result is 21, which is INCORRECT (should be 11).
+It took 27.5993 seconds to find a solution.
+Total number of iterations: 315.
+--------------------------------------------------

@@ -1,0 +1,257 @@
+====================SIZE====================
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size/test_10.txt".
+Result is 26, which is CORRECT.
+It took 0.561153 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size/test_15.txt".
+Result is 13, which is CORRECT.
+It took 0.666774 seconds to find a solution.
+Total number of iterations: 251.
+--------------------------------------------------
+START
+i0 iii10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size/test_20.txt".
+Result is 30, which is CORRECT.
+It took 1.11092 seconds to find a solution.
+Total number of iterations: 258.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 i60 70 80 90 100 110 120 i130 140 150 160 170 180 190 200 210 220 230 240 i250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size/test_25.txt".
+Result is 31, which is INCORRECT (should be 30).
+It took 4.0389 seconds to find a solution.
+Total number of iterations: 491.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 i110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size/test_50.txt".
+Result is 41, which is INCORRECT (should be 37).
+It took 6.28358 seconds to find a solution.
+Total number of iterations: 354.
+--------------------------------------------------
+START
+i0 10 ii20 i30 i40 i50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+i260 270 280 290 300 310 320 330 i340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 560 570 580 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size/test_100.txt".
+Result is 46, which is INCORRECT (should be 40).
+It took 39.5558 seconds to find a solution.
+Total number of iterations: 589.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size/test_500.txt".
+Result is 78, which is INCORRECT (should be 52).
+It took 1007 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+====================CONN====================
+START
+i0 i10 20 30 40 50 60 70 i80 90 100 110 120 130 140 150 160 170 180 i190 200 210 220 i230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_conn/test_0_0.txt".
+Result is 39, which is INCORRECT (should be 30).
+It took 49.5442 seconds to find a solution.
+Total number of iterations: 478.
+--------------------------------------------------
+START
+i0 10 i20 30 i40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_conn/test_0_1.txt".
+Result is 46, which is INCORRECT (should be 40).
+It took 18.855 seconds to find a solution.
+Total number of iterations: 281.
+--------------------------------------------------
+START
+i0 i10 i20 ii30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_conn/test_0_2.txt".
+Result is 49, which is INCORRECT (should be 40).
+It took 19.3183 seconds to find a solution.
+Total number of iterations: 274.
+--------------------------------------------------
+START
+i0 i10 i20 30 40 50 60 70 80 90 100 i110 i120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_conn/test_0_3.txt".
+Result is 50, which is INCORRECT (should be 40).
+It took 25.8706 seconds to find a solution.
+Total number of iterations: 363.
+--------------------------------------------------
+START
+i0 iii10 20 30 40 50 60 70 80 90 100 i110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 i270 i280 290 300 i310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_conn/test_0_4.txt".
+Result is 47, which is INCORRECT (should be 40).
+It took 37.1367 seconds to find a solution.
+Total number of iterations: 556.
+--------------------------------------------------
+START
+i0 10 i20 30 40 50 60 i70 80 90 i100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 i300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_conn/test_0_5.txt".
+Result is 50, which is INCORRECT (should be 40).
+It took 38.0785 seconds to find a solution.
+Total number of iterations: 548.
+--------------------------------------------------
+====================DISP====================
+START
+i0 i10 i20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_disp/test_3.txt".
+Result is 15, which is INCORRECT (should be 12).
+It took 19.5174 seconds to find a solution.
+Total number of iterations: 264.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 i100 110 120 130 140 150 160 170 180 190 200 210 220 230 i240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_disp/test_5.txt".
+Result is 41, which is INCORRECT (should be 25).
+It took 43.2081 seconds to find a solution.
+Total number of iterations: 490.
+--------------------------------------------------
+START
+i0 ii10 i20 30 40 i50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 i210 220 230 240 250 
+260 270 280 290 i300 310 320 330 340 350 360 i370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 560 570 580 590 600 610 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_disp/test_10.txt".
+Result is 71, which is INCORRECT (should be 56).
+It took 53.1805 seconds to find a solution.
+Total number of iterations: 612.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_disp/test_15.txt".
+Result is 77, which is INCORRECT (should be 63).
+It took 21.4909 seconds to find a solution.
+Total number of iterations: 255.
+--------------------------------------------------
+START
+i0 i10 i20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_disp/test_20.txt".
+Result is 104, which is INCORRECT (should be 86).
+It took 24.6087 seconds to find a solution.
+Total number of iterations: 263.
+--------------------------------------------------
+START
+i0 10 ii20 30 40 50 60 70 80 i90 100 i110 120 130 140 i150 160 170 i180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 i360 370 380 390 400 410 420 430 i440 450 460 470 480 i490 500 
+510 520 530 540 550 560 570 580 590 600 610 620 630 640 650 660 670 680 690 700 710 720 730 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_disp/test_25.txt".
+Result is 127, which is INCORRECT (should be 109).
+It took 62.6008 seconds to find a solution.
+Total number of iterations: 734.
+--------------------------------------------------
+====================RATIO====================
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_ratio/test_0_02.txt".
+Result is 225, which is CORRECT.
+It took 23.7038 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 ii10 i20 30 40 i50 60 i70 i80 90 100 110 120 130 140 150 160 170 i180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_ratio/test_0_05.txt".
+Result is 78, which is INCORRECT (should be 75).
+It took 28.6747 seconds to find a solution.
+Total number of iterations: 427.
+--------------------------------------------------
+START
+i0 10 i20 30 40 i50 60 70 80 i90 100 110 120 130 140 150 160 170 180 190 200 i210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_ratio/test_0_1.txt".
+Result is 48, which is INCORRECT (should be 40).
+It took 31.0777 seconds to find a solution.
+Total number of iterations: 454.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 i70 80 90 100 110 i120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 i310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 490 500 
+510 520 530 540 550 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_ratio/test_0_2.txt".
+Result is 31, which is INCORRECT (should be 21).
+It took 37.8124 seconds to find a solution.
+Total number of iterations: 557.
+--------------------------------------------------
+START
+i0 ii10 20 i30 40 50 60 70 80 90 100 110 120 130 140 i150 160 170 180 190 200 210 220 i230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_ratio/test_0_3.txt".
+Result is 32, which is INCORRECT (should be 20).
+It took 50.9084 seconds to find a solution.
+Total number of iterations: 471.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 i60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_ratio/test_0_4.txt".
+Result is 21, which is INCORRECT (should be 11).
+It took 25.6421 seconds to find a solution.
+Total number of iterations: 309.
+--------------------------------------------------

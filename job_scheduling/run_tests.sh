@@ -9,7 +9,6 @@ run_tests() {
 	ARGS="${CR_TYPE} ${MEM_TYPE} ${ITERS}"
 	echo "====================SIZE===================="
 	${EXE} tests/tests_size/test_10.txt ${ARGS}
-	${EXE} tests/tests_size/test_10.txt ${ARGS}
 	${EXE} tests/tests_size/test_15.txt ${ARGS}
 	${EXE} tests/tests_size/test_20.txt ${ARGS}
 	${EXE} tests/tests_size/test_25.txt ${ARGS}

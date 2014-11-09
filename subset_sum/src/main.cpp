@@ -172,8 +172,8 @@ int main(int argc, char *argv[]) {
 		algorithm->countSurvivalValues();
 		algorithm->selection();
 		result = currentResult(algorithm);
-		cout << result << endl;
 		if (result < bestResult) {
+			cout << "i";
 			bestResult = result;
 			iters_without_improvement = 0;
 		}
