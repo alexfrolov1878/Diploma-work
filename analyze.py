@@ -17,7 +17,7 @@ def parse_data(dir):
 	data = {}
 	patterns = {}
 	patterns['precision'] = re.compile(r"Result is (\d+\.\d+|\d+)")
-	patterns['time'] = re.compile(r"It took (\d+\.\d+)")
+	patterns['time'] = re.compile(r"It took (\d+\.\d+|\d+)")
 	patterns['iterations'] = re.compile(r"Total number of iterations: (\d+)")
 
 	for run in RUNS:
@@ -57,8 +57,8 @@ def write_data(workbook, worksheet, data, feat):
 		col = 0
 		worksheet.write(row, col, 'RUN #' + str(run), header_cell)
 		col += 1
-		for test_num in range(1, NUM_TESTS):
-			worksheet.write(row, col, test_num, test_cell)
+		for test_num in range(NUM_TESTS):
+			worksheet.write(row, col, test_num + 1, test_cell)
 			col += 1
 		row += 1
 		for mem in MEM_TYPES:
@@ -77,8 +77,8 @@ def write_data(workbook, worksheet, data, feat):
 	col = 0
 	worksheet.write(row, col, 'AVERAGE', header_cell)
 	col += 1
-	for test_num in range(1, NUM_TESTS):
-		worksheet.write(row, col, test_num, test_cell)
+	for test_num in range(NUM_TESTS):
+		worksheet.write(row, col, test_num + 1, test_cell)
 		col += 1
 	row += 1
 	for mem in MEM_TYPES:
@@ -87,10 +87,10 @@ def write_data(workbook, worksheet, data, feat):
 			name = construct_name(mem, cr)
 			worksheet.write(row, col, name, alg_cell)
 			col += 1
-			for i in range(1, NUM_TESTS):
+			for i in range(NUM_TESTS):
 				s = 0.0;
 				for run in RUNS:
-					s += eval(data[run][mem][cr][feat][i - 1]);
+					s += eval(data[run][mem][cr][feat][i]);
 				s /= len(RUNS);
 				worksheet.write(row, col, s, num_cell)
 				col += 1
