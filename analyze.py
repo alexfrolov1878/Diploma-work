@@ -1,12 +1,20 @@
 import re
-import xlsxwriter as xlsxwriter
+import xlsxwriter
 
 
 NUM_TESTS = 25
 RUNS = (1, 2, 3, 4)
 MEM_TYPES = ('standard', 'memory_absolute', 'memory_relative', 'memory_forgetting')
 CR_TYPES = (1, 2, 3, 4, 5)
-FEATURES = ('precision', 'time', 'iterations')
+CR_STRS = (
+	'Standard one-point crossover',
+	'One-point crossover with swapping',
+	'One-point crossover with copying', 
+	'Uniform crossover with swapping',
+	'Uniform crossover with copying'
+)
+CHART_POS = ('C3', 'C28', 'C53', 'C78', 'C103')
+FEATURES = ('precision', 'time')
 
 
 def construct_name(mem, cr):
@@ -18,7 +26,6 @@ def parse_data(dir):
 	patterns = {}
 	patterns['precision'] = re.compile(r"Result is (\d+\.\d+|\d+)")
 	patterns['time'] = re.compile(r"It took (\d+\.\d+|\d+)")
-	patterns['iterations'] = re.compile(r"Total number of iterations: (\d+)")
 
 	for run in RUNS:
 		data[run] = {}
@@ -35,6 +42,20 @@ def parse_data(dir):
 							match = patterns[feat].match(line)
 							if match != None:
 								data[run][mem][cr][feat] += match.groups()
+	
+	data[0] = {}
+	# compute averages
+	for mem in MEM_TYPES:
+		data[0][mem] = {}
+		for cr in CR_TYPES:
+			data[0][mem][cr] = {}
+			for feat in FEATURES:
+				data[0][mem][cr][feat] = [0.0] * NUM_TESTS
+				for i in range(NUM_TESTS):
+					s = 0.0
+					for run in RUNS:
+						s += eval(data[run][mem][cr][feat][i]);
+					data[0][mem][cr][feat][i] = s / len(RUNS);
 	return data
 
 
@@ -51,7 +72,7 @@ def write_data(workbook, worksheet, data, feat):
 	alg_cell.set_right(7)
 	num_cell = workbook.add_format({'num_format': '0.000', 'align': 'center'})
 
-	# fill in data
+	# fill in data over runs
 	for run in RUNS:
 		row = run * (height + spaces)
 		col = 0
@@ -72,7 +93,7 @@ def write_data(workbook, worksheet, data, feat):
 					col += 1
 				row += 1
 
-	# compute averages
+	# fill in average data
 	row = 0
 	col = 0
 	worksheet.write(row, col, 'AVERAGE', header_cell)
@@ -87,14 +108,78 @@ def write_data(workbook, worksheet, data, feat):
 			name = construct_name(mem, cr)
 			worksheet.write(row, col, name, alg_cell)
 			col += 1
-			for i in range(NUM_TESTS):
-				s = 0.0;
-				for run in RUNS:
-					s += eval(data[run][mem][cr][feat][i]);
-				s /= len(RUNS);
-				worksheet.write(row, col, s, num_cell)
+			for item in data[0][mem][cr][feat]:
+				worksheet.write(row, col, item, num_cell)
 				col += 1
 			row += 1
+	return
+
+
+def tune_chart(chart, feat, title):
+	chart.set_size({
+		'width': 720,
+		'height': 480
+	})
+	chart.set_title({
+		'name': title
+	})
+	chart.set_chartarea({
+		'border': {'none': True},
+		'fill':   {'color': 'white'}
+	})
+	chart.set_legend({
+		'position': 'bottom',
+		'font': {'size': 9, 'bold': 1}
+	})
+	chart.set_x_axis({
+		'name': 'tests',
+		'name_font': {'rotation': 0, 'size': 12, 'bold': False},
+		'num_font':  {'italic': True },
+		'major_gridlines': {
+			'visible': True,
+			'line': {'width': 0.5, 'dash_type': 'dash'}
+		}
+	})
+	chart.set_y_axis({
+		'name': feat,
+		'name_font': {'rotation': -89, 'size': 12, 'bold': False},
+		'num_font':  {'italic': True },
+	})
+	return
+
+def plot_chart(chart, worksheet, data, feat, cr, tmp_row):
+	for mem in MEM_TYPES:
+		# skip standard algorithm as it is the base level
+		if mem == 'standard':
+			continue
+
+		# compute the difference row
+		for test_num in range(NUM_TESTS):
+			diff = data[0]['standard'][cr][feat][test_num] - data[0][mem][cr][feat][test_num]
+			if feat == 'time':
+				diff *= -1
+			worksheet.write(tmp_row, test_num + 1, diff)
+		tmp_row += 1
+
+		
+		# add difference series
+		chart.add_series({
+			'name': mem,
+			'values': '=' + feat + '!$B$' + str(tmp_row) + ':$Z$' + str(tmp_row),
+			'marker': {'type': 'diamond'},
+		})
+		
+	return chart
+
+
+def plot_data(workbook, worksheet, data, feat):
+	tmp_row = 150
+	for cr in CR_TYPES:
+		chart = workbook.add_chart({'type': 'line'})
+		tune_chart(chart, feat, CR_STRS[cr - 1])
+		plot_chart(chart, worksheet, data, feat, cr, tmp_row)
+		worksheet.insert_chart(CHART_POS[cr - 1], chart)
+		tmp_row += len(MEM_TYPES)
 	return
 
 
@@ -108,6 +193,7 @@ def analyze_data(algorithm):
 		worksheet.set_column(0 , 0, 20)
 		worksheet.set_column(1, NUM_TESTS + 1, 12)
 		write_data(workbook, worksheet, data, feat)
+		plot_data(workbook, worksheet, data, feat)
 	workbook.close()
 	print '   Done!'
 
