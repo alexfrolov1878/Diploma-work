@@ -160,7 +160,6 @@ def plot_chart(chart, worksheet, data, feat, cr, tmp_row):
 				diff *= -1
 			worksheet.write(tmp_row, test_num + 1, diff)
 		tmp_row += 1
-
 		
 		# add difference series
 		chart.add_series({
@@ -175,7 +174,7 @@ def plot_chart(chart, worksheet, data, feat, cr, tmp_row):
 def plot_data(workbook, worksheet, data, feat):
 	tmp_row = 150
 	for cr in CR_TYPES:
-		chart = workbook.add_chart({'type': 'line'})
+		chart = workbook.add_chart({'type': 'column'})
 		tune_chart(chart, feat, CR_STRS[cr - 1])
 		plot_chart(chart, worksheet, data, feat, cr, tmp_row)
 		worksheet.insert_chart(CHART_POS[cr - 1], chart)
