@@ -155,9 +155,14 @@ def plot_chart(chart, worksheet, data, feat, cr, tmp_row):
 
 		# compute the difference row
 		for test_num in range(NUM_TESTS):
-			diff = data[0]['standard'][cr][feat][test_num] - data[0][mem][cr][feat][test_num]
-			if feat == 'time':
-				diff *= -1
+			if feat == 'precision':
+				# absolute difference for precision
+				diff = data[0]['standard'][cr][feat][test_num] - \
+					data[0][mem][cr][feat][test_num]
+			else:
+				# percents for time
+				diff = 100.0 * data[0]['standard'][cr][feat][test_num] / \
+					data[0][mem][cr][feat][test_num] - 100.0
 			worksheet.write(tmp_row, test_num + 1, diff)
 		tmp_row += 1
 		
