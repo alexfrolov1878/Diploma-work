@@ -2,12 +2,13 @@ import re
 import xlsxwriter
 
 
-NUM_TESTS = 25
+NUM_TESTS = 30
 RUNS = (1, 2, 3, 4)
 MEM_TYPES = ('standard', 'memory_absolute', 'memory_relative', 'memory_forgetting')
-CR_TYPES = (1, 2, 3, 4, 5)
+#CR_TYPES = (1, 2, 3, 4, 5)
+CR_TYPES = (2, 3, 4, 5)
 CR_STRS = (
-	'Standard one-point crossover',
+	#'Standard one-point crossover',
 	'One-point crossover with swapping',
 	'One-point crossover with copying', 
 	'Uniform crossover with swapping',
