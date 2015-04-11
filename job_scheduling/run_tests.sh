@@ -14,13 +14,12 @@ run_tests() {
 	#${EXE} tests/tests_size/test_25.txt ${ARGS}
 	#${EXE} tests/tests_size/test_50.txt ${ARGS}
 	#${EXE} tests/tests_size/test_100.txt ${ARGS}
-	#${EXE} tests/tests_size/test_500.txt ${ARGS}
 	echo "==================SIZE_BIG=================="
-	${EXE} tests/tests_size_big/test_1000.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_1500.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_2000.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_2500.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_3000.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_250.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_400.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_500.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_600.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_750.txt ${ARGS}
 	#echo "====================CONN===================="
 	#${EXE} tests/tests_conn/test_0_0.txt ${ARGS}
 	#${EXE} tests/tests_conn/test_0_1.txt ${ARGS}

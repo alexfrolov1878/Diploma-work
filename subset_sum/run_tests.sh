@@ -22,11 +22,11 @@ run_tests() {
 	#${EXE} tests/tests_size/test_2000.txt ${ARGS}
 	#${EXE} tests/tests_size/test_2500.txt ${ARGS}
 	echo "==================SIZE_BIG=================="
+	${EXE} tests/tests_size_big/test_3000.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_3500.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_4000.txt ${ARGS}
+	${EXE} tests/tests_size_big/test_4500.txt ${ARGS}
 	${EXE} tests/tests_size_big/test_5000.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_6000.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_7500.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_9000.txt ${ARGS}
-	${EXE} tests/tests_size_big/test_10000.txt ${ARGS}
 	#echo "====================GOAL===================="
 	#${EXE} tests/tests_goal/test_0_0.txt ${ARGS}
 	#${EXE} tests/tests_goal/test_0_1.txt ${ARGS}
