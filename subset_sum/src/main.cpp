@@ -146,7 +146,7 @@ inline void printResult(unique_ptr<IGeneticAlgorithm> &algorithm,
 }
 
 inline double currentResult(unique_ptr<IGeneticAlgorithm> &algorithm) {
-	return goal - algorithm->getResult();
+	return fabs(goal - algorithm->getResult());
 }
 
 int main(int argc, char *argv[]) {
