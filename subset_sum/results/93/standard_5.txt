@@ -1,0 +1,305 @@
+====================SIZE====================
+START
+i0 iii10 ii20 ii30 40 50 60 70 80 i90 100 110 120 130 140 i150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_100.txt".
+Result is 0.0012848
+Sum is 17.4926, should be 17.4939.
+It took 0.702628 seconds to find a solution.
+Total number of iterations: 242.
+--------------------------------------------------
+START
+i0 iiii10 ii20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_200.txt".
+Result is 0.00114141
+Sum is 35.7379, should be 35.7368.
+It took 1.10373 seconds to find a solution.
+Total number of iterations: 114.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 i50 ii60 i70 80 90 100 i110 120 130 140 150 160 170 180 190 200 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_300.txt".
+Result is 2.29998
+Sum is 55.3429, should be 53.0429.
+It took 4.21014 seconds to find a solution.
+Total number of iterations: 208.
+--------------------------------------------------
+START
+i0 iiiii10 i20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_400.txt".
+Result is 6.22339
+Sum is 74.4189, should be 68.1955.
+It took 4.17629 seconds to find a solution.
+Total number of iterations: 120.
+--------------------------------------------------
+START
+i0 iii10 20 30 40 50 i60 70 80 90 100 110 120 130 140 150 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_500.txt".
+Result is 10.9044
+Sum is 100.498, should be 89.5935.
+It took 8.2114 seconds to find a solution.
+Total number of iterations: 154.
+--------------------------------------------------
+START
+i0 iiiii10 20 i30 40 50 i60 70 80 90 i100 110 120 130 140 150 160 170 180 190 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_600.txt".
+Result is 11.4767
+Sum is 116.397, should be 104.92.
+It took 14.5365 seconds to find a solution.
+Total number of iterations: 192.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 i50 60 70 80 90 100 110 120 130 140 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_700.txt".
+Result is 14.9685
+Sum is 133.187, should be 118.219.
+It took 15.0102 seconds to find a solution.
+Total number of iterations: 147.
+--------------------------------------------------
+START
+i0 i10 ii20 ii30 40 50 60 70 80 90 100 110 120 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_800.txt".
+Result is 25.1374
+Sum is 164.273, should be 139.136.
+It took 17.2133 seconds to find a solution.
+Total number of iterations: 130.
+--------------------------------------------------
+START
+i0 iii10 i20 i30 40 50 60 i70 80 90 100 110 120 130 140 150 160 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_900.txt".
+Result is 25.2216
+Sum is 179.585, should be 154.363.
+It took 26.9928 seconds to find a solution.
+Total number of iterations: 162.
+--------------------------------------------------
+START
+i0 iiii10 ii20 ii30 i40 50 60 70 80 90 100 110 120 130 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_1000.txt".
+Result is 34.5558
+Sum is 212.85, should be 178.294.
+It took 26.8223 seconds to find a solution.
+Total number of iterations: 131.
+--------------------------------------------------
+START
+i0 iiiii10 20 30 ii40 50 60 70 80 90 100 110 120 i130 140 150 160 i170 180 i190 200 210 220 230 240 250 
+260 270 280 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_1500.txt".
+Result is 62.8922
+Sum is 325.078, should be 262.186.
+It took 128.979 seconds to find a solution.
+Total number of iterations: 284.
+--------------------------------------------------
+START
+i0 i10 20 i30 40 50 60 70 80 90 i100 110 120 130 140 150 160 170 180 190 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_2000.txt".
+Result is 91.9291
+Sum is 438.804, should be 346.875.
+It took 157.087 seconds to find a solution.
+Total number of iterations: 196.
+--------------------------------------------------
+START
+i0 iiiii10 i20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size/test_2500.txt".
+Result is 109.864
+Sum is 551.716, should be 441.852.
+It took 143.508 seconds to find a solution.
+Total number of iterations: 115.
+--------------------------------------------------
+==================SIZE_BIG==================
+START
+i0 i10 20 i30 ii40 i50 i60 70 80 90 100 110 i120 130 140 150 160 170 180 190 200 210 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size_big/test_3000.txt".
+Result is 149.545
+Sum is 670.304, should be 520.759.
+It took 385.312 seconds to find a solution.
+Total number of iterations: 215.
+--------------------------------------------------
+START
+i0 iii10 i20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size_big/test_3500.txt".
+Result is 194.093
+Sum is 813.609, should be 619.516.
+It took 275.065 seconds to find a solution.
+Total number of iterations: 113.
+--------------------------------------------------
+START
+i0 iiiii10 20 30 40 50 i60 70 80 90 100 110 120 130 140 150 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size_big/test_4000.txt".
+Result is 208.703
+Sum is 906.045, should be 697.342.
+It took 492.05 seconds to find a solution.
+Total number of iterations: 155.
+--------------------------------------------------
+START
+i0 i10 i20 30 40 50 i60 70 80 90 i100 110 120 130 140 150 160 170 180 190 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size_big/test_4500.txt".
+Result is 245.152
+Sum is 1032.18, should be 787.026.
+It took 770.334 seconds to find a solution.
+Total number of iterations: 192.
+--------------------------------------------------
+START
+i0 iii10 i20 30 i40 50 60 70 80 90 100 110 120 130 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_size_big/test_5000.txt".
+Result is 271.825
+Sum is 1128.72, should be 856.891.
+It took 658.188 seconds to find a solution.
+Total number of iterations: 133.
+--------------------------------------------------
+====================GOAL====================
+START
+i0 iiiii10 i20 30 40 50 60 i70 80 90 i100 110 i120 130 140 150 160 170 180 190 200 210 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_0.txt".
+Result is 95.4622
+Sum is 95.4622, should be 0.
+It took 11.4087 seconds to find a solution.
+Total number of iterations: 214.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 i50 60 70 i80 90 100 110 120 130 140 150 160 170 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_1.txt".
+Result is 59.8991
+Sum is 84.3645, should be 24.4654.
+It took 9.3254 seconds to find a solution.
+Total number of iterations: 175.
+--------------------------------------------------
+START
+i0 iiiii10 i20 i30 40 50 60 70 80 90 100 110 120 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_2.txt".
+Result is 46.6463
+Sum is 95.8449, should be 49.1986.
+It took 6.87573 seconds to find a solution.
+Total number of iterations: 129.
+--------------------------------------------------
+START
+i0 iii10 20 30 i40 50 60 70 80 90 100 110 120 i130 140 150 160 170 180 190 200 210 220 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_3.txt".
+Result is 21.1842
+Sum is 94.1216, should be 72.9374.
+It took 12.2601 seconds to find a solution.
+Total number of iterations: 230.
+--------------------------------------------------
+START
+i0 10 i20 30 40 50 60 70 i80 90 100 110 120 130 140 150 160 170 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_4.txt".
+Result is 0.318529
+Sum is 98.5729, should be 98.8914.
+It took 9.11322 seconds to find a solution.
+Total number of iterations: 171.
+--------------------------------------------------
+START
+i0 10 i20 i30 40 i50 60 70 80 90 100 110 120 i130 140 150 160 170 180 190 200 210 220 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_45.txt".
+Result is 0.000634837
+Sum is 109.5, should be 109.501.
+It took 12.1626 seconds to find a solution.
+Total number of iterations: 228.
+--------------------------------------------------
+START
+i0 iiii10 i20 i30 40 50 60 70 i80 90 i100 110 120 130 140 i150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_55.txt".
+Result is 0.000657421
+Sum is 139.649, should be 139.65.
+It took 12.9571 seconds to find a solution.
+Total number of iterations: 243.
+--------------------------------------------------
+START
+i0 iii10 i20 30 i40 i50 60 70 80 90 100 110 120 130 140 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_6.txt".
+Result is 0.104408
+Sum is 145.54, should be 145.436.
+It took 7.78166 seconds to find a solution.
+Total number of iterations: 146.
+--------------------------------------------------
+START
+i0 iiii10 20 i30 i40 i50 60 70 80 i90 i100 110 120 130 140 150 160 170 i180 190 200 210 220 230 240 250 
+260 270 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_7.txt".
+Result is 20.9173
+Sum is 155.771, should be 176.688.
+It took 14.6117 seconds to find a solution.
+Total number of iterations: 274.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 60 70 80 90 100 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_8.txt".
+Result is 44.8062
+Sum is 159.342, should be 204.148.
+It took 5.76128 seconds to find a solution.
+Total number of iterations: 108.
+--------------------------------------------------
+START
+i0 ii10 i20 30 40 i50 i60 i70 80 90 100 i110 120 130 140 150 160 170 180 190 200 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_0_9.txt".
+Result is 73.0068
+Sum is 157.889, should be 230.896.
+It took 11.0374 seconds to find a solution.
+Total number of iterations: 207.
+--------------------------------------------------
+START
+i0 ii10 i20 i30 40 50 60 70 80 90 100 110 120 
+END
+--------------------------------------------------
+SubsetSumGA STANDARD for input file "tests/tests_goal/test_1_0.txt".
+Result is 102.01
+Sum is 156.889, should be 258.899.
+It took 6.66753 seconds to find a solution.
+Total number of iterations: 125.
+--------------------------------------------------
