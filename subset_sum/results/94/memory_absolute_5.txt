@@ -1,0 +1,308 @@
+====================SIZE====================
+START
+i0 ii10 i20 30 40 50 60 i70 80 90 100 110 120 i130 140 150 160 ii170 180 190 200 210 220 230 240 250 
+260 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_100.txt".
+Result is 0.0004439
+Sum is 17.4943, should be 17.4939.
+It took 0.70189 seconds to find a solution.
+Total number of iterations: 265.
+--------------------------------------------------
+START
+i0 iiiiii10 i20 i30 40 50 60 i70 80 i90 100 110 120 i130 140 150 160 170 180 190 200 210 220 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_200.txt".
+Result is 0.00123919
+Sum is 35.7356, should be 35.7368.
+It took 2.14102 seconds to find a solution.
+Total number of iterations: 222.
+--------------------------------------------------
+START
+i0 iiiiiii10 ii20 30 40 50 iii60 70 80 90 100 110 120 130 i140 150 i160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_300.txt".
+Result is 0.0061725
+Sum is 53.0367, should be 53.0429.
+It took 5.25821 seconds to find a solution.
+Total number of iterations: 255.
+--------------------------------------------------
+START
+i0 iiiii10 ii20 ii30 i40 50 60 70 80 90 100 110 120 130 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_400.txt".
+Result is 0.0219221
+Sum is 68.1736, should be 68.1955.
+It took 4.90317 seconds to find a solution.
+Total number of iterations: 138.
+--------------------------------------------------
+START
+i0 iii10 iii20 ii30 40 50 i60 70 80 90 i100 110 120 130 140 150 160 170 180 190 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_500.txt".
+Result is 0.008944
+Sum is 89.5846, should be 89.5935.
+It took 10.6984 seconds to find a solution.
+Total number of iterations: 197.
+--------------------------------------------------
+START
+i0 iiiiiii10 20 30 40 50 60 i70 80 90 100 110 120 130 140 150 160 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_600.txt".
+Result is 0.828205
+Sum is 104.092, should be 104.92.
+It took 12.5073 seconds to find a solution.
+Total number of iterations: 162.
+--------------------------------------------------
+START
+i0 iiiiiii10 20 30 40 ii50 60 70 80 i90 100 110 120 130 140 150 160 170 180 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_700.txt".
+Result is 1.67491
+Sum is 119.894, should be 118.219.
+It took 19.0939 seconds to find a solution.
+Total number of iterations: 185.
+--------------------------------------------------
+START
+i0 iiiiiiii10 ii20 ii30 40 50 60 70 80 90 100 110 120 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_800.txt".
+Result is 4.24168
+Sum is 143.378, should be 139.136.
+It took 17.1187 seconds to find a solution.
+Total number of iterations: 128.
+--------------------------------------------------
+START
+i0 iiiiii10 i20 i30 i40 50 60 70 80 90 i100 110 120 130 i140 150 160 170 180 190 200 210 i220 230 240 250 
+260 270 280 290 300 310 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_900.txt".
+Result is 5.23988
+Sum is 159.603, should be 154.363.
+It took 53.7614 seconds to find a solution.
+Total number of iterations: 320.
+--------------------------------------------------
+START
+i0 iiiiiiii10 iii20 30 i40 50 60 70 80 90 100 110 120 130 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_1000.txt".
+Result is 14.7626
+Sum is 193.057, should be 178.294.
+It took 27.8383 seconds to find a solution.
+Total number of iterations: 135.
+--------------------------------------------------
+START
+i0 iiiii10 i20 ii30 i40 ii50 60 70 80 90 100 110 120 130 140 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_1500.txt".
+Result is 28.3158
+Sum is 290.502, should be 262.186.
+It took 66.056 seconds to find a solution.
+Total number of iterations: 145.
+--------------------------------------------------
+START
+i0 iiiiii10 i20 30 i40 50 60 70 80 90 100 i110 120 130 140 150 160 170 180 190 200 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_2000.txt".
+Result is 39.7698
+Sum is 386.645, should be 346.875.
+It took 161.693 seconds to find a solution.
+Total number of iterations: 202.
+--------------------------------------------------
+START
+i0 iiii10 ii20 ii30 40 50 60 70 i80 90 100 110 120 i130 140 150 160 170 180 190 200 210 220 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size/test_2500.txt".
+Result is 57.1151
+Sum is 498.967, should be 441.852.
+It took 282.554 seconds to find a solution.
+Total number of iterations: 228.
+--------------------------------------------------
+==================SIZE_BIG==================
+START
+i0 iiiiiiiii10 i20 i30 40 50 60 70 80 90 100 110 i120 i130 140 150 160 170 180 i190 200 210 220 230 240 250 
+260 270 280 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size_big/test_3000.txt".
+Result is 68.5668
+Sum is 589.326, should be 520.759.
+It took 500.092 seconds to find a solution.
+Total number of iterations: 281.
+--------------------------------------------------
+START
+i0 iiiiiii10 iii20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size_big/test_3500.txt".
+Result is 107.585
+Sum is 727.101, should be 619.516.
+It took 288.666 seconds to find a solution.
+Total number of iterations: 119.
+--------------------------------------------------
+START
+i0 iiiiiii10 i20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size_big/test_4000.txt".
+Result is 125.449
+Sum is 822.791, should be 697.342.
+It took 370.039 seconds to find a solution.
+Total number of iterations: 117.
+--------------------------------------------------
+START
+i0 iiiiii10 ii20 30 40 50 60 ii70 80 90 100 110 120 130 140 150 160 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size_big/test_4500.txt".
+Result is 139.725
+Sum is 926.751, should be 787.026.
+It took 674.302 seconds to find a solution.
+Total number of iterations: 169.
+--------------------------------------------------
+START
+i0 iiiiiiii10 iii20 i30 i40 50 60 70 i80 90 100 110 120 130 140 150 160 170 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_size_big/test_5000.txt".
+Result is 156.586
+Sum is 1013.48, should be 856.891.
+It took 871.271 seconds to find a solution.
+Total number of iterations: 177.
+--------------------------------------------------
+====================GOAL====================
+START
+i0 iiiiii10 ii20 ii30 40 50 60 70 i80 90 i100 110 120 i130 140 150 160 170 180 190 200 210 220 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_0.txt".
+Result is 83.4912
+Sum is 83.4912, should be 0.
+It took 12.0805 seconds to find a solution.
+Total number of iterations: 224.
+--------------------------------------------------
+START
+i0 iiiiii10 ii20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_1.txt".
+Result is 60.3838
+Sum is 84.8492, should be 24.4654.
+It took 6.48565 seconds to find a solution.
+Total number of iterations: 119.
+--------------------------------------------------
+START
+i0 iiii10 ii20 30 40 50 i60 i70 80 90 100 i110 120 130 140 150 160 170 180 190 200 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_2.txt".
+Result is 35.4207
+Sum is 84.6193, should be 49.1986.
+It took 11.0792 seconds to find a solution.
+Total number of iterations: 204.
+--------------------------------------------------
+START
+i0 iiii10 i20 30 40 50 ii60 70 i80 90 i100 110 120 130 140 150 160 170 i180 190 200 210 220 230 240 250 
+260 270 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_3.txt".
+Result is 7.83296
+Sum is 80.7704, should be 72.9374.
+It took 14.8293 seconds to find a solution.
+Total number of iterations: 272.
+--------------------------------------------------
+START
+i0 iii10 20 i30 40 i50 60 70 80 90 100 110 120 130 140 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_4.txt".
+Result is 0.00197235
+Sum is 98.8934, should be 98.8914.
+It took 7.57483 seconds to find a solution.
+Total number of iterations: 148.
+--------------------------------------------------
+START
+i0 ii10 ii20 i30 40 50 60 70 80 i90 100 110 120 i130 140 150 160 170 180 190 200 210 220 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_45.txt".
+Result is 0.00111064
+Sum is 109.502, should be 109.501.
+It took 9.94511 seconds to find a solution.
+Total number of iterations: 227.
+--------------------------------------------------
+START
+i0 ii10 20 30 40 50 i60 ii70 80 90 i100 110 120 130 i140 150 160 170 180 190 200 210 220 230 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_55.txt".
+Result is 0.00168349
+Sum is 139.648, should be 139.65.
+It took 10.222 seconds to find a solution.
+Total number of iterations: 233.
+--------------------------------------------------
+START
+i0 iiiiii10 i20 30 40 50 60 70 80 90 100 110 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_6.txt".
+Result is 0.00207905
+Sum is 145.438, should be 145.436.
+It took 6.07138 seconds to find a solution.
+Total number of iterations: 114.
+--------------------------------------------------
+START
+i0 iiiiii10 i20 i30 i40 i50 60 i70 80 90 100 110 i120 130 140 i150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_7.txt".
+Result is 11.9057
+Sum is 164.782, should be 176.688.
+It took 13.0906 seconds to find a solution.
+Total number of iterations: 241.
+--------------------------------------------------
+START
+i0 iii10 20 ii30 40 iii50 60 70 80 90 100 110 120 130 140 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_8.txt".
+Result is 34.2969
+Sum is 169.851, should be 204.148.
+It took 8.18774 seconds to find a solution.
+Total number of iterations: 150.
+--------------------------------------------------
+START
+i0 iiiiiii10 iiii20 i30 40 50 60 70 i80 90 100 110 120 130 140 150 160 170 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_0_9.txt".
+Result is 60.5728
+Sum is 170.323, should be 230.896.
+It took 9.40956 seconds to find a solution.
+Total number of iterations: 173.
+--------------------------------------------------
+START
+i0 iiiiii10 ii20 30 40 50 60 i70 80 90 100 110 120 130 140 150 160 
+END
+--------------------------------------------------
+SubsetSumGA with ABSOLUTE memory for input file "tests/tests_goal/test_1_0.txt".
+Result is 84.8074
+Sum is 174.092, should be 258.899.
+It took 8.98178 seconds to find a solution.
+Total number of iterations: 166.
+--------------------------------------------------
