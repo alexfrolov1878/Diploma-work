@@ -1,0 +1,46 @@
+==================SIZE_BIG==================
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size_big/test_250.txt".
+Result is 86, which is INCORRECT (should be 60).
+It took 226.715 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size_big/test_400.txt".
+Result is 85, which is INCORRECT (should be 60).
+It took 640.626 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size_big/test_500.txt".
+Result is 81, which is INCORRECT (should be 52).
+It took 1013.81 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size_big/test_600.txt".
+Result is 92, which is INCORRECT (should be 60).
+It took 1657.31 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with RELATIVE memory for input file "tests/tests_size_big/test_750.txt".
+Result is 94, which is INCORRECT (should be 60).
+It took 2786.1 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------

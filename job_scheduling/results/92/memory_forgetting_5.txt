@@ -1,0 +1,51 @@
+==================SIZE_BIG==================
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 i240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 420 430 440 450 460 470 480 
+END
+--------------------------------------------------
+JobSchedulingGA with FORGETTING memory for input file "tests/tests_size_big/test_250.txt".
+Result is 78, which is INCORRECT (should be 60).
+It took 96.1321 seconds to find a solution.
+Total number of iterations: 484.
+--------------------------------------------------
+START
+i0 i10 20 30 40 50 60 i70 80 90 100 110 120 130 140 150 160 i170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 340 350 360 370 380 390 400 410 
+END
+--------------------------------------------------
+JobSchedulingGA with FORGETTING memory for input file "tests/tests_size_big/test_400.txt".
+Result is 85, which is INCORRECT (should be 60).
+It took 234.766 seconds to find a solution.
+Total number of iterations: 419.
+--------------------------------------------------
+START
+i0 10 20 30 i40 50 60 70 80 ii90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 300 310 320 330 
+END
+--------------------------------------------------
+JobSchedulingGA with FORGETTING memory for input file "tests/tests_size_big/test_500.txt".
+Result is 75, which is INCORRECT (should be 52).
+It took 294.338 seconds to find a solution.
+Total number of iterations: 337.
+--------------------------------------------------
+START
+i0 10 20 30 40 i50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 290 
+END
+--------------------------------------------------
+JobSchedulingGA with FORGETTING memory for input file "tests/tests_size_big/test_600.txt".
+Result is 89, which is INCORRECT (should be 60).
+It took 420.166 seconds to find a solution.
+Total number of iterations: 294.
+--------------------------------------------------
+START
+i0 10 i20 30 i40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 280 
+END
+--------------------------------------------------
+JobSchedulingGA with FORGETTING memory for input file "tests/tests_size_big/test_750.txt".
+Result is 93, which is INCORRECT (should be 60).
+It took 685.104 seconds to find a solution.
+Total number of iterations: 286.
+--------------------------------------------------
