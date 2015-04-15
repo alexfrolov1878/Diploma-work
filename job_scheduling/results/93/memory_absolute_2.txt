@@ -1,0 +1,48 @@
+==================SIZE_BIG==================
+START
+i0 i10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size_big/test_250.txt".
+Result is 83, which is INCORRECT (should be 60).
+It took 215.984 seconds to find a solution.
+Total number of iterations: 251.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size_big/test_400.txt".
+Result is 90, which is INCORRECT (should be 60).
+It took 629.118 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size_big/test_500.txt".
+Result is 77, which is INCORRECT (should be 52).
+It took 1008.4 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
+START
+i0 i10 20 i30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 
+260 270 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size_big/test_600.txt".
+Result is 90, which is INCORRECT (should be 60).
+It took 1768.43 seconds to find a solution.
+Total number of iterations: 271.
+--------------------------------------------------
+START
+i0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 
+END
+--------------------------------------------------
+JobSchedulingGA with ABSOLUTE memory for input file "tests/tests_size_big/test_750.txt".
+Result is 94, which is INCORRECT (should be 60).
+It took 2757.86 seconds to find a solution.
+Total number of iterations: 250.
+--------------------------------------------------
