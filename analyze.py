@@ -170,7 +170,7 @@ def plot_chart(chart, worksheet, data, feat, cr, tmp_row):
 		# add difference series
 		chart.add_series({
 			'name': mem,
-			'values': '=' + feat + '!$B$' + str(tmp_row) + ':$Z$' + str(tmp_row),
+			'values': '=' + feat + '!$B$' + str(tmp_row) + ':$AE$' + str(tmp_row),
 			'marker': {'type': 'diamond'},
 		})
 		
@@ -181,9 +181,9 @@ def plot_data(workbook, worksheet, data, feat):
 	tmp_row = 150
 	for cr in CR_TYPES:
 		chart = workbook.add_chart({'type': 'column'})
-		tune_chart(chart, feat, CR_STRS[cr - 1])
+		tune_chart(chart, feat, CR_STRS[cr - CR_TYPES[0]])
 		plot_chart(chart, worksheet, data, feat, cr, tmp_row)
-		worksheet.insert_chart(CHART_POS[cr - 1], chart)
+		worksheet.insert_chart(CHART_POS[cr - CR_TYPES[0]], chart)
 		tmp_row += len(MEM_TYPES)
 	return
 
